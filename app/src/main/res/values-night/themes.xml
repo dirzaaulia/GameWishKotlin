@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Final, top-level theme-->
+    <style name="Theme.GameWish.DayNight" parent="Theme.GameWish.Dark"/>
+
+    <style name="Theme.GameWish.Dark" parent="Theme.GameWish">
+        <!--Color-->
+        <item name="colorPrimary">@color/blue_grey_600</item>
+        <item name="colorPrimaryVariant">@color/blue_grey_700</item>
+        <item name="colorSecondary">@color/blue_grey_800</item>
+        <item name="colorSecondaryVariant">@color/blue_grey_900</item>
+
+        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">@color/black_800</item>
+        <item name="colorError">@color/red_200</item>
+
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorOnError">@color/black</item>
+
+        <item name="scrimBackground">@color/black_alpha_087</item>
+        <item name="android:statusBarColor">@color/black_alpha_060</item>
+
+        <item name="elevationOverlayEnabled">true</item>
+
+        <!--System/Platform attributes-->
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+    </style>
+
+</resources>
