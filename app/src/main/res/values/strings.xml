@@ -5,4 +5,7 @@
     <string name="add_new_wishlist">Add New Wishlist</string>
     <string name="menu">Menu</string>
     <string name="image_icon_menu_main">Image Icon Menu Main</string>
+    <string name="deals">Deals</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
 </resources>

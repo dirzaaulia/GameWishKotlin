@@ -1,23 +1,31 @@
 package com.dirzaaulia.gamewish.main.model
 
+import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.home.HomeFragmentDirections
 
 object MainMenuModel {
 
+    const val HOME_ID = 0
+    const val DEALS_ID = 1
+
     private var mainMenuItems = mutableListOf(
             MainMenuModelItem.MainMenuItem(
-                    id = 0,
+                    id = HOME_ID,
                     imageIcon = R.drawable.ic_baseline_add_24,
-                    title = "Free Games",
-                    checked = false
+                    titleRes = R.string.app_name,
+                    checked = false,
+                directions = HomeFragmentDirections.actionGlobalHomeFragment()
             ),
             MainMenuModelItem.MainMenuItem(
-                    id = 1,
+                    id = DEALS_ID,
                     imageIcon = R.drawable.ic_baseline_add_24,
-                    title = "Free Games 2",
-                    checked = false
+                    titleRes = R.string.deals,
+                    checked = false,
+                directions = HomeFragmentDirections.actionGlobalDealsFragment()
             )
     )
 
@@ -25,15 +33,19 @@ object MainMenuModel {
         val mainMenuList: LiveData<List<MainMenuModelItem>>
             get() = _mainMenuList
 
-    fun setMainMenuItemChecked(id: Int): Boolean {
-        var updated = false
+    init {
+        postListUpdate()
+    }
 
+    fun setMainMenuItemChecked(id: Int) : Boolean {
+        var updated = false
         mainMenuItems.forEachIndexed { index, mainMenuItem ->
             val shouldCheck = mainMenuItem.id == id
             if (mainMenuItem.checked != shouldCheck) {
                 mainMenuItems[index] = mainMenuItem.copy(checked = shouldCheck)
                 updated = true
             }
+            Log.i("MainMenuModel", mainMenuItem.id.toString() + " " + mainMenuItem.checked.toString())
         }
 
         if (updated) postListUpdate()

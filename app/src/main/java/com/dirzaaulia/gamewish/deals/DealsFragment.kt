@@ -1,21 +1,19 @@
-package com.dirzaaulia.gamewish.home
+package com.dirzaaulia.gamewish.deals
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.doOnPreDraw
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
-import com.dirzaaulia.gamewish.main.MainActivity
+import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.main.model.MainMenuModel
 import com.google.android.material.transition.MaterialFadeThrough
 
-class HomeFragment : Fragment() {
+class DealsFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding : FragmentDealsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +22,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
-        : View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentDealsBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -38,4 +36,5 @@ class HomeFragment : Fragment() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
+
 }

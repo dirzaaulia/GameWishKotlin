@@ -12,8 +12,10 @@
 
         <item name="android:colorBackground">@color/blue_50</item>
         <item name="colorSurface">@color/white</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
         <item name="colorError">@color/red_400</item>
 
+        <item name="colorOnPrimarySurface">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorOnBackground">@color/black</item>
@@ -21,7 +23,6 @@
         <item name="colorOnError">@color/black</item>
 
         <item name="scrimBackground">@color/white</item>
-
         <item name="android:statusBarColor">@color/blue_50</item>
         <item name="android:navigationBarColor">@color/grey_600</item>
 
@@ -43,8 +44,19 @@
         <item name="textAppearanceCaption">@style/TextAppearance.Gamewish.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Gamewish.Overline</item>
 
+        <item name="emphasisHighAlpha">0.87</item>
+        <item name="emphasisMediumAlpha">0.60</item>
+        <item name="emphasisDisabledAlpha">0.38</item>
+
+        <item name="motionInterpolatorPersistent">@android:interpolator/fast_out_slow_in</item>
+        <item name="motionInterpolatorIncoming">@android:interpolator/decelerate_cubic</item>
+        <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
+
+        <!--Styles-->
         <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.GameWish.BottomSheetDialog</item>
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+<!--        <item name="navigationViewStyle">@style/Widget.Reply.NavigationView</item>-->
+<!--        <item name="chipStyle">@style/Widget.Reply.Chip.Entry</item>-->
 
         <!--System/Platform attributes-->
         <item name="android:windowBackground">?android:colorBackground</item>
