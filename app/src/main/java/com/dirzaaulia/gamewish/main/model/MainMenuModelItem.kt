@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.DiffUtil
-import com.dirzaaulia.gamewish.NavigationGraphDirections
 
 sealed class MainMenuModelItem {
 

@@ -6,20 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
-import com.dirzaaulia.gamewish.main.model.MainMenuModel
+import com.dirzaaulia.gamewish.deals.adapter.DealsAdapter
+import com.dirzaaulia.gamewish.models.Deals
 import com.google.android.material.transition.MaterialFadeThrough
 
 class DealsFragment : Fragment() {
 
     private lateinit var binding : FragmentDealsBinding
 
+    private val viewModel: DealsViewModel by lazy {
+        val activity = requireNotNull(this.activity) {
+            "You can only access the viewModel after onViewCreated()"
+        }
+
+        ViewModelProvider(
+            this, DealsViewModel.Factory(activity.application)
+        ).get(DealsViewModel::class.java)
+    }
+
+    private val adapter = DealsAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough().apply {
-            duration = 300.toLong()
-        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -27,14 +40,23 @@ class DealsFragment : Fragment() {
 
         binding = FragmentDealsBinding.inflate(inflater, container, false)
 
+        binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
+
+        binding.dealsRecyclerView.adapter = adapter
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
+        viewModel.deals.observe(viewLifecycleOwner, {
+            it?.apply {
+                adapter.submitList(it)
+            }
+        })
     }
 
 }

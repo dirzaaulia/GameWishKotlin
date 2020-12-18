@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.main.util
+package com.dirzaaulia.gamewish.util
 
 
 import android.app.Activity

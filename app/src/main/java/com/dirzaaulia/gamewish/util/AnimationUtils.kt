@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.main.util
+package com.dirzaaulia.gamewish.util
 
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange

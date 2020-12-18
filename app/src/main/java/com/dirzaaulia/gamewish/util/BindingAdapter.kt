@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.dirzaaulia.gamewish.main.util
+package com.dirzaaulia.gamewish.util
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
@@ -14,17 +14,52 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.net.toUri
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
 import com.dirzaaulia.gamewish.R
+
+/**
+ * Binding adapter used to hide the spinner once data is available
+ */
+@BindingAdapter("goneIfNotNull")
+fun goneIfNotNull(view: View, it: Any?) {
+    view.visibility = if (it != null) View.GONE else View.VISIBLE
+}
+
+/**
+ * Binding adapter used to display images from URL using Glide
+ */
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().scheme("https").build()
+
+        val circularProgressDrawable = CircularProgressDrawable(imgView.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                .placeholder(circularProgressDrawable)
+                .error(R.drawable.ic_baseline_broken_image_24))
+            .into(imgView)
+    }
+}
 
 @BindingAdapter(
     "popupElevationOverlay"

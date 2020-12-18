@@ -1,55 +1,28 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.dirzaaulia.gamewish.home.HomeFragment"
-        android:label="HomeFragment">
-        <action
-            android:id="@+id/action_homeFragment_to_dealsFragment"
-            app:destination="@id/dealsFragment" />
+        android:label="HomeFragment" >
     </fragment>
     <fragment
         android:id="@+id/dealsFragment"
         android:name="com.dirzaaulia.gamewish.deals.DealsFragment"
-        android:label="DealsFragment">
-    </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/emailFragment"-->
-<!--        android:name="com.materialstudies.reply.ui.email.EmailFragment"-->
-<!--        android:label="EmailFragment">-->
-<!--        <argument-->
-<!--            android:name="emailId"-->
-<!--            app:argType="long" />-->
-<!--    </fragment>-->
-<!--    <fragment-->
-<!--        android:id="@+id/composeFragment"-->
-<!--        android:name="com.materialstudies.reply.ui.compose.ComposeFragment"-->
-<!--        android:label="ComposeFragment">-->
-<!--        <argument-->
-<!--            android:name="replyToEmailId"-->
-<!--            app:argType="long"-->
-<!--            android:defaultValue="-1L"/>-->
-<!--    </fragment>-->
-<!--    <fragment-->
-<!--        android:id="@+id/searchFragment"-->
-<!--        android:name="com.materialstudies.reply.ui.search.SearchFragment"-->
-<!--        android:label="SearchFragment" />-->
+        android:label="DealsFragment" />
     <action
         android:id="@+id/action_global_homeFragment"
-        app:destination="@+id/homeFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/navigation_graph"
-        app:popUpToInclusive="true"/>
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/navigation_graph"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true" />
     <action
         android:id="@+id/action_global_dealsFragment"
-        app:destination="@+id/dealsFragment"
-        app:launchSingleTop="true"
+        app:destination="@id/dealsFragment"
         app:popUpTo="@id/navigation_graph"
-        app:popUpToInclusive="true"/>
-<!--    <action-->
-<!--        android:id="@+id/action_global_searchFragment"-->
-<!--        app:destination="@+id/searchFragment" />-->
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true" />
 </navigation>

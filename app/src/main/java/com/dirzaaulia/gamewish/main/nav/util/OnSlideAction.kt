@@ -1,14 +1,13 @@
 package com.dirzaaulia.gamewish.main.nav.util
 
 import android.view.View
-import android.widget.ImageView
 import androidx.annotation.FloatRange
 import androidx.core.view.marginTop
 import androidx.core.view.updatePadding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.main.util.normalize
+import com.dirzaaulia.gamewish.util.normalize
 
 /**
  * An action to be performed when a bottom sheet's slide offset is changed.

@@ -10,7 +10,6 @@ import androidx.core.view.doOnPreDraw
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
 import com.dirzaaulia.gamewish.main.MainActivity
-import com.dirzaaulia.gamewish.main.model.MainMenuModel
 import com.google.android.material.transition.MaterialFadeThrough
 
 class HomeFragment : Fragment() {

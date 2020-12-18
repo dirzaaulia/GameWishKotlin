@@ -6,9 +6,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.main.nav.util.OnSlideAction
 import com.dirzaaulia.gamewish.main.nav.util.OnStateChangedAction
-import com.dirzaaulia.gamewish.main.util.normalize
+import com.dirzaaulia.gamewish.util.normalize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.navigation.NavigationView
 import kotlin.math.max
 
 class BottomSheetMenuCallback : BottomSheetBehavior.BottomSheetCallback() {
