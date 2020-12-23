@@ -1,50 +1,40 @@
 package com.dirzaaulia.gamewish.deals
 
-import android.app.Application
-import androidx.lifecycle.*
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.dirzaaulia.gamewish.models.Deals
-import com.dirzaaulia.gamewish.network.Network
-import com.dirzaaulia.gamewish.repository.Repository
+import com.dirzaaulia.gamewish.models.DealsRequest
+import com.dirzaaulia.gamewish.models.Stores
+import com.dirzaaulia.gamewish.repository.CheapSharkRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.lang.Exception
 
-class DealsViewModel(application: Application) : AndroidViewModel(application) {
+class DealsViewModel @ViewModelInject constructor(
+    private val repository: CheapSharkRepository
+) : ViewModel() {
 
-    private val repository = Repository()
+    private var currentDealsResult: Flow<PagingData<Deals>>? = null
 
-    private val _deals = MutableLiveData<List<Deals>>()
-    val deals: LiveData<List<Deals>>
-        get() = _deals
+    private var _storeList = MutableLiveData<List<Stores>>()
+    val storeList: MutableLiveData<List<Stores>>
+        get() = _storeList
 
-    init {
-       refreshDeals()
+    fun refreshDeals(request: DealsRequest): Flow<PagingData<Deals>> {
+        val newResult: Flow<PagingData<Deals>> =
+            repository.refreshDeals(request).cachedIn(viewModelScope)
+
+        currentDealsResult = newResult
+
+        return newResult
     }
 
-    private fun refreshDeals() {
+    fun getStoreList() {
         viewModelScope.launch {
-            try {
-                val listResult = repository.refreshDeals()
-
-                if (listResult.isNotEmpty()) {
-                    _deals.value = listResult
-                } else {
-                    Timber.i("Deals Empty!")
-                }
-            } catch (e: Exception) {
-                Timber.i(e.localizedMessage)
-            }
+            _storeList.value = repository.getAllStores()
         }
-    }
-
-    class Factory(val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DealsViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return DealsViewModel(app) as T
-            }
-            throw IllegalArgumentException("Unable to construct viewmodel")
-        }
-
     }
 }

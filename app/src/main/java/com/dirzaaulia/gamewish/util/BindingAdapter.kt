@@ -3,6 +3,7 @@
 package com.dirzaaulia.gamewish.util
 
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -10,25 +11,50 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.models.Stores
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
-import com.dirzaaulia.gamewish.R
+
+@BindingAdapter("bindAutocompleteStores")
+fun bindAutocomplete(textView: AutoCompleteTextView, stores: List<Stores>?){
+    stores?.let {
+        val adapter = ArrayAdapter<Stores>(
+            textView.context,
+            R.layout.support_simple_spinner_dropdown_item,
+            it)
+
+        textView.setAdapter(adapter)
+    }
+}
+
+@BindingAdapter("textCurrencyFormatted")
+fun TextView.textCurrencyFormatted(value: String?) {
+    value?.let{
+        text = textCurrencyFormatter(value)
+    }
+}
+
+@BindingAdapter("strikeThrough")
+fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
+    if (strikeThrough) {
+        textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    } else {
+        textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+    }
+}
 
 /**
  * Binding adapter used to hide the spinner once data is available
@@ -53,10 +79,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
         Glide.with(imgView.context)
             .load(imgUri)
-            .apply(
-                RequestOptions()
-                .placeholder(circularProgressDrawable)
-                .error(R.drawable.ic_baseline_broken_image_24))
+            .placeholder(circularProgressDrawable)
+            .error(R.drawable.ic_baseline_broken_image_24)
             .into(imgView)
     }
 }
@@ -189,8 +213,8 @@ fun View.bindGoneIf(gone: Boolean) {
 fun View.bindLayoutFullscreen(previousFullscreen: Boolean, fullscreen: Boolean) {
     if (previousFullscreen != fullscreen && fullscreen) {
         systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
     }
 }
 

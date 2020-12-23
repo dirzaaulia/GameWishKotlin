@@ -4,42 +4,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.dirzaaulia.gamewish.main.MainActivity">
+        android:fitsSystemWindows="true">
 
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
-            tools:ignore="FragmentTagUsage" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation_view"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:menu="@menu/main_menu"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:fitsSystemWindows="true">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_16dp"
-            android:contentDescription="@string/add_new_wishlist"
-            app:layout_anchor="@id/bottom_navigation_view"
-            app:tint="@color/white"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="?actionBarSize"
+            tools:context="com.dirzaaulia.gamewish.main.MainActivity">
+
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
+                tools:ignore="FragmentTagUsage" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:menu="@menu/main_menu"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_16dp"
+                android:contentDescription="@string/add_new_wishlist"
+                app:layout_anchor="@id/bottom_navigation_view"
+                app:tint="@color/white"
+                app:srcCompat="@drawable/ic_baseline_add_24"
+                app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

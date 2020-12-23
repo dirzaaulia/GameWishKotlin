@@ -10,12 +10,15 @@ import androidx.core.view.forEach
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.dirzaaulia.gamewish.NavigationGraphDirections
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.ActivityMainBinding
 import com.dirzaaulia.gamewish.main.nav.util.*
 import com.dirzaaulia.gamewish.util.contentView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         binding.run {
             navController = this@MainActivity.findNavController(R.id.nav_host_fragment)
 
+            setSupportActionBar(toolbar)
+            title = getString(R.string.app_name)
         }
 
         binding.bottomNavigationView.apply {

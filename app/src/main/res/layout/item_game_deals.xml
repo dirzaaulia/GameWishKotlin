@@ -4,8 +4,11 @@
 
     <data>
         <variable
-            name="deals"
+            name="dealsItem"
             type="com.dirzaaulia.gamewish.models.Deals" />
+        <variable
+            name="viewModel"
+            type="com.dirzaaulia.gamewish.deals.DealsViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -25,19 +28,61 @@
                 android:layout_height="150dp"
                 android:contentDescription="@string/image_view_game_deals"
                 android:scaleType="fitXY"
-                app:imageUrl="@{deals.thumb}"
+                app:imageUrl="@{dealsItem.thumb}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/item_title_deals"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{deals.title}"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintTop_toBottomOf="@id/item_thumb_deals" />
+                android:text="@{dealsItem.title}"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:paddingBottom="@dimen/dimen_8dp"
+                android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+                app:layout_constraintStart_toStartOf="@id/start_grid"
+                app:layout_constraintEnd_toEndOf="@id/end_grid"
+                app:layout_constraintTop_toBottomOf="@id/item_thumb_deals"/>
+
+            <TextView
+                android:id="@+id/item_normal_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/deals"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+                app:textCurrencyFormatted="@{dealsItem.normalPrice}"
+                app:strikeThrough="@{true}"
+                app:layout_constraintTop_toBottomOf="@id/item_title_deals"
+                app:layout_constraintStart_toStartOf="@id/start_grid"
+                app:layout_constraintEnd_toEndOf="@id/end_grid"/>
+
+            <TextView
+                android:id="@+id/item_deals_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_8dp"
+                android:hint="@string/deals"
+                android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+                app:textCurrencyFormatted="@{dealsItem.salePrice}"
+                app:layout_constraintTop_toBottomOf="@id/item_normal_price"
+                app:layout_constraintStart_toStartOf="@id/start_grid"
+                app:layout_constraintEnd_toEndOf="@id/end_grid"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/start_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_begin="@dimen/dimen_12dp"
+                android:orientation="vertical" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/end_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_12dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
