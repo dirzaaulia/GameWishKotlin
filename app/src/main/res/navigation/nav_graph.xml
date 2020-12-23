@@ -6,13 +6,11 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.dirzaaulia.gamewish.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:name="com.dirzaaulia.gamewish.home.HomeFragment">
     </fragment>
     <fragment
         android:id="@+id/dealsFragment"
-        android:name="com.dirzaaulia.gamewish.deals.DealsFragment"
-        android:label="DealsFragment" />
+        android:name="com.dirzaaulia.gamewish.deals.DealsFragment" />
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"

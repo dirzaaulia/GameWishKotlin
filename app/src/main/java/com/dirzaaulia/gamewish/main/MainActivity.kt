@@ -10,6 +10,8 @@ import androidx.core.view.forEach
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.dirzaaulia.gamewish.NavigationGraphDirections
 import com.dirzaaulia.gamewish.R
@@ -35,8 +37,12 @@ class MainActivity : AppCompatActivity() {
         binding.run {
             navController = this@MainActivity.findNavController(R.id.nav_host_fragment)
 
+            val appBarConfiguration = AppBarConfiguration
+                .Builder(R.id.homeFragment, R.id.dealsFragment)
+                .build()
+
             setSupportActionBar(toolbar)
-            title = getString(R.string.app_name)
+            setupActionBarWithNavController(navController, appBarConfiguration)
         }
 
         binding.bottomNavigationView.apply {

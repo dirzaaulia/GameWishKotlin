@@ -3,6 +3,7 @@ package com.dirzaaulia.gamewish.deals
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.deals.adapter.DealsLoadStateAdapter
+import com.dirzaaulia.gamewish.main.MainActivity
 import com.dirzaaulia.gamewish.models.DealsRequest
 import com.dirzaaulia.gamewish.util.isOnline
 import com.dirzaaulia.gamewish.util.showSnackbarShort
@@ -50,7 +52,7 @@ class DealsFragment : Fragment() {
         initBottomSheet()
         initOnClickListener()
 
-        activity?.title = "Deals on Steam"
+        activity?.title = getString(R.string.deals_on_steam)
         setHasOptionsMenu(true)
         return binding.root
     }

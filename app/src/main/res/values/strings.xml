@@ -21,4 +21,8 @@
     <string name="one">1</string>
     <string name="_50">50</string>
     <string name="_0">0</string>
+    <string name="wishlist">Wishlist</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="deals_on_steam">Deals on Steam</string>
 </resources>
