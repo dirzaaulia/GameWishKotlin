@@ -1,9 +1,9 @@
-package com.dirzaaulia.gamewish.deals
+package com.dirzaaulia.gamewish.modules.deals
 
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -12,9 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
-import com.dirzaaulia.gamewish.deals.adapter.DealsAdapter
-import com.dirzaaulia.gamewish.deals.adapter.DealsLoadStateAdapter
-import com.dirzaaulia.gamewish.main.MainActivity
+import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
+import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
 import com.dirzaaulia.gamewish.models.DealsRequest
 import com.dirzaaulia.gamewish.util.isOnline
 import com.dirzaaulia.gamewish.util.showSnackbarShort
@@ -44,17 +43,18 @@ class DealsFragment : Fragment() {
         binding = FragmentDealsBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
+        (activity as AppCompatActivity?)?.setSupportActionBar(binding.dealsToolbar)
+        setHasOptionsMenu(true)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
         refreshDeals(dealsRequest)
         initAdapterRefresh()
         getStoreList()
         initBottomSheet()
         initOnClickListener()
-
-        activity?.title = getString(R.string.deals_on_steam)
-        setHasOptionsMenu(true)
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

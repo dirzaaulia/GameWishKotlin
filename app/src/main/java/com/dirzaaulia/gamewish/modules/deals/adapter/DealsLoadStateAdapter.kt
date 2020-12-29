@@ -1,11 +1,10 @@
-package com.dirzaaulia.gamewish.deals.adapter
+package com.dirzaaulia.gamewish.modules.deals.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-import androidx.paging.LoadStates
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.ItemGameDealsLoadStateViewItemBinding

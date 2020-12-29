@@ -11,6 +11,6 @@
 <!--    </style>-->
 
     <style name="Widget.GameWish.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">?colorPrimary</item>
+        <item name="strokeColor">@color/color_on_surface_emphasis_high</item>
     </style>
 </resources>

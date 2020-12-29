@@ -8,7 +8,7 @@
             type="com.dirzaaulia.gamewish.models.Deals" />
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.deals.DealsViewModel" />
+            type="com.dirzaaulia.gamewish.modules.deals.DealsViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

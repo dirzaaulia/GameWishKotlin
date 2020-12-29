@@ -1,8 +1,7 @@
-package com.dirzaaulia.gamewish.main.model
+package com.dirzaaulia.gamewish.modules.main.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.DiffUtil
 

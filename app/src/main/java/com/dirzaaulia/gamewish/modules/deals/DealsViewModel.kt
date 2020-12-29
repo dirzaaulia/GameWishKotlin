@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.deals
+package com.dirzaaulia.gamewish.modules.deals
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData

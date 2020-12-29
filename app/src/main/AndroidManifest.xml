@@ -18,7 +18,7 @@
             android:resource="@xml/searchable" />
 
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.dirzaaulia.gamewish.modules.main.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

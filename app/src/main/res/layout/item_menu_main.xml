@@ -8,10 +8,10 @@
 
         <variable
             name="mainMenuItem"
-            type="com.dirzaaulia.gamewish.main.model.MainMenuModelItem.MainMenuItem" />
+            type="com.dirzaaulia.gamewish.modules.main.model.MainMenuModelItem.MainMenuItem" />
         <variable
             name="mainMenuListener"
-            type="com.dirzaaulia.gamewish.main.adapter.BottomSheetMenuAdapter.BottomSheetMenuAdapterListener" />
+            type="com.dirzaaulia.gamewish.modules.main.adapter.BottomSheetMenuAdapter.BottomSheetMenuAdapterListener" />
     </data>
 
         <CheckedTextView

@@ -1,4 +1,4 @@
-//package com.dirzaaulia.gamewish.main.model
+//package com.dirzaaulia.gamewish.modules.main.model
 //
 //import android.util.Log
 //import androidx.annotation.DrawableRes

@@ -25,4 +25,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="deals_on_steam">Deals on Steam</string>
+    <string name="deals_by_cheapshark">Deals by CheapShark</string>
+    <string name="search_games">Search Games</string>
 </resources>

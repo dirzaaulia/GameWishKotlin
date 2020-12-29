@@ -1,9 +1,9 @@
-package com.dirzaaulia.gamewish.main.adapter
+package com.dirzaaulia.gamewish.modules.main.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.databinding.ItemMenuMainBinding
-import com.dirzaaulia.gamewish.main.model.MainMenuModelItem
+import com.dirzaaulia.gamewish.modules.main.model.MainMenuModelItem
 
 sealed class BottomSheetMenuViewHolder<T : MainMenuModelItem>(
     view: View

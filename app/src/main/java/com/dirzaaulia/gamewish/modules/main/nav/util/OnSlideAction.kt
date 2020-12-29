@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.main.nav.util
+package com.dirzaaulia.gamewish.modules.main.nav.util
 
 import android.view.View
 import androidx.annotation.FloatRange

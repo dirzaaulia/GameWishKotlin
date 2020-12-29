@@ -6,10 +6,10 @@
         android:id="@+id/menu_home"
         android:icon="@drawable/ic_baseline_home_24"
         android:enabled="false"
-        android:title="@string/app_name"/>
+        android:title="@string/home"/>
 
     <item
         android:id="@+id/menu_deals"
         android:icon="@drawable/ic_baseline_videogame_asset_24"
-        android:title="@string/deals_on_steam"/>
+        android:title="@string/deals"/>
 </menu>

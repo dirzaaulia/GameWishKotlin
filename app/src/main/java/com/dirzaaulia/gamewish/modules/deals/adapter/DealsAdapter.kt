@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.deals.adapter
+package com.dirzaaulia.gamewish.modules.deals.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.databinding.ItemGameDealsBinding
 import com.dirzaaulia.gamewish.models.Deals
-import com.dirzaaulia.gamewish.models.Stores
-import timber.log.Timber
 
 class DealsAdapter: PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffCallback()) {
 

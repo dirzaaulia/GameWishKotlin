@@ -1,4 +1,4 @@
-//package com.dirzaaulia.gamewish.main.nav
+//package com.dirzaaulia.gamewish.modules.main.nav
 //
 //import android.content.res.ColorStateList
 //import android.os.Bundle
@@ -17,10 +17,10 @@
 //import androidx.lifecycle.Observer
 //import com.dirzaaulia.gamewish.R
 //import com.dirzaaulia.gamewish.databinding.FragmentBottomSheetMainMenuBinding
-//import com.dirzaaulia.gamewish.main.adapter.BottomSheetMenuAdapter
-//import com.dirzaaulia.gamewish.main.model.MainMenuModel
-//import com.dirzaaulia.gamewish.main.model.MainMenuModelItem
-//import com.dirzaaulia.gamewish.main.nav.util.*
+//import com.dirzaaulia.gamewish.modules.main.adapter.BottomSheetMenuAdapter
+//import com.dirzaaulia.gamewish.modules.main.model.MainMenuModel
+//import com.dirzaaulia.gamewish.modules.main.model.MainMenuModelItem
+//import com.dirzaaulia.gamewish.modules.main.nav.util.*
 //import com.dirzaaulia.gamewish.util.themeColor
 //import com.google.android.material.bottomsheet.BottomSheetBehavior
 //import com.google.android.material.bottomsheet.BottomSheetBehavior.*

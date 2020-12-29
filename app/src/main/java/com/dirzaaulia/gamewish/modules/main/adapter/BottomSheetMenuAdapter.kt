@@ -1,10 +1,10 @@
-package com.dirzaaulia.gamewish.main.adapter
+package com.dirzaaulia.gamewish.modules.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.dirzaaulia.gamewish.databinding.ItemMenuMainBinding
-import com.dirzaaulia.gamewish.main.model.MainMenuModelItem
+import com.dirzaaulia.gamewish.modules.main.model.MainMenuModelItem
 import java.lang.RuntimeException
 
 private const val VIEW_TYPE_MAIN_MENU_ITEM = 4

@@ -1,10 +1,9 @@
-package com.dirzaaulia.gamewish.main.nav.util
+package com.dirzaaulia.gamewish.modules.main.nav.util
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
 
 /**
  * An action to be performed when a bottom sheet's state is changed.

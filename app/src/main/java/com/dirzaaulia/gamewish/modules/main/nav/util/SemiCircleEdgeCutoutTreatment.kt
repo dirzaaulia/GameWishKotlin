@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.main.nav.util
+package com.dirzaaulia.gamewish.modules.main.nav.util
 
 import com.google.android.material.shape.EdgeTreatment
 import com.google.android.material.shape.ShapePath

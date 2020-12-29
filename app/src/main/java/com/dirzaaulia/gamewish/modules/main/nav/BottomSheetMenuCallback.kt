@@ -1,11 +1,11 @@
-package com.dirzaaulia.gamewish.main.nav
+package com.dirzaaulia.gamewish.modules.main.nav
 
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.main.nav.util.OnSlideAction
-import com.dirzaaulia.gamewish.main.nav.util.OnStateChangedAction
+import com.dirzaaulia.gamewish.modules.main.nav.util.OnSlideAction
+import com.dirzaaulia.gamewish.modules.main.nav.util.OnStateChangedAction
 import com.dirzaaulia.gamewish.util.normalize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlin.math.max
