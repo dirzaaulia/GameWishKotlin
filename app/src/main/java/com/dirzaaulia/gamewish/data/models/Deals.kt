@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.models
+package com.dirzaaulia.gamewish.data.models
 
 import com.squareup.moshi.JsonClass
 import java.lang.reflect.Type

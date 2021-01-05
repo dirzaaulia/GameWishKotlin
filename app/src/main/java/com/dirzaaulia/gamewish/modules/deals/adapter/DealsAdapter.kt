@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.databinding.ItemGameDealsBinding
-import com.dirzaaulia.gamewish.models.Deals
+import com.dirzaaulia.gamewish.data.models.Deals
 
 class DealsAdapter: PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffCallback()) {
 

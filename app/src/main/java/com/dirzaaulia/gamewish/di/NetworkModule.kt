@@ -1,6 +1,7 @@
 package com.dirzaaulia.gamewish.di
 
-import com.dirzaaulia.gamewish.network.CheapSharkService
+import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService
+import com.dirzaaulia.gamewish.network.rawg.RawgService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,13 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUnsplashService(): CheapSharkService {
+    fun provideCheapSharkService(): CheapSharkService {
         return CheapSharkService.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRawgServer(): RawgService {
+        return RawgService.create()
     }
 }

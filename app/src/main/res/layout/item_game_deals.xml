@@ -5,7 +5,7 @@
     <data>
         <variable
             name="dealsItem"
-            type="com.dirzaaulia.gamewish.models.Deals" />
+            type="com.dirzaaulia.gamewish.data.models.Deals" />
         <variable
             name="viewModel"
             type="com.dirzaaulia.gamewish.modules.deals.DealsViewModel" />

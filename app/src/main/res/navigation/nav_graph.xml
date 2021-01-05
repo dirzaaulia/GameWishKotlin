@@ -12,7 +12,11 @@
         android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.dirzaaulia.gamewish.modules.search.SearchFragment" />
+        android:name="com.dirzaaulia.gamewish.modules.search.home.SearchFragment">
+        <action
+            android:id="@+id/action_searchFragment_to_searchDetailsFragment"
+            app:destination="@id/searchDetailsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
@@ -28,4 +32,13 @@
     <action
         android:id="@+id/action_global_searchFragment"
         app:destination="@+id/searchFragment" />
+    <fragment
+        android:id="@+id/searchDetailsFragment"
+        android:name="com.dirzaaulia.gamewish.modules.search.details.SearchDetailsFragment"
+        android:label="fragment_search_details"
+        tools:layout="@layout/fragment_search_details">
+        <argument
+            android:name="games"
+            app:argType="com.dirzaaulia.gamewish.data.models.Games"/>
+    </fragment>
 </navigation>

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
     id 'dagger.hilt.android.plugin'
@@ -18,11 +19,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
+            }
+        }
     }
 
     configurations.all() {
-        resolutionStrategy.force "org.antlr:antlr4-runtime:4.7.1"
-        resolutionStrategy.force "org.antlr:antlr4-tool:4.7.1"
+        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
     }
 
     buildFeatures {
@@ -35,13 +42,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {
@@ -89,11 +99,11 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:4.10.0"
-    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-    // Joda time library for dealing with time
-    implementation "joda-time:joda-time:2.10.8"
+    //CarouselView
+    implementation 'com.synnapps:carouselview:0.1.5'
 
     // Logging
     implementation "com.jakewharton.timber:timber:4.7.1"

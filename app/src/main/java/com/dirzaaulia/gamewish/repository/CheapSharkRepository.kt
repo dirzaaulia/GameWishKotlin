@@ -3,17 +3,17 @@ package com.dirzaaulia.gamewish.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.dirzaaulia.gamewish.models.Deals
-import com.dirzaaulia.gamewish.models.DealsRequest
-import com.dirzaaulia.gamewish.models.Stores
-import com.dirzaaulia.gamewish.network.CheapSharkPagingSource
-import com.dirzaaulia.gamewish.network.CheapSharkService
+import com.dirzaaulia.gamewish.data.models.Deals
+import com.dirzaaulia.gamewish.data.models.DealsRequest
+import com.dirzaaulia.gamewish.data.models.Stores
+import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkPagingSource
+import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CheapSharkRepository @Inject constructor (private val service: CheapSharkService )  {
+class CheapSharkRepository @Inject constructor (private val service: CheapSharkService)  {
 
     fun refreshDeals(request: DealsRequest) : Flow<PagingData<Deals>> {
         return Pager(

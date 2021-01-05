@@ -22,9 +22,11 @@
     <string name="_50">50</string>
     <string name="_0">0</string>
     <string name="wishlist">Wishlist</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="deals_on_steam">Deals on Steam</string>
     <string name="deals_by_cheapshark">Deals by CheapShark</string>
     <string name="search_games">Search Games</string>
+    <string name="release_date">Release Date</string>
+    <string name="platforms">Platforms</string>
+    <string name="games_data_provided_by_rawg">Games data provided by <u>RAWG</u></string>
 </resources>

@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.models
+package com.dirzaaulia.gamewish.data.models
 
 data class DealsRequest(
     val storeID: String,

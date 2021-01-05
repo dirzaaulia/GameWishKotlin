@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="gamesItem"
+            type="com.dirzaaulia.gamewish.data.models.Games" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{clickListener}">
+
+        <TextView
+            android:id="@+id/label_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_4dp"
+            android:text="@string/release_date"
+            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+            app:layout_constraintEnd_toStartOf="@id/release_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_4dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+            app:textDateFormatted="@{gamesItem.released}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/label_release_date"/>
+
+        <TextView
+            android:id="@+id/games_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:text="@{gamesItem.name}"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+            app:layout_constraintTop_toBottomOf="@id/release_date" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/platforms_recyler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            app:setPlatforms="@{gamesItem.platforms}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/games_title"
+            tools:listitem="@layout/item_chips_platforms"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?colorPrimarySurfaceVariant"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            app:layout_constraintTop_toBottomOf="@id/platforms_recyler_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

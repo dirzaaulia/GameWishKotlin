@@ -14,7 +14,7 @@ import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
-import com.dirzaaulia.gamewish.models.DealsRequest
+import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.util.isOnline
 import com.dirzaaulia.gamewish.util.showSnackbarShort
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -108,7 +108,7 @@ class DealsFragment : Fragment() {
 
             refreshDeals(request)
             toggleBottomSheet()
-            activity?.title = getString(R.string.deals_title, storeName)
+            binding.dealsTitle.text = getString(R.string.deals_title, storeName)
         }
     }
 

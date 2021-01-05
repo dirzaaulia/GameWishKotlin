@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -16,6 +17,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -24,9 +26,27 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.models.Stores
+import com.dirzaaulia.gamewish.data.models.Platform
+import com.dirzaaulia.gamewish.data.models.Platforms
+import com.dirzaaulia.gamewish.data.models.Stores
+import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesDetailsPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
+
+@BindingAdapter("setPlatformsDetails")
+fun RecyclerView.setPlatformsDetails(platforms: List<Platforms>) {
+    val platformsAdapter = SearchGamesDetailsPlatformsAdapter()
+    platformsAdapter.submitList(platforms)
+    adapter = platformsAdapter
+}
+
+@BindingAdapter("setPlatforms")
+fun RecyclerView.setPlatforms(platforms: List<Platforms>) {
+    val platformsAdapter = SearchGamesPlatformsAdapter()
+    platformsAdapter.submitList(platforms)
+    adapter = platformsAdapter
+}
 
 @BindingAdapter("bindAutocompleteStores")
 fun bindAutocomplete(textView: AutoCompleteTextView, stores: List<Stores>?){
@@ -37,6 +57,20 @@ fun bindAutocomplete(textView: AutoCompleteTextView, stores: List<Stores>?){
             it)
 
         textView.setAdapter(adapter)
+    }
+}
+
+@BindingAdapter("textDateFormatted")
+fun TextView.textDateFormatted(value: String?) {
+    value?.let{
+        text = textDateFormatter(value)
+    }
+}
+
+@BindingAdapter("textDateFormatted2")
+fun TextView.textDateFormatted2(value: String?) {
+    value?.let {
+        text = textDateFormatter2(value)
     }
 }
 
@@ -82,6 +116,17 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .placeholder(circularProgressDrawable)
             .error(R.drawable.ic_baseline_broken_image_24)
             .into(imgView)
+    }
+}
+
+@BindingAdapter("esrbRatingImage")
+fun setImageBasedOnString(imgView: ImageView, value: String?) {
+    value?.let {
+        when (it) {
+            "Mature" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_mature)
+            }
+        }
     }
 }
 

@@ -9,7 +9,7 @@
             type="com.dirzaaulia.gamewish.modules.deals.DealsViewModel" />
         <variable
             name="stores"
-            type="com.dirzaaulia.gamewish.models.Stores" />
+            type="com.dirzaaulia.gamewish.data.models.Stores" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -39,7 +39,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/home_title"
+                        android:id="@+id/deals_title"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

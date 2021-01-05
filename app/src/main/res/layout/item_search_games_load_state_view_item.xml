@@ -8,12 +8,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/deals_item_error_message"
+            android:id="@+id/search_games_item_error_message"
             android:textColor="?android:textColorPrimary"
             android:textAppearance="@style/TextAppearance.Gamewish.Headline5"
             android:layout_width="wrap_content"
@@ -23,16 +22,17 @@
             tools:text="Timeout" />
 
         <ProgressBar
-            android:id="@+id/deals_item_progress_bar"
+            android:id="@+id/search_games_item_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <Button
-            android:id="@+id/deals_item_retry_button"
+            android:id="@+id/search_games_item_retry_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/retry" />
+
     </LinearLayout>
 </layout>

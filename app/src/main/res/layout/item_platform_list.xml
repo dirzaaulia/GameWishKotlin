@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="platformItem"
+            type="com.dirzaaulia.gamewish.data.models.Platforms" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background_platform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_4dp"
+        android:padding="@dimen/dimen_4dp">
+
+        <TextView
+            android:id="@+id/item_platform"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{platformItem.platform.name}"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            android:textColor="@color/black"
+            tools:text="Playstation 5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,33 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.dirzaaulia.gamewish.modules.search.home.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:transitionGroup="true"
         app:paddingTopSystemWindowInsets="@{true}"
-        tools:context=".modules.search.SearchFragment">
+        tools:context=".modules.search.home.SearchFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
-            android:paddingStart="@dimen/dimen_8dp"
-            android:paddingEnd="@dimen/dimen_8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/dimen_48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/searchEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -51,13 +53,65 @@
             android:backgroundTint="@color/material_on_surface_stroke"
             app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
 
+        <TextView
+            android:id="@+id/search_label_rawg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_4dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:text="@string/games_data_provided_by_rawg"
+            android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/dimen_16dp"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:padding="@dimen/dimen_8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/search_label_rawg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_search_games"/>
+
+        <ProgressBar
+            android:id="@+id/search_games_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/search_games_image_view_status"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ic_baseline_cloud_off_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/search_games_text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/please_check_your_internet_connection"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            app:layout_constraintTop_toBottomOf="@id/search_games_image_view_status" />
+
+        <Button
+            android:id="@+id/search_games_retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_games_text_view_status" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
