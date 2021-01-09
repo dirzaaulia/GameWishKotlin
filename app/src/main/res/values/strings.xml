@@ -29,4 +29,26 @@
     <string name="release_date">Release Date</string>
     <string name="platforms">Platforms</string>
     <string name="games_data_provided_by_rawg">Games data provided by <u>RAWG</u></string>
+    <string name="screenshots">Screenshots</string>
+    <string name="metacritic_image_logo">Metacritic Image Logo</string>
+    <string name="released_date_format">Released Date %s</string>
+
+    <!-- Search Fragment -->
+    <string name="search_games_transition_name">search_games_%1$s</string>
+    <string name="games_detail_transition_name">search_games_detail</string>
+
+    <string name="background_image_game_details">Background Image Game Details</string>
+    <string name="esrb_rating_image">ESRB Rating Image</string>
+    <string name="no_internet_connection_image">No Internet Connection Image</string>
+    <string name="game_screenshot_image">Game Screenshot Image</string>
+    <string name="metacritic_score">Metacritic Score</string>
+    <string name="go_to_metacritic_page">Go To Metacritic Page</string>
+    <string name="developers">Developers</string>
+    <string name="publishers">Publishers</string>
+    <string name="stores">Stores</string>
+    <string name="website"><u>Game Homepage</u></string>
+    <string name="descriptions">Descriptions</string>
+    <string name="video_game_clip">Video Game Clip</string>
+    <string name="clip">Clip</string>
+    <string name="rawg">Data by <u>RAWG</u></string>
 </resources>

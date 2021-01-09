@@ -3,6 +3,7 @@ package com.dirzaaulia.gamewish.modules.deals
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -41,9 +42,7 @@ class DealsFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
 
         binding = FragmentDealsBinding.inflate(inflater, container, false)
-        context ?: return binding.root
 
-        (activity as AppCompatActivity?)?.setSupportActionBar(binding.dealsToolbar)
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -80,10 +79,8 @@ class DealsFragment : Fragment() {
         var aaaGames: Boolean
 
         binding.retryButton.setOnClickListener {
-            if(checkForInternet()) {
-                adapter.retry()
-                getStoreList()
-            }
+            adapter.retry()
+            getStoreList()
         }
 
         binding.spinnerStore.setOnItemClickListener { parent, _, position, _ ->
@@ -108,7 +105,7 @@ class DealsFragment : Fragment() {
 
             refreshDeals(request)
             toggleBottomSheet()
-            binding.dealsTitle.text = getString(R.string.deals_title, storeName)
+            parentFragment?.view?.findViewById<TextView>(R.id.toolbar_title)?.text = getString(R.string.deals_title, storeName)
         }
     }
 
@@ -159,20 +156,18 @@ class DealsFragment : Fragment() {
     }
 
     private fun getStoreList() {
-        if (checkForInternet()) {
-            viewModel.getStoreList()
-            viewModel.storeList.observe(viewLifecycleOwner) { listStore ->
-                binding.spinnerStore.setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        listStore.map { stores ->
-                            stores.storeName
-                        }
-                    )
+        viewModel.getStoreList()
+        viewModel.storeList.observe(viewLifecycleOwner) { listStore ->
+            binding.spinnerStore.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    listStore.map { stores ->
+                        stores.storeName
+                    }
                 )
-                binding.spinnerStore.setText(listStore[0].storeName, false)
-            }
+            )
+            binding.spinnerStore.setText(listStore[0].storeName, false)
         }
     }
 
@@ -196,13 +191,5 @@ class DealsFragment : Fragment() {
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
         }
-    }
-
-    private fun checkForInternet() : Boolean {
-        if (!isOnline(requireContext())) {
-            showSnackbarShort(binding.root, "No internet! Please check your internet connection")
-            return false
-        }
-        return true
     }
 }

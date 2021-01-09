@@ -13,7 +13,8 @@ import com.dirzaaulia.gamewish.data.models.Platform
 import com.dirzaaulia.gamewish.data.models.Platforms
 import com.dirzaaulia.gamewish.databinding.ItemChipsPlatformsBinding
 
-class SearchGamesPlatformsAdapter : ListAdapter<Platforms, SearchGamesPlatformsAdapter.ViewHolder>(SearchGamesPlatformsDiffCallback()) {
+class SearchGamesPlatformsAdapter : ListAdapter<Platforms, SearchGamesPlatformsAdapter.ViewHolder>
+    (SearchGamesPlatformsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -42,18 +43,19 @@ class SearchGamesPlatformsAdapter : ListAdapter<Platforms, SearchGamesPlatformsA
 
                 platformItem = platforms
 
-                if (platforms.platform.name?.contains("Xbox") == true
-                    || platforms.platform.name?.contains("Android") == true) {
-                    chipPlatform.chipBackgroundColor =
-                        ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.green_700))
-                } else if (platforms.platform.name?.contains("PlayStation") == true
-                    || platforms.platform.name?.contains("PS") == true) {
-                    chipPlatform.chipBackgroundColor =
-                        ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.light_blue_700))
-                } else if (platforms.platform.name?.contains("Nintendo") == true
-                    || platforms.platform.name?.contains("Wii") == true
-                    || platforms.platform.name?.contains("NES") == true)  {
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.red_700))
+                when {
+                    platforms.platform?.name?.contains("Xbox") == true || platforms.platform?.name?.contains("Android") == true -> {
+                        chipPlatform.chipBackgroundColor =
+                            ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.green_700))
+                    }
+                    platforms.platform?.name?.contains("PlayStation") == true || platforms.platform?.name?.contains("PS") == true -> {
+                        chipPlatform.chipBackgroundColor =
+                            ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.light_blue_700))
+                    }
+                    platforms.platform?.name?.contains("Nintendo") == true || platforms.platform?.name?.contains("Wii") == true || platforms.platform?.name?.contains("NES") == true -> {
+                        chipPlatform.chipBackgroundColor =
+                        ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.red_700))
+                    }
                 }
                 executePendingBindings()
             }
@@ -63,7 +65,7 @@ class SearchGamesPlatformsAdapter : ListAdapter<Platforms, SearchGamesPlatformsA
 
 private class SearchGamesPlatformsDiffCallback : DiffUtil.ItemCallback<Platforms>() {
     override fun areItemsTheSame(oldItem: Platforms, newItem: Platforms): Boolean {
-        return oldItem.platform.id == newItem.platform.id
+        return oldItem.platform?.id == newItem.platform?.id
     }
 
     override fun areContentsTheSame(oldItem: Platforms, newItem: Platforms): Boolean {

@@ -2,14 +2,13 @@ package com.dirzaaulia.gamewish.modules.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.dirzaaulia.gamewish.NavigationGraphDirections
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragment
+import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragmentDirections
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,14 +24,10 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    )
-            : View {
+    ) : View {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        fab = requireActivity().findViewById(R.id.fab)
-
-        (activity as AppCompatActivity?)?.setSupportActionBar(binding.homeToolbar)
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -45,7 +40,7 @@ class HomeFragment : Fragment() {
         return when (item.itemId) {
             R.id.menu_search -> {
                 navigateToWithZSharedAxisAnimation(
-                    NavigationGraphDirections.actionGlobalSearchFragment()
+                    MainViewPagerFragmentDirections.actionMainViewPagerFragmentToSearchFragment()
                 )
                 true
             }
@@ -58,18 +53,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToWithZSharedAxisAnimation(direction: NavDirections) {
-
-        this.apply {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
-            fab.hide()
-            fab.visibility = View.INVISIBLE
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
         }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+
         view?.findNavController()?.navigate(direction)
     }
-
 }

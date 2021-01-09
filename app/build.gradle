@@ -19,17 +19,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
             }
         }
-    }
-
-    configurations.all() {
-        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
-        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
     }
 
     buildFeatures {
@@ -49,17 +43,18 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        // work-runtime-ktx 2.1.0 and above now requires Java 8
+        jvmTarget = "1.8"
+
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
 
 }
 
 dependencies {
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.21"
-
-
+    
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
@@ -81,8 +76,8 @@ dependencies {
 
     // Room database
     implementation "androidx.room:room-runtime:2.2.6"
-    implementation "androidx.room:room-ktx:2.2.6"
-    kapt "androidx.room:room-compiler:2.2.6"
+    implementation "androidx.room:room-ktx:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.2.6"
@@ -95,6 +90,9 @@ dependencies {
     implementation "com.squareup.moshi:moshi:1.11.0"
     implementation "com.squareup.moshi:moshi-kotlin:1.11.0"
 
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     //HTTP Logger Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
@@ -104,6 +102,12 @@ dependencies {
 
     //CarouselView
     implementation 'com.synnapps:carouselview:0.1.5'
+
+    //PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    //Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Logging
     implementation "com.jakewharton.timber:timber:4.7.1"
@@ -124,8 +128,8 @@ dependencies {
     //Other
     implementation 'androidx.appcompat:appcompat:1.2.0' //AppCompat
     implementation 'com.google.android.material:material:1.2.1' // Material Design
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'// Constraint Layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4' // Constraint Layout
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'androidx.annotation:annotation:1.1.0'
 
     //Testing

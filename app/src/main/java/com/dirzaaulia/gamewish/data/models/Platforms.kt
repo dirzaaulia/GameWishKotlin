@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Platforms(
-    val platform: Platform
+    val platform: Platform?
 ) : Parcelable

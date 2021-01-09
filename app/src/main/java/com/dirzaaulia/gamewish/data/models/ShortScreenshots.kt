@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ShortScreenshots(
-    val id: Int,
-    val image: String
+    val id: Int?,
+    val image: String?
 ) : Parcelable

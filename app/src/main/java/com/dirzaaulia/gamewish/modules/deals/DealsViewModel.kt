@@ -34,7 +34,12 @@ class DealsViewModel @ViewModelInject constructor(
 
     fun getStoreList() {
         viewModelScope.launch {
-            _storeList.value = repository.getAllStores()
+            try {
+                _storeList.value = repository.getAllStores()
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+
         }
     }
 }

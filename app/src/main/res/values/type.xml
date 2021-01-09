@@ -54,9 +54,14 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="TextAppearance.GameWish.ExpandedCollapsingToolbar.Title" parent="TextAppearance.Gamewish.Headline5">
+    <style name="TextAppearance.GameWish.CollapsedToolbar.Title" parent="TextAppearance.Gamewish.Headline5">
         <item name="fontFamily">@font/work_sans_bold</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/color_on_surface_emphasis_high</item>
+    </style>
+
+    <style name="TextAppearance.GameWish.ExpandedToolbar.Title" parent="TextAppearance.Gamewish.Headline5">
+        <item name="fontFamily">@font/work_sans_bold</item>
+        <item name="android:textColor">@color/color_on_primary_surface_emphasis_high</item>
     </style>
 
 </resources>

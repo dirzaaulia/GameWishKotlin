@@ -11,18 +11,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 
 interface CheapSharkService {
     @GET("deals")
     suspend fun getGameDeals(
-        @Query("storeID") storeID: String,
+        @Query("storeID") storeID: String?,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("lowerPrice") lowerPrice: Int,
-        @Query("upperPrice") upperPrice: Int,
-        @Query("title") title: String,
-        @Query("AAA") AAA: Boolean
+        @Query("lowerPrice") lowerPrice: Int?,
+        @Query("upperPrice") upperPrice: Int?,
+        @Query("title") title: String?,
+        @Query("AAA") AAA: Boolean?
     ): List<Deals>
 
     @GET("stores")
@@ -35,19 +36,22 @@ interface CheapSharkService {
             val logger = HttpLoggingInterceptor().apply { level = Level.BODY }
 
             val client = OkHttpClient.Builder()
-                    .addInterceptor(logger)
-                    .build()
+                .addInterceptor(logger)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .build()
 
             val moshi = Moshi.Builder()
-                    .add(KotlinJsonAdapterFactory())
-                    .build()
+                .add(KotlinJsonAdapterFactory())
+                .build()
 
             return Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(client)
-                    .addConverterFactory(MoshiConverterFactory.create(moshi))
-                    .build()
-                    .create(CheapSharkService::class.java)
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .build()
+                .create(CheapSharkService::class.java)
         }
     }
 }

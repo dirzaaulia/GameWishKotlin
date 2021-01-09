@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="storesItem"
+            type="com.dirzaaulia.gamewish.data.models.Stores" />
+        <variable
+            name="listener"
+            type="com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/stores_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_4dp"
+        android:onClick="@{(view) -> listener.onStoreClicked(view, storesItem)}"
+        app:cardBackgroundColor="?colorPrimary"
+        app:cardCornerRadius="@dimen/dimen_5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dimen_8dp">
+
+            <TextView
+                android:id="@+id/stores_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{storesItem.store.name}"
+                android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+                android:textColor="@color/color_on_primary_surface_emphasis_high"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Playstation Store" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

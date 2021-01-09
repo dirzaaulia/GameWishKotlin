@@ -2,43 +2,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/mainViewPagerFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.dirzaaulia.gamewish.modules.home.HomeFragment"/>
-    <fragment
-        android:id="@+id/dealsFragment"
-        android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment" />
+        android:id="@+id/mainViewPagerFragment"
+        android:name="com.dirzaaulia.gamewish.modules.main.MainViewPagerFragment"
+        android:label="MainViewPagerFragment" >
+        <action
+            android:id="@+id/action_mainViewPagerFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.dirzaaulia.gamewish.modules.search.home.SearchFragment">
+        android:name="com.dirzaaulia.gamewish.modules.search.SearchFragment">
         <action
-            android:id="@+id/action_searchFragment_to_searchDetailsFragment"
-            app:destination="@id/searchDetailsFragment" />
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_global_homeFragment"
-        app:destination="@id/homeFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/navigation_graph"
-        app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_global_dealsFragment"
-        app:destination="@id/dealsFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@id/navigation_graph"
-        app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_global_searchFragment"
-        app:destination="@+id/searchFragment" />
+
     <fragment
-        android:id="@+id/searchDetailsFragment"
-        android:name="com.dirzaaulia.gamewish.modules.search.details.SearchDetailsFragment"
-        android:label="fragment_search_details"
-        tools:layout="@layout/fragment_search_details">
+        android:id="@+id/detailsFragment"
+        android:name="com.dirzaaulia.gamewish.modules.details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="games"
-            app:argType="com.dirzaaulia.gamewish.data.models.Games"/>
+            app:argType="com.dirzaaulia.gamewish.data.models.Games" />
+        <action
+            android:id="@+id/action_searchDetailsFragment_to_searchDetailsImageViewerFragment"
+            app:destination="@id/detailsImageViewerFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/detailsImageViewerFragment"
+        android:name="com.dirzaaulia.gamewish.modules.details.imageviewer.DetailsImageViewerFragment"
+        android:label="DetailsImageViewerFragment" >
+        <argument
+            android:name="screenshots"
+            app:argType="com.dirzaaulia.gamewish.data.models.Screenshots" />
+    </fragment>
+
 </navigation>

@@ -6,15 +6,15 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.search.home.SearchViewModel" />
+            type="com.dirzaaulia.gamewish.modules.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionGroup="true"
-        app:paddingTopSystemWindowInsets="@{true}"
-        tools:context=".modules.search.home.SearchFragment">
+        tools:context=".modules.search.SearchFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
@@ -60,7 +60,7 @@
             android:paddingTop="@dimen/dimen_4dp"
             android:layout_marginStart="@dimen/dimen_8dp"
             android:text="@string/games_data_provided_by_rawg"
-            android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/dimen_8dp"
+            android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/search_label_rawg"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -88,12 +89,12 @@
             android:id="@+id/search_games_image_view_status"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:contentDescription="@string/no_internet_connection_image"
             app:srcCompat="@drawable/ic_baseline_cloud_off_24"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/search_games_text_view_status"

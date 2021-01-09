@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.data.models.Games
 import com.dirzaaulia.gamewish.databinding.ItemSearchGamesBinding
-import com.dirzaaulia.gamewish.modules.search.home.SearchFragmentDirections
+import com.dirzaaulia.gamewish.modules.search.SearchFragmentDirections
 
-class SearchGamesAdapter: PagingDataAdapter<Games, SearchGamesAdapter.ViewHolder>(
-    SearchGamesDiffCallback()
-) {
+class SearchGamesAdapter(
+    private val listener : SearchGamesAdapterListener
+): PagingDataAdapter<Games, SearchGamesAdapter.ViewHolder>(SearchGamesDiffCallback()) {
+
+    interface SearchGamesAdapterListener {
+        fun onGamesClicked(view: View, games: Games)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -21,7 +25,8 @@ class SearchGamesAdapter: PagingDataAdapter<Games, SearchGamesAdapter.ViewHolder
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            listener
         )
     }
 
@@ -34,20 +39,14 @@ class SearchGamesAdapter: PagingDataAdapter<Games, SearchGamesAdapter.ViewHolder
     }
 
     class ViewHolder(
-        private val binding: ItemSearchGamesBinding
+        private val binding: ItemSearchGamesBinding,
+        listener: SearchGamesAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.setClickListener {
-                binding.gamesItem?.let { games ->
-                    navigateToSearchDetails(games, it)
-                }
+            binding.run {
+                this.listener = listener
             }
-        }
-        
-        private fun navigateToSearchDetails(games: Games, view: View) {
-            val directions = SearchFragmentDirections.actionSearchFragmentToSearchDetailsFragment(games)
-            view.findNavController().navigate(directions)
         }
 
         fun bind(games: Games) {

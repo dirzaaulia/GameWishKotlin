@@ -28,7 +28,7 @@ class RawgPagingSource(
             val games = response.results
 
             LoadResult.Page(
-                data = games,
+                data = games!!,
                 prevKey = if (page == RAWG_STARTING_PAGE_INDEX) null else page - 1,
                 nextKey = page + 1
             )

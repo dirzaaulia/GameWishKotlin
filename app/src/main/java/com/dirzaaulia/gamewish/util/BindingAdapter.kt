@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.*
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
@@ -26,17 +27,51 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Platform
+import com.dirzaaulia.gamewish.data.models.Developer
 import com.dirzaaulia.gamewish.data.models.Platforms
+import com.dirzaaulia.gamewish.data.models.Publisher
 import com.dirzaaulia.gamewish.data.models.Stores
-import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesDetailsPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-@BindingAdapter("setPlatformsDetails")
-fun RecyclerView.setPlatformsDetails(platforms: List<Platforms>) {
-    val platformsAdapter = SearchGamesDetailsPlatformsAdapter()
+@BindingAdapter("getSubReddit")
+fun TextView.getSubReddit(value: String?) {
+
+    if (value?.isNotEmpty() == true) {
+        val uri = Uri.parse(value)
+        val segment = uri.path!!.split("/")
+        val subReddit = String.format("<u>r/%s</u>", segment[segment.size-2])
+        text = htmlToTextFormatter(subReddit)
+    }
+}
+
+@BindingAdapter("htmlToText")
+fun TextView.htmlToText(value: String?) {
+
+    text = if (value.isNullOrEmpty()) {
+        ""
+    } else {
+        htmlToTextFormatter(value)
+    }
+}
+
+@BindingAdapter("isFabGone")
+fun bindIsFabGone(view: FloatingActionButton, isGone: Boolean?) {
+    if (isGone == null || isGone) {
+        view.hide()
+    } else {
+        view.show()
+    }
+}
+
+@BindingAdapter("setDetailsPlatforms")
+fun RecyclerView.setDetailsPlatforms(platforms: List<Platforms>?) {
+    val platformsAdapter = DetailsPlatformsAdapter()
     platformsAdapter.submitList(platforms)
     adapter = platformsAdapter
 }
@@ -51,12 +86,19 @@ fun RecyclerView.setPlatforms(platforms: List<Platforms>) {
 @BindingAdapter("bindAutocompleteStores")
 fun bindAutocomplete(textView: AutoCompleteTextView, stores: List<Stores>?){
     stores?.let {
-        val adapter = ArrayAdapter<Stores>(
+        val adapter = ArrayAdapter(
             textView.context,
             R.layout.support_simple_spinner_dropdown_item,
             it)
 
         textView.setAdapter(adapter)
+    }
+}
+
+@BindingAdapter("textFormatReleasedDate")
+fun TextView.textReleasedDate(value: String?) {
+    value?.let {
+        text = String.format("Released Date : %s", textDateFormatter(value))
     }
 }
 
@@ -90,6 +132,11 @@ fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
     }
 }
 
+@BindingAdapter("goneIfNull")
+fun goneIfNull(view: View, it: Any?) {
+    view.visibility = if (it == null || it == "" || it == 0) View.GONE else View.VISIBLE
+}
+
 /**
  * Binding adapter used to hide the spinner once data is available
  */
@@ -109,6 +156,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val circularProgressDrawable = CircularProgressDrawable(imgView.context)
         circularProgressDrawable.strokeWidth = 5f
         circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(imgView.context, R.color.color_on_surface_emphasis_high))
         circularProgressDrawable.start()
 
         Glide.with(imgView.context)
@@ -123,8 +171,20 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 fun setImageBasedOnString(imgView: ImageView, value: String?) {
     value?.let {
         when (it) {
+            "Everyone" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_everyone)
+            }
+            "Everyone 10+" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_everyone10)
+            }
+            "Teen" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_teen)
+            }
             "Mature" -> {
                 imgView.setImageResource(R.drawable.image_esrb_rating_mature)
+            }
+            "Adults Only" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_adults_only)
             }
         }
     }

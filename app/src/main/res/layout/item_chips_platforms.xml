@@ -13,13 +13,12 @@
         android:id="@+id/chip_platform"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_4dp"
         android:layout_marginBottom="@dimen/dimen_4dp"
         android:layout_marginEnd="@dimen/dimen_4dp"
         android:text="@{platformItem.platform.name}"
-        android:textColor="?colorSurface"
+        android:textColor="@color/color_on_primary_surface_emphasis_high"
         android:textAppearance="@style/TextAppearance.Gamewish.Caption"
-        app:chipBackgroundColor="@color/color_on_surface_emphasis_high"
+        app:chipBackgroundColor="?colorPrimary"
         tools:text="Tes">
 
     </com.google.android.material.chip.Chip>

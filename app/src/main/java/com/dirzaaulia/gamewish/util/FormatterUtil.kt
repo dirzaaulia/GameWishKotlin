@@ -1,11 +1,17 @@
 package com.dirzaaulia.gamewish.util
 
 import android.icu.text.SimpleDateFormat
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+fun htmlToTextFormatter(value: String?) : Spanned? {
+    return Html.fromHtml(value, Html.FROM_HTML_MODE_COMPACT)
+}
 
 fun textCurrencyFormatter(value: String) : String {
     val format: NumberFormat = NumberFormat.getCurrencyInstance()

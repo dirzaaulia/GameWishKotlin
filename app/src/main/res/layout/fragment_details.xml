@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.dirzaaulia.gamewish.modules.details.DetailsViewModel" />
+        <variable
+            name="callback"
+            type="com.dirzaaulia.gamewish.modules.details.DetailsFragment.Callback" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:transitionName="@string/games_detail_transition_name"
+        tools:context="com.dirzaaulia.gamewish.modules.main.MainActivity"
+        tools:ignore="MergeRootFrame">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/details_appbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_278dp"
+            android:fitsSystemWindows="true"
+            android:background="@null"
+            android:stateListAnimator="@animator/show_toolbar"
+            android:animateLayoutChanges="true"
+            app:goneIfNull="@{viewModel.gameDetails.id}">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/details_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?android:colorBackground"
+                app:statusBarScrim="?android:colorBackground"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleGravity="start"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.GameWish.CollapsedToolbar.Title"
+                app:expandedTitleTextAppearance="@style/TextAppearance.GameWish.ExpandedToolbar.Title"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="@{viewModel.gameDetails.name}"
+                app:titleEnabled="false"
+                app:toolbarId="@id/toolbar">
+
+                <ImageView
+                    android:id="@+id/details_background_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_278dp"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/background_image_game_details"
+                    app:goneIf="@{viewModel.gameDetails.backgroundImage.empty}"
+                    app:imageUrl="@{viewModel.gameDetails.backgroundImage}"
+                    app:layout_collapseMode="parallax" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:titleTextColor="?colorOnPrimary"
+                    app:layout_collapseMode="pin"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/details_nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="72dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:goneIfNull="@{viewModel.gameDetails.id}">
+
+                <ImageView
+                    android:id="@+id/details_esrb_rating"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/esrb_rating_image"
+                    app:esrbRatingImage="@{viewModel.gameDetails.esrbRating.name}"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    app:layout_constraintTop_toTopOf="@id/details_label_relased"
+                    tools:src="@drawable/image_esrb_rating_mature" />
+
+                <TextView
+                    android:id="@+id/details_label_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_40dp"
+                    android:text="@{viewModel.gameDetails.name}"
+                    android:textColor="@color/color_on_surface_emphasis_high"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toStartOf="@id/details_esrb_rating"
+                    tools:text="Assassins Creed"/>
+
+                <TextView
+                    android:id="@+id/details_label_rawg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/rawg"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+                    app:goneIfNull="@{viewModel.gameDetails.id}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_title"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"/>
+
+                <TextView
+                    android:id="@+id/details_label_relased"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/release_date"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.gameDetails.id}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_rawg"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"/>
+
+                <TextView
+                    android:id="@+id/details_released"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2"
+                    app:textDateFormatted2="@{viewModel.gameDetails.released}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_relased"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    tools:text="27 November 2020"/>
+
+                <TextView
+                    android:id="@+id/details_label_developers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/developers"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.developer.name}"
+                    app:layout_constraintTop_toBottomOf="@id/details_released"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide" />
+
+                <TextView
+                    android:id="@+id/details_developers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2"
+                    android:text="@{viewModel.developer.name}"
+                    app:goneIfNull="@{viewModel.developer.name}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_developers"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    tools:text="Ubisoft Montreal"/>
+
+                <TextView
+                    android:id="@+id/details_label_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/publishers"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.publisher.name}"
+                    app:layout_constraintTop_toBottomOf="@id/details_developers"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide" />
+
+                <TextView
+                    android:id="@+id/details_publishers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2"
+                    android:text="@{viewModel.publisher.name}"
+                    app:goneIfNull="@{viewModel.publisher.name}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_publisher"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    tools:text="Ubisoft Montreal"/>
+
+                <TextView
+                    android:id="@+id/details_website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/website"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+                    app:goneIfNull="@{viewModel.gameDetails.website}"
+                    app:layout_constraintTop_toBottomOf="@id/details_publishers"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide" />
+
+                <TextView
+                    android:id="@+id/details_reddit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+                    app:getSubReddit="@{viewModel.gameDetails.redditUrl}"
+                    app:goneIfNull="@{viewModel.gameDetails.redditUrl}"
+                    app:layout_constraintTop_toBottomOf="@id/details_website"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:drawableStartCompat="@drawable/ic_reddit_logo" />
+
+                <TextView
+                    android:id="@+id/details_label_screenshots"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:text="@string/screenshots"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIf="@{viewModel.gameDetailsScreenshots.empty}"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    app:layout_constraintTop_toBottomOf="@id/details_reddit"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/screenshots_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:orientation="horizontal"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_screenshots"
+                    tools:listitem="@layout/item_screenshots_list"/>
+
+                <TextView
+                    android:id="@+id/details_label_platform"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:text="@string/platforms"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIf="@{viewModel.gameDetails.platforms.empty}"
+                    app:layout_constraintTop_toBottomOf="@id/screenshots_recycler_view"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/platforms_recyler_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:padding="@dimen/dimen_4dp"
+                    app:setDetailsPlatforms="@{viewModel.gameDetails.platforms}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_platform"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    tools:listitem="@layout/item_platform_list"/>
+
+                <TextView
+                    android:id="@+id/details_label_stores"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dimen_4dp"
+                    android:text="@string/stores"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIf="@{viewModel.gameDetails.stores.empty}"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    app:layout_constraintTop_toBottomOf="@id/platforms_recyler_view"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stores_recyler_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:padding="@dimen/dimen_4dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_stores"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    tools:listitem="@layout/item_platform_list"/>
+
+                <TextView
+                    android:id="@+id/details_label_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/descriptions"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.gameDetails.description}"
+                    app:layout_constraintTop_toBottomOf="@id/stores_recyler_view"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"/>
+
+                <TextView
+                    android:id="@+id/details_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:textColor="@color/color_on_surface_emphasis_high"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+                    app:htmlToText="@{viewModel.gameDetails.description}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_description"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/details_start_guide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/dimen_16dp"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/details_end_guide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/dimen_16dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/details_fab"
+            android:contentDescription="@string/add_new_wishlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16dp"
+            android:onClick="@{(view) -> callback.add(viewModel.gameDetails)}"
+            app:goneIfNotNull="@{viewModel.wishlist.id}"
+            app:layout_anchor="@id/details_appbar_layout"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            app:tint="@color/white"/>
+
+        <ProgressBar
+            android:id="@+id/details_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:goneIfNotNull="@{viewModel.gameDetails.id}"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
