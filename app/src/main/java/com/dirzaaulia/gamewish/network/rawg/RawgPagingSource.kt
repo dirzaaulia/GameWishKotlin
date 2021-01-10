@@ -3,6 +3,7 @@ package com.dirzaaulia.gamewish.network.rawg
 import androidx.paging.PagingSource
 import com.dirzaaulia.gamewish.data.models.Games
 import com.dirzaaulia.gamewish.data.response.SearchGamesResponse
+import com.dirzaaulia.gamewish.util.RAWG_KEY
 import java.lang.Exception
 
 
@@ -18,7 +19,7 @@ class RawgPagingSource(
 
         return try {
             val response = service.searchGames(
-                "b1ece946fa424f4f887871a867743d0e",
+                RAWG_KEY,
                 page,
                 10,
                 true,

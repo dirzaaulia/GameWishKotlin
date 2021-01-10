@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dirzaaulia.gamewish.data.models.Wishlist
-import com.dirzaaulia.gamewish.util.DATABASE_NAME2
+import com.dirzaaulia.gamewish.util.DATABASE_NAME
 
 @Database(entities = [Wishlist::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME2)
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .build()
         }
     }

@@ -7,22 +7,15 @@
         <variable
             name="screenshotsItem"
             type="com.dirzaaulia.gamewish.data.models.Screenshots" />
-        <variable
-            name="listener"
-            type="com.dirzaaulia.gamewish.modules.details.adapter.DetailsImageAdapter.DetailsImageAdapterListener" />
-
     </data>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/short_screenshots_image_view"
-        android:layout_width="350dp"
-        android:layout_height="200dp"
-        android:layout_marginEnd="@dimen/dimen_16dp"
+    <ImageView
+        android:id="@+id/screenshots_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:contentDescription="@string/game_screenshot_image"
-        android:onClick="@{(view) -> listener.onImageClicked(view, screenshotsItem)}"
         app:imageUrl="@{screenshotsItem.image}"
-        app:shapeAppearanceOverlay="@style/ImageRoundedAllCorners"
         tools:src="@android:drawable/picture_frame"/>
 
 </layout>

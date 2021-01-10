@@ -46,16 +46,27 @@
                 app:titleEnabled="false"
                 app:toolbarId="@id/toolbar">
 
-                <ImageView
-                    android:id="@+id/details_background_image"
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/details_image_slider"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_278dp"
+                    android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
-                    android:scaleType="fitXY"
-                    android:contentDescription="@string/background_image_game_details"
-                    app:goneIf="@{viewModel.gameDetails.backgroundImage.empty}"
-                    app:imageUrl="@{viewModel.gameDetails.backgroundImage}"
-                    app:layout_collapseMode="parallax" />
+                    app:goneIf="@{viewModel.gameDetailsScreenshots.empty}"
+                    app:layout_collapseMode="parallax"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="right"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="?colorPrimary"
+                    app:sliderIndicatorUnselectedColor="@color/color_on_surface_emphasis_high"
+                    app:sliderScrollTimeInSec="3"
+                    app:sliderStartAutoCycle="true"/>
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -83,28 +94,17 @@
                 android:layout_height="match_parent"
                 app:goneIfNull="@{viewModel.gameDetails.id}">
 
-                <ImageView
-                    android:id="@+id/details_esrb_rating"
-                    android:layout_width="60dp"
-                    android:layout_height="70dp"
-                    android:scaleType="fitXY"
-                    android:contentDescription="@string/esrb_rating_image"
-                    app:esrbRatingImage="@{viewModel.gameDetails.esrbRating.name}"
-                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
-                    app:layout_constraintTop_toTopOf="@id/details_label_relased"
-                    tools:src="@drawable/image_esrb_rating_mature" />
-
                 <TextView
                     android:id="@+id/details_label_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_40dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
                     android:text="@{viewModel.gameDetails.name}"
                     android:textColor="@color/color_on_surface_emphasis_high"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"
-                    app:layout_constraintEnd_toStartOf="@id/details_esrb_rating"
+                    app:layout_constraintEnd_toStartOf="@id/details_end_guide"
                     tools:text="Assassins Creed"/>
 
                 <TextView
@@ -136,10 +136,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.Gamewish.Body2"
-                    app:textDateFormatted2="@{viewModel.gameDetails.released}"
+                    app:textDateFormatted="@{viewModel.gameDetails.released}"
                     app:layout_constraintTop_toBottomOf="@id/details_label_relased"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"
                     tools:text="27 November 2020"/>
+
+                <TextView
+                    android:id="@+id/details_label_esrb_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/esrb_rating"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.gameDetails.esrbRating}"
+                    app:layout_constraintTop_toTopOf="@id/details_label_relased"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"/>
+
+                <ImageView
+                    android:id="@+id/details_esrb_rating"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/esrb_rating_image"
+                    app:esrbRatingImage="@{viewModel.gameDetails.esrbRating.name}"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_esrb_rating"
+                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
+                    tools:src="@drawable/image_esrb_rating_mature" />
+
 
                 <TextView
                     android:id="@+id/details_label_developers"
@@ -186,6 +210,17 @@
                     tools:text="Ubisoft Montreal"/>
 
                 <TextView
+                    android:id="@+id/details_label_links"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/links"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+                    app:goneIfNull="@{viewModel.gameDetails.website}"
+                    app:layout_constraintTop_toBottomOf="@id/details_publishers"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide" />
+
+                <TextView
                     android:id="@+id/details_website"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,47 +228,37 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/website"
-                    android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                     app:goneIfNull="@{viewModel.gameDetails.website}"
-                    app:layout_constraintTop_toBottomOf="@id/details_publishers"
+                    app:layout_constraintTop_toBottomOf="@id/details_label_links"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide" />
+
+                <ImageView
+                    android:id="@+id/details_reddit_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/reddit_image_logo"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/ic_reddit_logo"
+                    app:layout_constraintTop_toBottomOf="@id/details_website"
+                    app:layout_constraintStart_toStartOf="@id/details_start_guide"/>
 
                 <TextView
                     android:id="@+id/details_reddit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:layout_marginStart="@dimen/dimen_4dp"
+                    android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
-                    android:textAppearance="@style/TextAppearance.Gamewish.Body1"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                     app:getSubReddit="@{viewModel.gameDetails.redditUrl}"
                     app:goneIfNull="@{viewModel.gameDetails.redditUrl}"
-                    app:layout_constraintTop_toBottomOf="@id/details_website"
-                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
-                    app:drawableStartCompat="@drawable/ic_reddit_logo" />
-
-                <TextView
-                    android:id="@+id/details_label_screenshots"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8dp"
-                    android:text="@string/screenshots"
-                    android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-                    app:goneIf="@{viewModel.gameDetailsScreenshots.empty}"
-                    app:layout_constraintStart_toStartOf="@id/details_start_guide"
-                    app:layout_constraintEnd_toEndOf="@id/details_end_guide"
-                    app:layout_constraintTop_toBottomOf="@id/details_reddit"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/screenshots_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/details_label_screenshots"
-                    tools:listitem="@layout/item_screenshots_list"/>
+                    app:layout_constraintTop_toTopOf="@id/details_reddit_image"
+                    app:layout_constraintBottom_toBottomOf="@id/details_reddit_image"
+                    app:layout_constraintStart_toEndOf="@id/details_reddit_image"
+                    tools:text="r/assassin's_creed"/>
 
                 <TextView
                     android:id="@+id/details_label_platform"
@@ -243,7 +268,7 @@
                     android:text="@string/platforms"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
                     app:goneIf="@{viewModel.gameDetails.platforms.empty}"
-                    app:layout_constraintTop_toBottomOf="@id/screenshots_recycler_view"
+                    app:layout_constraintTop_toBottomOf="@id/details_reddit"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"
                     app:layout_constraintEnd_toEndOf="@id/details_end_guide"/>
 

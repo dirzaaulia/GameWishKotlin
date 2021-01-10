@@ -25,9 +25,10 @@
             android:paddingTop="@dimen/dimen_4dp"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.Gamewish.Caption"
-            app:textFormatReleasedDate="@{gamesItem.released}"
+            app:textFormatReleaseDate="@{gamesItem.released}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Release Date : 29-11-1996 "/>
 
         <TextView
             android:id="@+id/games_title"
@@ -36,7 +37,8 @@
             android:layout_marginTop="@dimen/dimen_4dp"
             android:text="@{gamesItem.name}"
             android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-            app:layout_constraintTop_toBottomOf="@id/release_date" />
+            app:layout_constraintTop_toBottomOf="@id/release_date"
+            tools:text="Assassin's Creed"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/platforms_recyler_view"

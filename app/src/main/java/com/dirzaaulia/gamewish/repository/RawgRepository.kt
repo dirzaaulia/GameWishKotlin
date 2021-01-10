@@ -9,6 +9,8 @@ import com.dirzaaulia.gamewish.data.response.ScreenshotsResponse
 import com.dirzaaulia.gamewish.data.response.SearchGamesResponse
 import com.dirzaaulia.gamewish.network.rawg.RawgPagingSource
 import com.dirzaaulia.gamewish.network.rawg.RawgService
+import com.dirzaaulia.gamewish.util.GAMES_PAGE_SIZE
+import com.dirzaaulia.gamewish.util.RAWG_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -33,10 +35,5 @@ class RawgRepository @Inject constructor(private val service: RawgService) {
         return withContext(Dispatchers.IO) {
             service.getGameDetailsScreenshots(gameId, RAWG_KEY)
         }
-    }
-
-    companion object {
-        private const val GAMES_PAGE_SIZE = 10
-        private const val RAWG_KEY = "b1ece946fa424f4f887871a867743d0e"
     }
 }

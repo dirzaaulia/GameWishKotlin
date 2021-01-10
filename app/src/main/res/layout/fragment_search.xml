@@ -61,7 +61,7 @@
             android:layout_marginStart="@dimen/dimen_8dp"
             android:text="@string/games_data_provided_by_rawg"
             android:textAppearance="@style/TextAppearance.Gamewish.Caption"
-            android:visibility="gone"
+            app:goneIfNull="@{viewModel.currentSearchGamesResult}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
 

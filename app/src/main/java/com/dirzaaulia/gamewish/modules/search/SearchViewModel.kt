@@ -19,7 +19,7 @@ class SearchViewModel @ViewModelInject constructor(
     private val repository: RawgRepository
 ) : ViewModel() {
 
-    private var currentSearchGamesResult: Flow<PagingData<Games>>? = null
+    var currentSearchGamesResult: Flow<PagingData<Games>>? = null
 
     fun refreshSearchGames(request: String): Flow<PagingData<Games>> {
         val newResult: Flow<PagingData<Games>> =

@@ -12,7 +12,9 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.*
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -27,17 +29,14 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Developer
 import com.dirzaaulia.gamewish.data.models.Platforms
-import com.dirzaaulia.gamewish.data.models.Publisher
-import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
-import com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import timber.log.Timber
+import vas.com.currencyconverter.CurrencyConverter
+import java.util.*
 
 @BindingAdapter("getSubReddit")
 fun TextView.getSubReddit(value: String?) {
@@ -60,15 +59,6 @@ fun TextView.htmlToText(value: String?) {
     }
 }
 
-@BindingAdapter("isFabGone")
-fun bindIsFabGone(view: FloatingActionButton, isGone: Boolean?) {
-    if (isGone == null || isGone) {
-        view.hide()
-    } else {
-        view.show()
-    }
-}
-
 @BindingAdapter("setDetailsPlatforms")
 fun RecyclerView.setDetailsPlatforms(platforms: List<Platforms>?) {
     val platformsAdapter = DetailsPlatformsAdapter()
@@ -83,34 +73,15 @@ fun RecyclerView.setPlatforms(platforms: List<Platforms>) {
     adapter = platformsAdapter
 }
 
-@BindingAdapter("bindAutocompleteStores")
-fun bindAutocomplete(textView: AutoCompleteTextView, stores: List<Stores>?){
-    stores?.let {
-        val adapter = ArrayAdapter(
-            textView.context,
-            R.layout.support_simple_spinner_dropdown_item,
-            it)
-
-        textView.setAdapter(adapter)
-    }
-}
-
-@BindingAdapter("textFormatReleasedDate")
-fun TextView.textReleasedDate(value: String?) {
+@BindingAdapter("textFormatReleaseDate")
+fun TextView.textReleaseDate(value: String?) {
     value?.let {
-        text = String.format("Released Date : %s", textDateFormatter(value))
+        text = String.format("Release Date : ${textDateFormatter(value)}")
     }
 }
 
 @BindingAdapter("textDateFormatted")
 fun TextView.textDateFormatted(value: String?) {
-    value?.let{
-        text = textDateFormatter(value)
-    }
-}
-
-@BindingAdapter("textDateFormatted2")
-fun TextView.textDateFormatted2(value: String?) {
     value?.let {
         text = textDateFormatter2(value)
     }
@@ -119,7 +90,17 @@ fun TextView.textDateFormatted2(value: String?) {
 @BindingAdapter("textCurrencyFormatted")
 fun TextView.textCurrencyFormatted(value: String?) {
     value?.let{
-        text = textCurrencyFormatter(value)
+        CurrencyConverter.calculate(
+            value.toDouble(),
+            Currency.getInstance("USD"),
+            Currency.getInstance("IDR")
+        ) { value, e ->
+            if (e != null) {
+                Timber.i(e.localizedMessage)
+            } else {
+                text = currencyFormatter(value)
+            }
+        }
     }
 }
 
@@ -134,7 +115,7 @@ fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
 
 @BindingAdapter("goneIfNull")
 fun goneIfNull(view: View, it: Any?) {
-    view.visibility = if (it == null || it == "" || it == 0) View.GONE else View.VISIBLE
+    view.visibility = if (it == null || it == "" || it == 0) GONE else VISIBLE
 }
 
 /**
@@ -142,7 +123,7 @@ fun goneIfNull(view: View, it: Any?) {
  */
 @BindingAdapter("goneIfNotNull")
 fun goneIfNotNull(view: View, it: Any?) {
-    view.visibility = if (it != null) View.GONE else View.VISIBLE
+    view.visibility = if (it != null) GONE else VISIBLE
 }
 
 /**

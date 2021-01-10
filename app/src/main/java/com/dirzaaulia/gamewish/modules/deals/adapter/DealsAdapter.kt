@@ -1,6 +1,7 @@
 package com.dirzaaulia.gamewish.modules.deals.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.databinding.ItemGameDealsBinding
 import com.dirzaaulia.gamewish.data.models.Deals
 
-class DealsAdapter: PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffCallback()) {
+class DealsAdapter(
+  private val listener : DealsAdapterListener
+) : PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffCallback()) {
+
+    interface DealsAdapterListener {
+        fun onItemClicked(view : View, deals: Deals)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -16,7 +23,8 @@ class DealsAdapter: PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffC
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            listener
         )
     }
 
@@ -29,8 +37,15 @@ class DealsAdapter: PagingDataAdapter<Deals, DealsAdapter.ViewHolder>(DealsDiffC
     }
 
     class ViewHolder(
-        private val binding: ItemGameDealsBinding
+        private val binding: ItemGameDealsBinding,
+        listener: DealsAdapterListener
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.run {
+                this.listener = listener
+            }
+        }
 
         fun bind(deals: Deals) {
             binding.apply {

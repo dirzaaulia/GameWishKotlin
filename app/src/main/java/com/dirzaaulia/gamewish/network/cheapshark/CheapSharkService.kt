@@ -2,6 +2,7 @@ package com.dirzaaulia.gamewish.network.cheapshark
 
 import com.dirzaaulia.gamewish.data.models.Deals
 import com.dirzaaulia.gamewish.data.models.Stores
+import com.dirzaaulia.gamewish.util.CHEAPSHARK_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -30,8 +31,6 @@ interface CheapSharkService {
     suspend fun getStoresList() : List<Stores>
 
     companion object {
-        private const val BASE_URL = "https://www.cheapshark.com/api/1.0/"
-
         fun create(): CheapSharkService {
             val logger = HttpLoggingInterceptor().apply { level = Level.BODY }
 
@@ -47,7 +46,7 @@ interface CheapSharkService {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(CHEAPSHARK_BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()

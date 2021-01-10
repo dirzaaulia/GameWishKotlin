@@ -1,14 +1,12 @@
 package com.dirzaaulia.gamewish.modules.main.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirzaaulia.gamewish.modules.deals.DealsFragment
 import com.dirzaaulia.gamewish.modules.home.HomeFragment
-import java.lang.IndexOutOfBoundsException
+import com.dirzaaulia.gamewish.util.DEALS_INDEX
+import com.dirzaaulia.gamewish.util.HOME_INDEX
 
-const val HOME_INDEX = 0
-const val DEALS_INDEX = 1
 
 class MainPagerAdapter(fragment : Fragment) : FragmentStateAdapter(fragment) {
 

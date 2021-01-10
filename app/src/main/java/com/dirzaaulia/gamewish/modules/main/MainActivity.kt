@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.ActivityMainBinding
+import com.dirzaaulia.gamewish.util.contentView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

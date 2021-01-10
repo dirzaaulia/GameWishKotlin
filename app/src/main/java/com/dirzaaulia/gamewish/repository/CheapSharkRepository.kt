@@ -8,6 +8,7 @@ import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkPagingSource
 import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService
+import com.dirzaaulia.gamewish.util.DEALS_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -26,9 +27,5 @@ class CheapSharkRepository @Inject constructor (private val service: CheapSharkS
         return withContext(Dispatchers.IO) {
                service.getStoresList()
         }
-    }
-
-    companion object {
-        private const val DEALS_PAGE_SIZE = 10
     }
 }

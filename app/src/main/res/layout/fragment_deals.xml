@@ -22,110 +22,149 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/filter_layout"
+                android:id="@+id/deals_app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
-                android:padding="@dimen/dimen_16dp"
-                android:animateLayoutChanges="true"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_store"
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/deals_toolbar"
+                    android:background="?android:colorBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/store"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="?attr/actionBarSize">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/spinner_store"
+                    <TextView
+                        android:id="@+id/deals_toolbar_title"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        tools:ignore="LabelFor" />
+                        android:layout_height="?attr/actionBarSize"
+                        android:gravity="center_vertical"
+                        android:text="@string/app_name"
+                        android:textColor="@color/color_on_surface_emphasis_high"
+                        android:textAppearance="?attr/textAppearanceHeadline5" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.appbar.MaterialToolbar>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_lower_price"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/minimum_deals_price"
-                    app:prefixText="$"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lower_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/_0"
-                        android:inputType="number"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_upper_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/maximum_deals_price"
-                    app:prefixText="$"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/upper_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/_50"
-                        android:inputType="number"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/game_title"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/game_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switch_AAA_games"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:textColor="@color/color_on_surface_emphasis_high"
-                    android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
-                    android:text="@string/aaa_games"/>
-
-                <Button
-                    android:id="@+id/button_filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:text="@string/apply_filter"
-                    android:textColor="@color/color_on_surface_emphasis_high"
-                    style="?attr/materialButtonOutlinedStyle" />
+                    android:layout_height="1dp"
+                    android:background="@android:color/white"
+                    android:backgroundTint="@color/material_on_surface_stroke"/>
 
             </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="?actionBarSize"
+                app:layout_constraintTop_toBottomOf="@id/deals_app_bar_layout">
+
+                <LinearLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="@dimen/dimen_16dp"
+                    android:animateLayoutChanges="true">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_field_store"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/store"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/spinner_store"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            tools:ignore="LabelFor" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_field_lower_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:hint="@string/minimum_deals_price"
+                        app:prefixText="$"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/lower_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_0"
+                            android:inputType="number"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_field_upper_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:hint="@string/maximum_deals_price"
+                        app:prefixText="$"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/upper_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/_50"
+                            android:inputType="number"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_field_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:hint="@string/game_title"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/game_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:inputType="text"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_AAA_games"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:textColor="@color/color_on_surface_emphasis_high"
+                        android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+                        android:text="@string/aaa_games"/>
+
+                    <Button
+                        android:id="@+id/button_filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_4dp"
+                        android:text="@string/apply_filter"
+                        android:textColor="@color/color_on_surface_emphasis_high"
+                        style="?attr/materialButtonOutlinedStyle" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
             <ProgressBar
                 android:id="@+id/deals_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/deals_app_bar_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -136,7 +175,7 @@
                 android:layout_height="100dp"
                 android:contentDescription="@string/no_internet_connection_image"
                 app:srcCompat="@drawable/ic_baseline_cloud_off_24"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/deals_app_bar_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

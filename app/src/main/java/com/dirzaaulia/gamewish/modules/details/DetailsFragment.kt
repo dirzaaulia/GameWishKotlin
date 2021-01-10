@@ -22,30 +22,29 @@ import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.databinding.FragmentDetailsBinding
 import com.dirzaaulia.gamewish.modules.details.DetailsFragment.Callback
-import com.dirzaaulia.gamewish.modules.details.adapter.DetailsImageAdapter
+import com.dirzaaulia.gamewish.modules.details.adapter.DetailsImageBannerAdapter
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.util.showSnackbarShort
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
+import com.smarteist.autoimageslider.SliderAnimations
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class DetailsFragment :
     Fragment(),
-    DetailsStoresAdapter.DetailsStoresAdapterListener,
-    DetailsImageAdapter.DetailsImageAdapterListener{
+    DetailsStoresAdapter.DetailsStoresAdapterListener{
 
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding : FragmentDetailsBinding
 
     private val detailsStoresAdapter = DetailsStoresAdapter(this)
-    private var detailsImageAdapter = DetailsImageAdapter(this)
+    private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
 
     @Inject
     lateinit var detailsViewModelFactory : DetailsViewModel.AssistedFactory
@@ -147,24 +146,15 @@ class DetailsFragment :
             }
 
             detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
-                detailsImageAdapter.submitList(it)
-                screenshotsRecyclerView.adapter = detailsImageAdapter
+                detailsImageBannerAdapter = DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
+                detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
+                detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
+                detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+                detailsImageSlider.isAutoCycle = true
             }
         }
 
         return binding.root
-    }
-
-    override fun onImageClicked(view: View, screenshots: Screenshots) {
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-        }
-        val directions = DetailsFragmentDirections.
-        actionSearchDetailsFragmentToSearchDetailsImageViewerFragment(screenshots)
-        view.findNavController().navigate(directions)
     }
 
     override fun onStoreClicked(view: View, stores: Stores) {

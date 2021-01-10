@@ -17,17 +17,18 @@ class DealsViewModel @ViewModelInject constructor(
     private val repository: CheapSharkRepository
 ) : ViewModel() {
 
-    private var currentDealsResult: Flow<PagingData<Deals>>? = null
+    private var _currentDealsResult: Flow<PagingData<Deals>>? = null
 
     private var _storeList = MutableLiveData<List<Stores>>()
     val storeList: MutableLiveData<List<Stores>>
         get() = _storeList
 
+
     fun refreshDeals(request: DealsRequest): Flow<PagingData<Deals>> {
         val newResult: Flow<PagingData<Deals>> =
             repository.refreshDeals(request).cachedIn(viewModelScope)
 
-        currentDealsResult = newResult
+        _currentDealsResult = newResult
 
         return newResult
     }

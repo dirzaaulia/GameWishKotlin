@@ -111,30 +111,29 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
     }
 
     private fun initAdapter() {
-        binding.searchRecyclerView.run {
-            adapter = adapterSearchGames.withLoadStateHeaderAndFooter(
-                header = SearchGamesLoadStateAdapter { adapterSearchGames.retry() },
-                footer = SearchGamesLoadStateAdapter { adapterSearchGames.retry() }
-            )
 
-            adapterSearchGames.addLoadStateListener { loadState ->
+        binding.searchRecyclerView.adapter = adapterSearchGames.withLoadStateHeaderAndFooter(
+            header = SearchGamesLoadStateAdapter { adapterSearchGames.retry() },
+            footer = SearchGamesLoadStateAdapter { adapterSearchGames.retry() }
+        )
 
-                binding.searchRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+        adapterSearchGames.addLoadStateListener { loadState ->
 
-                binding.searchGamesProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.searchRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
 
-                binding.searchGamesRetryButton.isVisible = loadState.source.refresh is LoadState.Error
-                binding.searchGamesTextViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-                binding.searchGamesImageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+            binding.searchGamesProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-                // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-                errorState?.let {
-                    Snackbar.make(binding.root, "\uD83D\uDE28 Wooops ${it.error}", Snackbar.LENGTH_SHORT).show()
-                }
+            binding.searchGamesRetryButton.isVisible = loadState.source.refresh is LoadState.Error
+            binding.searchGamesTextViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+            binding.searchGamesImageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+
+            // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Snackbar.make(binding.root, "\uD83D\uDE28 Wooops ${it.error}", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

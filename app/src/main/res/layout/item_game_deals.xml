@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="dealsItem"
             type="com.dirzaaulia.gamewish.data.models.Deals" />
         <variable
-            name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.deals.DealsViewModel" />
+            name="listener"
+            type="com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter.DealsAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_8dp"
+        android:layout_margin="@dimen/dimen_4dp"
+        android:onClick="@{(view) -> listener.onItemClicked(view, dealsItem)}"
         app:cardCornerRadius="@dimen/dimen_12dp"
-        app:cardElevation="@dimen/dimen_8dp">
+        app:cardElevation="@dimen/dimen_4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,13 +45,13 @@
                 android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
                 app:layout_constraintStart_toStartOf="@id/start_grid"
                 app:layout_constraintEnd_toEndOf="@id/end_grid"
-                app:layout_constraintTop_toBottomOf="@id/item_thumb_deals"/>
+                app:layout_constraintTop_toBottomOf="@id/item_thumb_deals"
+                tools:text="Assassin's Creed"/>
 
             <TextView
                 android:id="@+id/item_normal_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/deals"
                 android:paddingTop="@dimen/dimen_8dp"
                 android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                 app:textCurrencyFormatted="@{dealsItem.normalPrice}"
@@ -63,7 +65,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/dimen_8dp"
-                android:hint="@string/deals"
                 android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                 app:textCurrencyFormatted="@{dealsItem.salePrice}"
                 app:layout_constraintTop_toBottomOf="@id/item_normal_price"

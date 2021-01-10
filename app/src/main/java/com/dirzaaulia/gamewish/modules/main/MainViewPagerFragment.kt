@@ -2,45 +2,39 @@ package com.dirzaaulia.gamewish.modules.main
 
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentMainViewPagerBinding
-import com.dirzaaulia.gamewish.modules.main.adapter.DEALS_INDEX
-import com.dirzaaulia.gamewish.modules.main.adapter.HOME_INDEX
 import com.dirzaaulia.gamewish.modules.main.adapter.MainPagerAdapter
+import com.dirzaaulia.gamewish.util.DEALS_INDEX
+import com.dirzaaulia.gamewish.util.HOME_INDEX
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainViewPagerFragment : Fragment() {
 
+    private lateinit var binding: FragmentMainViewPagerBinding
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = FragmentMainViewPagerBinding.inflate(inflater, container, false)
-        val tabLayout = binding.tabs
-        val viewPager = binding.viewPager
+        binding = FragmentMainViewPagerBinding.inflate(inflater, container, false)
+        tabLayout = binding.tabs
+        viewPager = binding.viewPager
 
         viewPager.adapter = MainPagerAdapter(this)
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                binding.toolbarTitle.text = getAppBarTitle(position)
-            }
-        })
 
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.setIcon(getTabIcon(position))
             tab.text = getTabTitle(position)
-            binding.toolbarTitle.text = getAppBarTitle(position)
         }.attach()
-
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         return binding.root
     }
@@ -60,11 +54,4 @@ class MainViewPagerFragment : Fragment() {
             else -> null
         }
     }
-
-    private fun getAppBarTitle(position: Int): String? {
-        return when (position) {
-            HOME_INDEX -> getString(R.string.app_name)
-            DEALS_INDEX -> getString(R.string.deals_on_steam)
-            else -> null
-        }
-    }}
+}

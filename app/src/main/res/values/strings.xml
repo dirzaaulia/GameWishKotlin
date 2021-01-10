@@ -51,4 +51,8 @@
     <string name="video_game_clip">Video Game Clip</string>
     <string name="clip">Clip</string>
     <string name="rawg">Data by <u>RAWG</u></string>
+    <string name="esrb_rating">ESRB Rating</string>
+    <string name="links">Links</string>
+    <string name="reddit_image_logo">Reddit Image Logo</string>
+    <string name="price_is_based_on_usd_converted_to_your_locale_currency_actual_price_maybe_different">Price is based on USD converted to your locale currency. Actual price maybe different.</string>
 </resources>

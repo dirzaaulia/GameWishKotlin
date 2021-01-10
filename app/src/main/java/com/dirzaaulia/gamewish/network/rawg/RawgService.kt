@@ -3,6 +3,7 @@ package com.dirzaaulia.gamewish.network.rawg
 import com.dirzaaulia.gamewish.data.models.GameDetails
 import com.dirzaaulia.gamewish.data.response.ScreenshotsResponse
 import com.dirzaaulia.gamewish.data.response.SearchGamesResponse
+import com.dirzaaulia.gamewish.util.RAWG_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Provides
@@ -41,8 +42,6 @@ interface RawgService {
     ) : ScreenshotsResponse
 
     companion object {
-        private const val BASE_URL = "https://api.rawg.io/api/"
-
         fun create(): RawgService {
             val logger = HttpLoggingInterceptor().apply { level = Level.BODY }
 
@@ -58,7 +57,7 @@ interface RawgService {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(RAWG_BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()

@@ -2,11 +2,14 @@ package com.dirzaaulia.gamewish.modules.home
 
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
+import com.dirzaaulia.gamewish.modules.main.MainActivity
 import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragment
 import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragmentDirections
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -18,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var fab: ExtendedFloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +30,11 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
+        binding.homeToolbarTitle.text = getString(R.string.app_name)
+
         setHasOptionsMenu(true)
+
         return binding.root
     }
 

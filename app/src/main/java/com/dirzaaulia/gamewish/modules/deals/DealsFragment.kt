@@ -1,9 +1,10 @@
 package com.dirzaaulia.gamewish.modules.deals
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -12,12 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.Deals
+import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
-import com.dirzaaulia.gamewish.data.models.DealsRequest
-import com.dirzaaulia.gamewish.util.isOnline
-import com.dirzaaulia.gamewish.util.showSnackbarShort
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,22 +28,27 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DealsFragment : Fragment() {
+class DealsFragment :
+    Fragment(),
+    DealsAdapter.DealsAdapterListener{
 
     private lateinit var binding: FragmentDealsBinding
+
     private var job: Job? = null
     private val viewModel: DealsViewModel by viewModels()
-    private var adapter = DealsAdapter()
+    private var adapter = DealsAdapter(this)
     private var bottomSheetBehavior = BottomSheetBehavior<ConstraintLayout>()
-    private val dealsRequest = DealsRequest("1", 0, 50, "", false)
-
+    private var dealsRequest = DealsRequest("1", 0, 50, "", false)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
         binding = FragmentDealsBinding.inflate(inflater, container, false)
+        (activity as AppCompatActivity).setSupportActionBar(binding.dealsToolbar)
+        binding.dealsToolbarTitle.text = getString(R.string.deals_on_steam)
 
         setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -70,9 +75,13 @@ class DealsFragment : Fragment() {
         }
     }
 
+    override fun onItemClicked(view: View, deals: Deals) {
+        openDealsId(deals.dealID)
+    }
+
     private fun initOnClickListener() {
-        var storeID: String? = getString(R.string.one)
-        var storeName: String? = getString(R.string.steam)
+        var storeID = getString(R.string.one)
+        var storeName = getString(R.string.steam)
         var lowerPrice: Int
         var upperPrice: Int
         var title: String
@@ -89,23 +98,22 @@ class DealsFragment : Fragment() {
         }
 
         binding.buttonFilter.setOnClickListener {
-
             lowerPrice = Integer.parseInt(binding.lowerPrice.text.toString())
             upperPrice = Integer.parseInt(binding.upperPrice.text.toString())
             title = binding.gameTitle.text.toString()
             aaaGames = binding.switchAAAGames.isChecked
 
-            val request = DealsRequest(
-                storeID!!,
+            dealsRequest = DealsRequest(
+                storeID,
                 lowerPrice,
                 upperPrice,
                 title,
                 aaaGames
             )
 
-            refreshDeals(request)
+            refreshDeals(dealsRequest)
             toggleBottomSheet()
-            parentFragment?.view?.findViewById<TextView>(R.id.toolbar_title)?.text = getString(R.string.deals_title, storeName)
+            binding.dealsToolbarTitle.text = String.format("Deals On $storeName")
         }
     }
 
@@ -151,6 +159,7 @@ class DealsFragment : Fragment() {
         job = lifecycleScope.launch {
             viewModel.refreshDeals(request).collectLatest {
                 adapter.submitData(it)
+
             }
         }
     }
@@ -191,5 +200,12 @@ class DealsFragment : Fragment() {
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
         }
+    }
+
+    private fun openDealsId(dealsId : String?) {
+        val url = String.format("https://www.cheapshark.com/redirect?dealID=%s", dealsId)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }
