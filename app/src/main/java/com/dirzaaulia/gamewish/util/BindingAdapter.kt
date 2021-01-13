@@ -12,6 +12,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -34,6 +35,7 @@ import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
+import com.google.android.material.textfield.TextInputEditText
 import timber.log.Timber
 import vas.com.currencyconverter.CurrencyConverter
 import java.util.*
@@ -93,7 +95,7 @@ fun TextView.textCurrencyFormatted(value: String?) {
         CurrencyConverter.calculate(
             value.toDouble(),
             Currency.getInstance("USD"),
-            Currency.getInstance("IDR")
+            Currency.getInstance(Locale.getDefault())
         ) { value, e ->
             if (e != null) {
                 Timber.i(e.localizedMessage)

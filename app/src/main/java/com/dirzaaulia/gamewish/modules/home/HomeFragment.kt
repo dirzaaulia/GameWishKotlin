@@ -5,16 +5,23 @@ import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
+import com.dirzaaulia.gamewish.modules.deals.DealsViewModel
 import com.dirzaaulia.gamewish.modules.main.MainActivity
 import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragment
 import com.dirzaaulia.gamewish.modules.main.MainViewPagerFragmentDirections
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -30,11 +37,7 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
-        binding.homeToolbarTitle.text = getString(R.string.app_name)
-
         setHasOptionsMenu(true)
-
         return binding.root
     }
 

@@ -17,4 +17,8 @@
     <style name="ProgressBarStyle" parent="Theme.GameWish">
         <item name="android:colorAccent">@color/white</item>
     </style>
+    
+    <style name="SwitchStyle" parent="Theme.GameWish">
+        <item name="colorOnSurface">@color/color_on_surface_emphasis_high</item>
+    </style>
 </resources>

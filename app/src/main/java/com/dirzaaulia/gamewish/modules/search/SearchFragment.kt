@@ -21,11 +21,13 @@ import com.dirzaaulia.gamewish.data.models.Games
 import com.dirzaaulia.gamewish.databinding.FragmentSearchBinding
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesLoadStateAdapter
+import com.dirzaaulia.gamewish.util.SEARCH_FRAGMENT_QUERY
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
@@ -65,9 +67,19 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        initAdapter()
         initOnClickListener()
-        initAdapterRefresh()
+        initAdapter()
+        if (savedInstanceState != null) {
+            val searchQuery = savedInstanceState.getString(SEARCH_FRAGMENT_QUERY)
+            refreshSearchGames(searchQuery!!)
+        }
+        initSearch()
+        //initAdapterRefresh()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(SEARCH_FRAGMENT_QUERY, binding.searchEditText.text.trim().toString())
     }
 
     override fun onGamesClicked(view: View, games: Games) {
@@ -87,31 +99,16 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
     private fun initOnClickListener() {
         binding.searchToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
-        binding.searchGamesRetryButton.run {
-            setOnClickListener {
-                adapterSearchGames.retry()
-            }
+        binding.searchGamesRetryButton.setOnClickListener {
+            adapterSearchGames.retry()
         }
 
-        binding.searchEditText.run {
-            setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    refreshSearchGames(binding.searchEditText.text.toString())
-                    binding.searchLabelRawg.visibility = View.VISIBLE
-                }
-                false
-            }
-        }
-
-        binding.searchLabelRawg.run {
-            setOnClickListener {
-                openRawgLink()
-            }
+        binding.searchLabelRawg.setOnClickListener{
+            openRawgLink()
         }
     }
 
     private fun initAdapter() {
-
         binding.searchRecyclerView.adapter = adapterSearchGames.withLoadStateHeaderAndFooter(
             header = SearchGamesLoadStateAdapter { adapterSearchGames.retry() },
             footer = SearchGamesLoadStateAdapter { adapterSearchGames.retry() }
@@ -138,6 +135,29 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
         }
     }
 
+    private fun initSearch() {
+        binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                updateGamesSearch()
+                binding.searchLabelRawg.visibility = View.VISIBLE
+                true
+            } else {
+                false
+            }
+        }
+
+        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapterSearchGames.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy {
+                    it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.searchRecyclerView.scrollToPosition(0) }
+        }
+    }
+
     private fun refreshSearchGames(search: String) {
         job?.cancel()
         job = lifecycleScope.launch {
@@ -156,6 +176,15 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
                     it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.searchRecyclerView.scrollToPosition(0) }
+        }
+    }
+
+    private fun updateGamesSearch() {
+        binding.searchEditText.text.trim().let {
+            if (it.isNotEmpty()) {
+                refreshSearchGames(it.toString())
+            }
         }
     }
 
