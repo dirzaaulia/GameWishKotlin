@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +22,7 @@ import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
+import com.dirzaaulia.gamewish.modules.home.listener.NavigationIconClickListener
 import com.dirzaaulia.gamewish.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -43,10 +46,15 @@ class DealsFragment :
     private var job: Job? = null
     private val viewModel: DealsViewModel by viewModels()
     private var adapter = DealsAdapter(this)
-    private var bottomSheetBehavior = BottomSheetBehavior<ConstraintLayout>()
+    //private var bottomSheetBehavior = BottomSheetBehavior<ConstraintLayout>()
     private var dealsRequest = DealsRequest("1", 0, 100, "", false)
     private var storeID = "1"
     private var storeName = "Steam"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,18 +63,18 @@ class DealsFragment :
 
         binding = FragmentDealsBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).invalidateOptionsMenu()
-        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).setSupportActionBar(binding.dealsToolbar)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupNumberFormatter()
-        toggleBottomSheet()
+        //toggleBottomSheet()
         initAdapter()
         initOnClickListener()
-        initBottomSheet()
+        setupToolbar()
+        //initBottomSheetAndFilterLayout()
         getStoreList()
 
         if (savedInstanceState != null) {
@@ -91,7 +99,16 @@ class DealsFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_filter -> {
-                toggleBottomSheet()
+                if (binding.bottomSheetItemDeals.bottomSheetLayout.visibility == View.VISIBLE) {
+                    binding.bottomSheetItemDeals.bottomSheetLayout.visibility = View.GONE
+                    binding.dealsFilterLayout.visibility = View.VISIBLE
+                    item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_list_24)
+                } else {
+                    binding.bottomSheetItemDeals.bottomSheetLayout.visibility = View.VISIBLE
+                    binding.dealsFilterLayout.visibility = View.GONE
+                    item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_filter_list_24)
+                }
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -102,22 +119,33 @@ class DealsFragment :
         openDealsId(deals.dealID)
     }
 
+    private fun setupToolbar() {
+        binding.dealsToolbar.setNavigationOnClickListener(
+            NavigationIconClickListener(
+                requireActivity(),
+                binding.bottomSheetItemDeals.bottomSheetLayout,
+                AccelerateDecelerateInterpolator(),
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_menu_24), // Menu open icon
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_close_24))
+        )
+    }
+
     private fun initOnClickListener() {
         binding.bottomSheetItemDeals.retryButton.setOnClickListener {
             adapter.retry()
             getStoreList()
         }
 
-        binding.spinnerStore.setOnItemClickListener { parent, _, position, _ ->
+        binding.layoutFilter.spinnerStore.setOnItemClickListener { parent, _, position, _ ->
             storeID = (position + 1).toString()
             storeName = parent.getItemAtPosition(position).toString()
         }
     }
 
-    private fun initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetItemDeals.bottomSheetLayout)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        bottomSheetBehavior.isDraggable = false
+    private fun initBottomSheetAndFilterLayout() {
+//        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetItemDeals.bottomSheetLayout)
+//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+//        bottomSheetBehavior.isDraggable = false
     }
 
     private fun initAdapter() {
@@ -155,15 +183,15 @@ class DealsFragment :
     }
 
     private fun initSearchDeals() {
-        binding.buttonFilter.setOnClickListener {
+        binding.layoutFilter.buttonFilter.setOnClickListener {
             var lowerPrice: Int = Integer.parseInt(
-                binding.lowerPrice.text.toString().replace(",", "")
+                binding.layoutFilter.lowerPrice.text.toString().replace(",", "")
             )
             var upperPrice: Int = Integer.parseInt(
-                binding.upperPrice.text.toString().replace(",", "")
+                binding.layoutFilter.upperPrice.text.toString().replace(",", "")
             )
-            val title: String = binding.gameTitle.text.toString()
-            val aaaGames: Boolean = binding.switchAAAGames.isChecked
+            val title: String = binding.layoutFilter.gameTitle.text.toString()
+            val aaaGames: Boolean = binding.layoutFilter.switchAAAGames.isChecked
 
             lowerPrice = currencyConverterLocaletoUSD(lowerPrice)
             upperPrice = currencyConverterLocaletoUSD(upperPrice)
@@ -177,7 +205,7 @@ class DealsFragment :
             )
 
             refreshDeals(dealsRequest)
-            toggleBottomSheet()
+            //toggleBottomSheet()
             viewModel.updateStoreList(storeName)
         }
 
@@ -204,7 +232,7 @@ class DealsFragment :
     private fun getStoreList() {
         viewModel.getStoreList()
         viewModel.storeList.observe(viewLifecycleOwner) { listStore ->
-            binding.spinnerStore.setAdapter(
+            binding.layoutFilter.spinnerStore.setAdapter(
                 ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_list_item_1,
@@ -214,17 +242,15 @@ class DealsFragment :
                 )
             )
         }
-        binding.spinnerStore.setText(getString(R.string.steam), false)
+        binding.layoutFilter.spinnerStore.setText(getString(R.string.steam), false)
     }
 
     private fun toggleBottomSheet() {
-        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            binding.filterLayout.visibility = View.GONE
-        } else {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            binding.filterLayout.visibility = View.VISIBLE
-        }
+//        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//        } else {
+//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//        }
     }
 
     private fun setupView() {
@@ -232,24 +258,24 @@ class DealsFragment :
             binding.bottomSheetItemDeals.labelStoreName.text = storeName
         }
 
-        binding.textFieldLowerPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
-        binding.lowerPrice.setOnFocusChangeListener { _, hasFocus ->
+        binding.layoutFilter.textFieldLowerPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
+        binding.layoutFilter.lowerPrice.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus){
-                binding.lowerPrice.text?.clear()
+                binding.layoutFilter.lowerPrice.text?.clear()
                 setupNumberFormatter()
             }
         }
 
-        binding.textFieldUpperPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
-        binding.upperPrice.setOnFocusChangeListener { _, hasFocus ->
+        binding.layoutFilter.textFieldUpperPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
+        binding.layoutFilter.upperPrice.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus){
-                binding.upperPrice.text?.clear()
+                binding.layoutFilter.upperPrice.text?.clear()
             }
         }
 
-        binding.gameTitle.setText(dealsRequest.title)
+        binding.layoutFilter.gameTitle.setText(dealsRequest.title)
 
-        binding.switchAAAGames.isChecked = dealsRequest.AAA!!
+        binding.layoutFilter.switchAAAGames.isChecked = dealsRequest.AAA!!
     }
 
     private fun openDealsId(dealsId: String?) {
@@ -260,11 +286,11 @@ class DealsFragment :
     }
 
     private fun setupNumberFormatter(){
-        binding.lowerPrice.addTextChangedListener(object : TextWatcher {
+        binding.layoutFilter.lowerPrice.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                binding.lowerPrice.removeTextChangedListener(this)
+                binding.layoutFilter.lowerPrice.removeTextChangedListener(this)
 
                 try {
                     var value = s.toString()
@@ -273,20 +299,20 @@ class DealsFragment :
                         value = value.replace(",".toRegex(), "")
                     }
 
-                    binding.lowerPrice.setText(numberFormatter(value.toDouble()))
-                    binding.lowerPrice.setSelection(binding.lowerPrice.text!!.length)
+                    binding.layoutFilter.lowerPrice.setText(numberFormatter(value.toDouble()))
+                    binding.layoutFilter.lowerPrice.setSelection(binding.layoutFilter.lowerPrice.text!!.length)
                 } catch (e: NumberFormatException) {
                     Timber.i(e.localizedMessage)
                 }
-                binding.lowerPrice.addTextChangedListener(this)
+                binding.layoutFilter.lowerPrice.addTextChangedListener(this)
             }
         })
 
-        binding.upperPrice.addTextChangedListener(object : TextWatcher {
+        binding.layoutFilter.upperPrice.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int){}
             override fun afterTextChanged(s: Editable?) {
-                binding.upperPrice.removeTextChangedListener(this)
+                binding.layoutFilter.upperPrice.removeTextChangedListener(this)
 
                 try {
                     var value = s.toString()
@@ -295,12 +321,12 @@ class DealsFragment :
                         value = value.replace(",".toRegex(), "")
                     }
 
-                    binding.upperPrice.setText(numberFormatter(value.toDouble()))
-                    binding.upperPrice.setSelection(binding.upperPrice.text!!.length)
+                    binding.layoutFilter.upperPrice.setText(numberFormatter(value.toDouble()))
+                    binding.layoutFilter.upperPrice.setSelection(binding.layoutFilter.upperPrice.text!!.length)
                 } catch (e: NumberFormatException) {
                     Timber.i(e.localizedMessage)
                 }
-                binding.upperPrice.addTextChangedListener(this)
+                binding.layoutFilter.upperPrice.addTextChangedListener(this)
             }
         })
     }

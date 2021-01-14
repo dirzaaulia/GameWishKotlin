@@ -12,118 +12,65 @@
             type="com.dirzaaulia.gamewish.data.models.Stores" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".modules.deals.DealsFragment">
+        android:clipToPadding="false"
+        android:clipChildren="false">
 
+        <LinearLayout
 
-        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:background="?colorPrimary"
+            android:orientation="vertical"
+            android:paddingTop="88dp">
 
-            <LinearLayout
-                android:id="@+id/filter_layout"
+            <include
+                android:id="@+id/deals_nav_menu"
+                layout="@layout/layout_nav_menu"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:id="@+id/deals_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:padding="@dimen/dimen_16dp"
-                android:animateLayoutChanges="true">
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:navigationIcon="@drawable/ic_baseline_menu_24"
+                app:title="@string/deals" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_store"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/store"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:layout_constraintTop_toTopOf="parent">
+        </com.google.android.material.appbar.AppBarLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/spinner_store"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        tools:ignore="LabelFor" />
+        <LinearLayout
+            android:id="@+id/deals_filter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_56dp"
+            android:background="@drawable/background_shape_sheet"
+            android:orientation="vertical"
+            android:padding="@dimen/dimen_16dp"
+            android:visibility="gone"
+            android:animateLayoutChanges="true">
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <include
+                android:id="@+id/layout_filter"
+                layout="@layout/layout_filter"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_lower_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/minimum_deals_price"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lower_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_upper_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/maximum_deals_price"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/upper_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:hint="@string/game_title"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/game_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    style="@style/SwitchStyle"
-                    android:id="@+id/switch_AAA_games"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:textColor="@color/color_on_surface_emphasis_high"
-                    android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
-                    android:text="@string/aaa_games"
-                    app:useMaterialThemeColors="false"/>
-
-                <Button
-                    android:id="@+id/button_filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_4dp"
-                    android:text="@string/apply_filter"
-                    android:textColor="@color/color_on_surface_emphasis_high"
-                    style="?attr/materialButtonOutlinedStyle" />
-
-            </LinearLayout>
-
-        </ScrollView>
+        </LinearLayout>
 
         <include
             android:id="@+id/bottom_sheet_item_deals"
             layout="@layout/bottom_sheet_item_deals" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+
 </layout>

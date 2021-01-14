@@ -1,5 +1,6 @@
 package com.dirzaaulia.gamewish.modules.search
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -74,7 +76,6 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
             refreshSearchGames(searchQuery!!)
         }
         initSearch()
-        //initAdapterRefresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -138,8 +139,9 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
     private fun initSearch() {
         binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
                 updateGamesSearch()
-                binding.searchLabelRawg.visibility = View.VISIBLE
                 true
             } else {
                 false
@@ -164,19 +166,6 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
             viewModel.refreshSearchGames(search).collectLatest {
                 adapterSearchGames.submitData(it)
             }
-        }
-    }
-
-    private fun initAdapterRefresh() {
-        // Scroll to top when the list is refreshed from network.
-        lifecycleScope.launch {
-            adapterSearchGames.loadStateFlow
-                // Only emit when REFRESH LoadState for RemoteMediator changes.
-                .distinctUntilChangedBy {
-                    it.refresh }
-                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.searchRecyclerView.scrollToPosition(0) }
         }
     }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <merge>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.GameWish.Button.TextButton"
+            android:id="@+id/nav_menu_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home" />
+
+        <TextView
+            style="@style/Widget.GameWish.Button.TextButton"
+            android:id="@+id/nav_menu_deals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deals" />
+
+    </merge>
+</layout>

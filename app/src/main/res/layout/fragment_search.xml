@@ -16,7 +16,7 @@
         android:transitionGroup="true"
         tools:context=".modules.search.SearchFragment">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,26 +25,20 @@
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_48dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:lines="1"
+                android:hint="@string/search_games"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                tools:ignore="Autofill"/>
 
-                <EditText
-                    android:id="@+id/searchEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/search_games"
-                    android:imeOptions="flagNoExtractUi|actionSearch"
-                    android:inputType="textNoSuggestions"
-                    tools:ignore="Autofill" />
-
-            </LinearLayout>
-
-        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <View
             android:layout_width="match_parent"

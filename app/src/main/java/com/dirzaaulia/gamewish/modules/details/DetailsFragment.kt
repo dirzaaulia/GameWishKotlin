@@ -32,6 +32,7 @@ import com.google.android.material.transition.MaterialFadeThrough
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -58,6 +59,8 @@ class DetailsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             // Scope the transition to a view in the hierarchy so we know it will be added under
@@ -150,10 +153,11 @@ class DetailsFragment :
                 detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
                 detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
                 detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
-                detailsImageSlider.isAutoCycle = true
+                detailsImageSlider.scrollTimeInSec = 3
+                detailsImageSlider.startAutoCycle()
             }
         }
-
+        
         return binding.root
     }
 

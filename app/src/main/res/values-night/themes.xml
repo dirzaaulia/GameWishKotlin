@@ -5,10 +5,10 @@
 
     <style name="Theme.GameWish.Dark" parent="Theme.GameWish">
         <!--Color-->
-        <item name="colorPrimary">@color/blue_grey_600</item>
-        <item name="colorPrimaryVariant">@color/blue_grey_700</item>
-        <item name="colorSecondary">@color/blue_grey_800</item>
-        <item name="colorSecondaryVariant">@color/blue_grey_900</item>
+        <item name="colorPrimary">@color/grey_600</item>
+        <item name="colorPrimaryVariant">@color/grey_700</item>
+        <item name="colorSecondary">@color/grey_800</item>
+        <item name="colorSecondaryVariant">@color/grey_900</item>
 
         <item name="android:colorBackground">@color/black_800</item>
         <item name="colorSurface">@color/black_800</item>

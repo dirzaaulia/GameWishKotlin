@@ -2,16 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/mainViewPagerFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/mainViewPagerFragment"
-        android:name="com.dirzaaulia.gamewish.modules.main.MainViewPagerFragment"
-        android:label="MainViewPagerFragment" >
-        <action
-            android:id="@+id/action_mainViewPagerFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
+        android:id="@+id/homeFragment"
+        android:name="com.dirzaaulia.gamewish.modules.home.HomeFragment"
+        android:label="HomeFragment" />
 
     <fragment
         android:id="@+id/searchFragment"
@@ -42,5 +38,12 @@
             android:name="screenshots"
             app:argType="com.dirzaaulia.gamewish.data.models.Screenshots" />
     </fragment>
+    <fragment
+        android:id="@+id/dealsFragment"
+        android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment"
+        android:label="DealsFragment" />
+    <action
+        android:id="@+id/action_global_dealsFragment"
+        app:destination="@id/dealsFragment" />
 
 </navigation>

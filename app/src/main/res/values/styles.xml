@@ -14,6 +14,17 @@
         <item name="strokeColor">@color/color_on_surface_emphasis_high</item>
     </style>
 
+    <style name="Widget.Gamewish.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/scrimBackground</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Gamewish.Headline6</item>
+    </style>
+
+    <style name="Widget.GameWish.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/color_on_primary_surface_emphasis_high</item>
+        <item name="android:textAppearance">@style/TextAppearance.Gamewish.Headline6</item>
+    </style>
+
     <style name="ProgressBarStyle" parent="Theme.GameWish">
         <item name="android:colorAccent">@color/white</item>
     </style>
