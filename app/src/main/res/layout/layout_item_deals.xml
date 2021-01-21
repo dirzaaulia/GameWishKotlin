@@ -15,12 +15,8 @@
         android:layout_height="match_parent"
         android:elevation="@dimen/dimen_8dp"
         android:layout_marginTop="@dimen/dimen_56dp"
-        android:background="@drawable/background_shape_sheet"
+        android:background="@color/scrimBackground"
         android:animateLayoutChanges="true">
-
-<!--        app:layout_behavior="@string/bottom_sheet_behavior"-->
-<!--        app:behavior_hideable="true"-->
-<!--        app:behavior_peekHeight="0dp"-->
 
         <TextView
             android:id="@+id/label_store_name"
@@ -92,6 +88,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>
