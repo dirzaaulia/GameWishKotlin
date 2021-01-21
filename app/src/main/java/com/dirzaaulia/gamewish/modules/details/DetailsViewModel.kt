@@ -4,9 +4,11 @@ import androidx.lifecycle.*
 import com.dirzaaulia.gamewish.data.models.*
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.assisted.AssistedFactory
 import kotlinx.coroutines.launch
+
 
 class DetailsViewModel @AssistedInject constructor(
     private val wishlistRepository: WishlistRepository,
@@ -46,6 +48,12 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun removeFromWishlist(wishlist: Wishlist) {
+        viewModelScope.launch {
+            wishlistRepository.removeFromWishlist(wishlist)
+        }
+    }
+
     private fun getWishlist(gameId: Int) {
         viewModelScope.launch {
            _wishlist.value = wishlistRepository.getWistlist(gameId)
@@ -81,14 +89,9 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    @AssistedInject.Factory
-    interface AssistedFactory {
-        fun create(games: Games): DetailsViewModel
-    }
-
     companion object {
         fun provideFactory(
-            assistedFactory: AssistedFactory,
+            assistedFactory: DetailsViewModelFactory,
             games: Games
         ) : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -97,4 +100,9 @@ class DetailsViewModel @AssistedInject constructor(
             }
         }
     }
+}
+
+@AssistedFactory
+interface DetailsViewModelFactory {
+    fun create(games: Games): DetailsViewModel
 }

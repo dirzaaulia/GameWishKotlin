@@ -1,40 +1,18 @@
-/*
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.materialstudies.owl.util
+package com.dirzaaulia.gamewish.util
 
 import android.animation.ValueAnimator
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.view.View
-import android.view.View.GONE
-import android.view.View.MeasureSpec
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.Px
 import androidx.core.animation.doOnEnd
-import androidx.core.content.res.use
 import androidx.core.graphics.applyCanvas
 import androidx.core.view.ViewCompat
 import androidx.core.view.drawToBitmap
@@ -42,8 +20,8 @@ import androidx.core.view.forEach
 import androidx.dynamicanimation.animation.DynamicAnimation.ViewProperty
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
+import com.dirzaaulia.gamewish.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.materialstudies.owl.R
 
 /**
  * An extension function which creates/retrieves a [SpringAnimation] and stores it in the [View]s
@@ -91,20 +69,6 @@ private fun getKey(property: ViewProperty): Int {
         SpringAnimation.SCROLL_X -> R.id.scroll_x
         SpringAnimation.SCROLL_Y -> R.id.scroll_y
         else -> throw IllegalAccessException("Unknown ViewProperty: $property")
-    }
-}
-
-/**
- * Retrieve a color from the current [android.content.res.Resources.Theme].
- */
-@ColorInt
-fun Context.themeColor(
-    @AttrRes themeAttrId: Int
-): Int {
-    return obtainStyledAttributes(
-        intArrayOf(themeAttrId)
-    ).use {
-        it.getColor(0, Color.MAGENTA)
     }
 }
 

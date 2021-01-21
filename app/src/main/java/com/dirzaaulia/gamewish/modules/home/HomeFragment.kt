@@ -1,20 +1,16 @@
 package com.dirzaaulia.gamewish.modules.home
 
-import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
-import com.dirzaaulia.gamewish.modules.home.listener.NavigationIconClickListener
+import com.dirzaaulia.gamewish.modules.main.MainActivity
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -23,6 +19,11 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+
 
         setHasOptionsMenu(true)
     }
@@ -35,17 +36,7 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
-
-        setupToolbar()
-
-        binding.homeNavMenu.navMenuDeals.setOnClickListener {
-            view?.findNavController()?.navigate(
-                HomeFragmentDirections.actionGlobalDealsFragment()
-            )
-        }
-
-        //binding.homeContainerScrollView.background = ContextCompat.getDrawable(requireContext() ,R.drawable.shr_product_grid_background_shape)
+        (activity as MainActivity).setSupportActionBar(binding.homeToolbar)
 
         return binding.root
     }
@@ -57,34 +48,30 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem) : Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {
-                //navigateToWithZSharedAxisAnimation()
+                navigateToWithZSharedAxisAnimation(
+                    HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+                )
                 true
             }
             else -> false
         }
     }
 
-    private fun setupToolbar() {
-        binding.homeToolbar.setNavigationOnClickListener(
-            NavigationIconClickListener(
-                requireActivity(),
-                binding.homeContainerScrollView,
-                AccelerateDecelerateInterpolator(),
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_menu_24), // Menu open icon
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_close_24))
-        )
-    }
 
-    private fun navigateTo(direction: NavDirections) {
+    private fun navigateToWithFadeThroughAnimation(direction: NavDirections) {
+        exitTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+
         view?.findNavController()?.navigate(direction)
     }
 
     private fun navigateToWithZSharedAxisAnimation(direction: NavDirections) {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
 
         view?.findNavController()?.navigate(direction)

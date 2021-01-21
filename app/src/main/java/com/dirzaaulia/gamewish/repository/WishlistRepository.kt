@@ -1,6 +1,5 @@
 package com.dirzaaulia.gamewish.repository
 
-import androidx.lifecycle.LiveData
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.database.WishlistDao
 import javax.inject.Inject
@@ -17,6 +16,10 @@ class WishlistRepository @Inject constructor(
 
     suspend fun getWistlist(gameId: Int) : Wishlist {
         return wishlistDao.getWishlist(gameId)
+    }
+
+    suspend fun removeFromWishlist(wishlist: Wishlist) {
+        return wishlistDao.delete(wishlist)
     }
 
     fun isAdded(gamesId: Int) = wishlistDao.isAdded(gamesId)

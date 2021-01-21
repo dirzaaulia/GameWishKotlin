@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.animation.Interpolator
@@ -16,8 +17,8 @@ import com.dirzaaulia.gamewish.R
  * the Y-axis when the navigation icon in the toolbar is pressed.
  */
 class NavigationIconClickListener @JvmOverloads internal constructor(
-        private val context: Context, private val sheet: View, private val interpolator: Interpolator? = null,
-        private val openIcon: Drawable? = null, private val closeIcon: Drawable? = null) : View.OnClickListener {
+    private val context: Context, private val sheet: View, private val interpolator: Interpolator? = null,
+    private val openIcon: Drawable? = null, private val closeIcon: Drawable? = null) : View.OnClickListener {
 
     private val animatorSet = AnimatorSet()
     private val height: Int
@@ -25,7 +26,14 @@ class NavigationIconClickListener @JvmOverloads internal constructor(
 
     init {
         val displayMetrics = DisplayMetrics()
-        (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.display?.getRealMetrics(displayMetrics)
+        } else {
+            @Suppress("DEPRECATION")
+            (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+        }
+
         height = displayMetrics.heightPixels
     }
 

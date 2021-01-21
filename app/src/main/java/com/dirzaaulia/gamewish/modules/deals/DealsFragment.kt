@@ -9,12 +9,13 @@ import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.Deals
@@ -23,9 +24,13 @@ import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
 import com.dirzaaulia.gamewish.modules.home.listener.NavigationIconClickListener
-import com.dirzaaulia.gamewish.util.*
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.dirzaaulia.gamewish.modules.main.MainActivity
+import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_DEALS_REQUEST
+import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_STORE_NAME
+import com.dirzaaulia.gamewish.util.currencyConverterLocaletoUSD
+import com.dirzaaulia.gamewish.util.numberFormatter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -53,6 +58,11 @@ class DealsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+
         setHasOptionsMenu(true)
     }
 
@@ -63,18 +73,14 @@ class DealsFragment :
 
         binding = FragmentDealsBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.dealsToolbar)
+        (activity as MainActivity).setSupportActionBar(binding.dealsToolbar)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupNumberFormatter()
-        //toggleBottomSheet()
         initAdapter()
         initOnClickListener()
-        setupToolbar()
-        //initBottomSheetAndFilterLayout()
         getStoreList()
 
         if (savedInstanceState != null) {
@@ -99,16 +105,7 @@ class DealsFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_filter -> {
-                if (binding.bottomSheetItemDeals.bottomSheetLayout.visibility == View.VISIBLE) {
-                    binding.bottomSheetItemDeals.bottomSheetLayout.visibility = View.GONE
-                    binding.dealsFilterLayout.visibility = View.VISIBLE
-                    item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_list_24)
-                } else {
-                    binding.bottomSheetItemDeals.bottomSheetLayout.visibility = View.VISIBLE
-                    binding.dealsFilterLayout.visibility = View.GONE
-                    item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_filter_list_24)
-                }
-
+                toggleFilterView()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -119,19 +116,18 @@ class DealsFragment :
         openDealsId(deals.dealID)
     }
 
-    private fun setupToolbar() {
-        binding.dealsToolbar.setNavigationOnClickListener(
-            NavigationIconClickListener(
-                requireActivity(),
-                binding.bottomSheetItemDeals.bottomSheetLayout,
-                AccelerateDecelerateInterpolator(),
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_menu_24), // Menu open icon
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_close_24))
-        )
+    private fun toggleFilterView() {
+        if (binding.dealsFilterLayout.visibility == View.GONE) {
+            binding.dealsFilterLayout.visibility = View.VISIBLE
+            binding.dealsLayout.dealsContainer.visibility = View.GONE
+        } else {
+            binding.dealsFilterLayout.visibility = View.GONE
+            binding.dealsLayout.dealsContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun initOnClickListener() {
-        binding.bottomSheetItemDeals.retryButton.setOnClickListener {
+        binding.dealsLayout.retryButton.setOnClickListener {
             adapter.retry()
             getStoreList()
         }
@@ -142,30 +138,23 @@ class DealsFragment :
         }
     }
 
-    private fun initBottomSheetAndFilterLayout() {
-//        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetItemDeals.bottomSheetLayout)
-//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-//        bottomSheetBehavior.isDraggable = false
-    }
-
     private fun initAdapter() {
-        binding.bottomSheetItemDeals.dealsRecyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+        binding.dealsLayout.dealsRecyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
             header = DealsLoadStateAdapter { adapter.retry() },
             footer = DealsLoadStateAdapter { adapter.retry() }
         )
 
         adapter.addLoadStateListener { loadState ->
             // Refresh Success
-            binding.bottomSheetItemDeals.dealsRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.dealsLayout.dealsRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
 
             // Ongoing Refresh
-            binding.bottomSheetItemDeals.dealsProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.dealsLayout.dealsProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
             // Refresh Failed
-            binding.bottomSheetItemDeals.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.bottomSheetItemDeals.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-            binding.bottomSheetItemDeals.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-
+            binding.dealsLayout.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+            binding.dealsLayout.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+            binding.dealsLayout.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
@@ -184,28 +173,30 @@ class DealsFragment :
 
     private fun initSearchDeals() {
         binding.layoutFilter.buttonFilter.setOnClickListener {
-            var lowerPrice: Int = Integer.parseInt(
-                binding.layoutFilter.lowerPrice.text.toString().replace(",", "")
-            )
-            var upperPrice: Int = Integer.parseInt(
-                binding.layoutFilter.upperPrice.text.toString().replace(",", "")
-            )
+            var lowerPrice = dealsRequest.lowerPrice
+            var upperPrice = dealsRequest.upperPrice
             val title: String = binding.layoutFilter.gameTitle.text.toString()
             val aaaGames: Boolean = binding.layoutFilter.switchAAAGames.isChecked
 
-            lowerPrice = currencyConverterLocaletoUSD(lowerPrice)
-            upperPrice = currencyConverterLocaletoUSD(upperPrice)
+            if (binding.layoutFilter.lowerPrice.text!!.isNotEmpty()) {
+                lowerPrice = Integer.parseInt(
+                    binding.layoutFilter.lowerPrice.text.toString().replace(",", "")
+                )
+                lowerPrice = currencyConverterLocaletoUSD(lowerPrice)
+            }
 
-            dealsRequest = DealsRequest(
-                storeID,
-                lowerPrice,
-                upperPrice,
-                title,
-                aaaGames
-            )
+            if (binding.layoutFilter.upperPrice.text!!.isNotEmpty()) {
+                upperPrice = Integer.parseInt(
+                    binding.layoutFilter.upperPrice.text.toString().replace(",", "")
+                )
+                upperPrice = currencyConverterLocaletoUSD(upperPrice)
+            }
+
+            dealsRequest = DealsRequest(storeID, lowerPrice, upperPrice, title, aaaGames)
 
             refreshDeals(dealsRequest)
-            //toggleBottomSheet()
+
+            toggleFilterView()
             viewModel.updateStoreList(storeName)
         }
 
@@ -216,7 +207,7 @@ class DealsFragment :
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.bottomSheetItemDeals.dealsRecyclerView.scrollToPosition(0) }
+                .collect { binding.dealsLayout.dealsRecyclerView.scrollToPosition(0) }
         }
     }
 
@@ -245,33 +236,14 @@ class DealsFragment :
         binding.layoutFilter.spinnerStore.setText(getString(R.string.steam), false)
     }
 
-    private fun toggleBottomSheet() {
-//        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//        } else {
-//            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-//        }
-    }
-
     private fun setupView() {
         viewModel.storeName.observe(viewLifecycleOwner) {
-            binding.bottomSheetItemDeals.labelStoreName.text = storeName
+            binding.dealsLayout.labelStoreName.text = storeName
         }
 
         binding.layoutFilter.textFieldLowerPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
-        binding.layoutFilter.lowerPrice.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus){
-                binding.layoutFilter.lowerPrice.text?.clear()
-                setupNumberFormatter()
-            }
-        }
 
         binding.layoutFilter.textFieldUpperPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
-        binding.layoutFilter.upperPrice.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus){
-                binding.layoutFilter.upperPrice.text?.clear()
-            }
-        }
 
         binding.layoutFilter.gameTitle.setText(dealsRequest.title)
 
@@ -283,51 +255,5 @@ class DealsFragment :
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
-    }
-
-    private fun setupNumberFormatter(){
-        binding.layoutFilter.lowerPrice.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                binding.layoutFilter.lowerPrice.removeTextChangedListener(this)
-
-                try {
-                    var value = s.toString()
-
-                    if (value.contains(",")) {
-                        value = value.replace(",".toRegex(), "")
-                    }
-
-                    binding.layoutFilter.lowerPrice.setText(numberFormatter(value.toDouble()))
-                    binding.layoutFilter.lowerPrice.setSelection(binding.layoutFilter.lowerPrice.text!!.length)
-                } catch (e: NumberFormatException) {
-                    Timber.i(e.localizedMessage)
-                }
-                binding.layoutFilter.lowerPrice.addTextChangedListener(this)
-            }
-        })
-
-        binding.layoutFilter.upperPrice.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int){}
-            override fun afterTextChanged(s: Editable?) {
-                binding.layoutFilter.upperPrice.removeTextChangedListener(this)
-
-                try {
-                    var value = s.toString()
-
-                    if (value.contains(",")) {
-                        value = value.replace(",".toRegex(), "")
-                    }
-
-                    binding.layoutFilter.upperPrice.setText(numberFormatter(value.toDouble()))
-                    binding.layoutFilter.upperPrice.setSelection(binding.layoutFilter.upperPrice.text!!.length)
-                } catch (e: NumberFormatException) {
-                    Timber.i(e.localizedMessage)
-                }
-                binding.layoutFilter.upperPrice.addTextChangedListener(this)
-            }
-        })
     }
 }

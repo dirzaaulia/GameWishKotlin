@@ -64,4 +64,9 @@
         <item name="android:textColor">@color/color_on_primary_surface_emphasis_high</item>
     </style>
 
+    <style name="TextAppearance.GameWish.BottomNavigation" parent="TextAppearance.Gamewish.Caption">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
 </resources>

@@ -47,11 +47,13 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
         super.onCreate(savedInstanceState)
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -85,10 +87,10 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
 
     override fun onGamesClicked(view: View, games: Games) {
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
 
         val searchGamesDetailTransitionName = getString(R.string.games_detail_transition_name)

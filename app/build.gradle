@@ -86,17 +86,11 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.4.0"
 
     //Hilt - Depedency Injection
-    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
-    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
-    implementation "com.google.dagger:hilt-android:2.28.3-alpha"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
-
-    //Dagger Assisted Inject - Depedency Injection
-    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2"
-    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
+    kapt "com.google.dagger:hilt-android-compiler:2.31-alpha"
+    implementation "com.google.dagger:hilt-android:2.31-alpha"
 
     //Paging Library
-    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha11"
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha12"
 
     // Retrofit + Moshi + Gson
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
@@ -128,6 +122,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1' // Material Design
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4' // Constraint Layout
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // Legacy Support
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0' // Dynamic Animation
     kapt 'androidx.annotation:annotation:1.1.0'
 
     //Testing

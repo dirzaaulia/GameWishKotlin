@@ -7,11 +7,19 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.dirzaaulia.gamewish.modules.home.HomeFragment"
-        android:label="HomeFragment" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dealsFragment"
+            app:destination="@id/dealsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.dirzaaulia.gamewish.modules.search.SearchFragment">
+        android:name="com.dirzaaulia.gamewish.modules.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -20,7 +28,6 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.dirzaaulia.gamewish.modules.details.DetailsFragment"
-        android:label="fragment_details"
         tools:layout="@layout/fragment_details">
         <argument
             android:name="games"
@@ -32,8 +39,7 @@
 
     <fragment
         android:id="@+id/detailsImageViewerFragment"
-        android:name="com.dirzaaulia.gamewish.modules.details.imageviewer.DetailsImageViewerFragment"
-        android:label="DetailsImageViewerFragment" >
+        android:name="com.dirzaaulia.gamewish.modules.details.imageviewer.DetailsImageViewerFragment">
         <argument
             android:name="screenshots"
             app:argType="com.dirzaaulia.gamewish.data.models.Screenshots" />
@@ -41,9 +47,6 @@
     <fragment
         android:id="@+id/dealsFragment"
         android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment"
-        android:label="DealsFragment" />
-    <action
-        android:id="@+id/action_global_dealsFragment"
-        app:destination="@id/dealsFragment" />
+        tools:layout="@layout/fragment_deals"/>
 
 </navigation>

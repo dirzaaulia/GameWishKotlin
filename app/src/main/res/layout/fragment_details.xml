@@ -63,7 +63,7 @@
                     app:sliderIndicatorOrientation="horizontal"
                     app:sliderIndicatorPadding="3dp"
                     app:sliderIndicatorRadius="2dp"
-                    app:sliderIndicatorSelectedColor="?colorPrimary"
+                    app:sliderIndicatorSelectedColor="@color/white"
                     app:sliderIndicatorUnselectedColor="@color/color_on_surface_emphasis_high"
                     app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"/>
@@ -127,7 +127,7 @@
                     android:layout_marginTop="@dimen/dimen_4dp"
                     android:text="@string/release_date"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-                    app:goneIfNull="@{viewModel.gameDetails.id}"
+                    app:goneIfNull="@{viewModel.gameDetails.released}"
                     app:layout_constraintTop_toBottomOf="@id/details_label_rawg"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"/>
 
@@ -148,7 +148,7 @@
                     android:layout_marginTop="@dimen/dimen_4dp"
                     android:text="@string/esrb_rating"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-                    app:goneIfNull="@{viewModel.gameDetails.esrbRating}"
+                    app:goneIfNull="@{viewModel.gameDetails.esrbRating.name}"
                     app:layout_constraintTop_toTopOf="@id/details_label_relased"
                     app:layout_constraintEnd_toEndOf="@id/details_end_guide"/>
 
@@ -240,6 +240,7 @@
                     android:contentDescription="@string/reddit_image_logo"
                     android:layout_marginTop="@dimen/dimen_4dp"
                     android:scaleType="fitXY"
+                    app:goneIfNull="@{viewModel.gameDetails.redditUrl}"
                     app:srcCompat="@drawable/ic_reddit_logo"
                     app:layout_constraintTop_toBottomOf="@id/details_website"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"/>
@@ -360,10 +361,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_16dp"
             android:onClick="@{(view) -> callback.add(viewModel.gameDetails)}"
-            app:goneIfNotNull="@{viewModel.wishlist.id}"
+            app:imageIfWishlisted="@{viewModel.wishlist.id}"
             app:layout_anchor="@id/details_appbar_layout"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_baseline_add_24"
             app:tint="@color/white"/>
 
         <ProgressBar

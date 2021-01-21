@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
@@ -17,7 +16,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.GameDetails
-import com.dirzaaulia.gamewish.data.models.Screenshots
 import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.databinding.FragmentDetailsBinding
@@ -25,14 +23,10 @@ import com.dirzaaulia.gamewish.modules.details.DetailsFragment.Callback
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsImageBannerAdapter
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.util.showSnackbarShort
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialFadeThrough
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -48,25 +42,20 @@ class DetailsFragment :
     private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
 
     @Inject
-    lateinit var detailsViewModelFactory : DetailsViewModel.AssistedFactory
+    lateinit var detailsViewModelFactory : DetailsViewModelFactory
 
     private val detailsViewModel: DetailsViewModel by viewModels {
-        DetailsViewModel.provideFactory(
-            detailsViewModelFactory,
-            args.games
-        )
+        DetailsViewModel.provideFactory(detailsViewModelFactory, args.games)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             // Scope the transition to a view in the hierarchy so we know it will be added under
             // the bottom app bar but over the elevation scale of the exiting HomeFragment.
             drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(ContextCompat.getColor(requireContext(), R.color.scrimBackground))
         }
@@ -93,10 +82,17 @@ class DetailsFragment :
                         it.backgroundImage
                     )
 
-                    hideAppBarFab(detailsFab)
-                    detailsViewModel.addToWishlist(wishlist)
-                    val message = String.format("%s has been added to your wishlist", it.name)
-                    showSnackbarShort(root, message)
+                    if (detailsViewModel.wishlist.value?.id == null) {
+                        detailsViewModel.addToWishlist(wishlist)
+                        val message = String.format("%s has been added to your wishlist", it.name)
+                        showSnackbarShort(root, message)
+                    } else {
+                        detailsViewModel.removeFromWishlist(        wishlist)
+                        val message = String.format("%s has been removed from your wishlist", it.name)
+                        showSnackbarShort(root, message)
+                    }
+
+
                 }
             }
 
@@ -164,13 +160,6 @@ class DetailsFragment :
     override fun onStoreClicked(view: View, stores: Stores) {
         val url = String.format("https://%s", stores.store?.domain)
         openLink(url)
-    }
-
-    private fun hideAppBarFab(fab: FloatingActionButton) {
-        val params = fab.layoutParams as CoordinatorLayout.LayoutParams
-        val behavior = params.behavior as FloatingActionButton.Behavior
-        behavior.isAutoHideEnabled = false
-        fab.hide()
     }
 
     private fun openLink(link : String) {

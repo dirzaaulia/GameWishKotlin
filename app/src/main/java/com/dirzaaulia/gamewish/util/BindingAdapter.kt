@@ -115,6 +115,15 @@ fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
     }
 }
 
+@BindingAdapter("imageIfWishlisted")
+fun imageIfWishlisted(imgView: ImageView, it: Any?) {
+    if (it == null) {
+        imgView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+    } else {
+        imgView.setImageResource(R.drawable.ic_baseline_favorite_24)
+    }
+}
+
 @BindingAdapter("goneIfNull")
 fun goneIfNull(view: View, it: Any?) {
     view.visibility = if (it == null || it == "" || it == 0) GONE else VISIBLE
@@ -168,6 +177,9 @@ fun setImageBasedOnString(imgView: ImageView, value: String?) {
             }
             "Adults Only" -> {
                 imgView.setImageResource(R.drawable.image_esrb_rating_adults_only)
+            }
+            "Rating Pending" -> {
+                imgView.setImageResource(R.drawable.image_esrb_rating_pending)
             }
         }
     }

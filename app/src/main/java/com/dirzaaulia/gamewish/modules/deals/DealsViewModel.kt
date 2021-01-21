@@ -1,6 +1,5 @@
 package com.dirzaaulia.gamewish.modules.deals
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +10,13 @@ import com.dirzaaulia.gamewish.data.models.Deals
 import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.repository.CheapSharkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.util.*
+import javax.inject.Inject
 
-class DealsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class DealsViewModel @Inject constructor(
     private val repository: CheapSharkRepository
 ) : ViewModel() {
 

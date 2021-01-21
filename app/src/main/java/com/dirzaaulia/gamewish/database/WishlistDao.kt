@@ -1,9 +1,7 @@
 package com.dirzaaulia.gamewish.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.dirzaaulia.gamewish.data.models.GameDetails
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +10,9 @@ interface WishlistDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wishlist: Wishlist)
+
+    @Delete
+    suspend fun delete(wishlist: Wishlist)
 
     @Query("SELECT EXISTS(SELECT * FROM wishlist_table WHERE id = :gameId LIMIT 1)")
     fun isAdded(gameId: Int) : Flow<Boolean>
