@@ -1,7 +1,6 @@
 package com.dirzaaulia.gamewish.modules.details.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import com.dirzaaulia.gamewish.data.models.Screenshots
@@ -9,7 +8,7 @@ import com.dirzaaulia.gamewish.databinding.ItemScreenshotsListBinding
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 class DetailsImageBannerAdapter(
-    private val list : LiveData<List<Screenshots>>
+    private val list: LiveData<List<Screenshots>?>
 ) : SliderViewAdapter<DetailsImageBannerAdapter.ViewHolder>() {
 
     override fun getCount(): Int {

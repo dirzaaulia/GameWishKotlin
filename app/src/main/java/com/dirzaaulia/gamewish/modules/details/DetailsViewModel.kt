@@ -5,42 +5,26 @@ import com.dirzaaulia.gamewish.data.models.*
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
 import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class DetailsViewModel @AssistedInject constructor(
     private val wishlistRepository: WishlistRepository,
-    private val rawgRepository: RawgRepository,
+    rawgRepository: RawgRepository,
     @Assisted private val games: Games
 ) : ViewModel() {
 
-    private val _wishlist = MutableLiveData<Wishlist>()
-    val wishlist: LiveData<Wishlist>
-        get() = _wishlist
+    val gameDetails = rawgRepository.getGameDetails(games.id!!).asLiveData()
+    val gameDetailsScreenshots = rawgRepository.getGameDetailsScreenshots(games.id!!).asLiveData()
+    val itemWishlist = wishlistRepository.getWishlist(games.id!!).asLiveData()
 
-    private var _gameDetails = MutableLiveData<GameDetails>()
-    val gameDetails: LiveData<GameDetails>
-        get() = _gameDetails
 
-    private var _gameDetailsScreenshots = MutableLiveData<List<Screenshots>>()
-    val gameDetailsScreenshots: LiveData<List<Screenshots>>
-        get() = _gameDetailsScreenshots
-
-    private var _developer = MutableLiveData<Developer>()
-    val developer: LiveData<Developer>
-        get() = _developer
-
-    private var _publisher = MutableLiveData<Publisher>()
-    val publisher: LiveData<Publisher>
-        get() = _publisher
-
-    init {
-        getGameDetails(games.id!!)
-        getGameDetailsScreenshots(games.id)
-        getWishlist(games.id)
-    }
+    private val _isWishlisted = MutableLiveData<Boolean>()
+    val isWishlisted: LiveData<Boolean>
+        get() = _isWishlisted
 
     fun addToWishlist(wishlist: Wishlist) {
         viewModelScope.launch {
@@ -54,39 +38,9 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun getWishlist(gameId: Int) {
-        viewModelScope.launch {
-           _wishlist.value = wishlistRepository.getWistlist(gameId)
-        }
-    }
 
-    private fun getGameDetails(gameId : Int) {
-        viewModelScope.launch {
-            try {
-                _gameDetails.value = rawgRepository.getGameDetails(gameId)
-
-                if (_gameDetails.value!!.developers?.isNotEmpty() == true) {
-                    _developer.value = _gameDetails.value!!.developers?.get(0)
-                }
-
-                if (_gameDetails.value!!.publishers?.isNotEmpty() == true) {
-                    _publisher.value = _gameDetails.value!!.publishers?.get(0)
-                }
-            } catch (e : Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
-
-    private fun getGameDetailsScreenshots(gameId : Int) {
-        viewModelScope.launch {
-            try {
-                _gameDetailsScreenshots.value = rawgRepository.getGameDetailsScreenshots(gameId).results
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    fun checkIfWishlisted(gameId: Int) {
+        _isWishlisted.value = wishlistRepository.isWishlisted(gameId).asLiveData().value
     }
 
     companion object {

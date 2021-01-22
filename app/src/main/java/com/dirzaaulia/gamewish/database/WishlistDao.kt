@@ -15,8 +15,11 @@ interface WishlistDao {
     suspend fun delete(wishlist: Wishlist)
 
     @Query("SELECT EXISTS(SELECT * FROM wishlist_table WHERE id = :gameId LIMIT 1)")
-    fun isAdded(gameId: Int) : Flow<Boolean>
+    fun isWishlisted(gameId: Int) : Flow<Boolean>
+
+    @Query("SELECT * FROM wishlist_table")
+    fun getAllWishlist() : Flow<List<Wishlist>>
 
     @Query("SELECT * FROM wishlist_table WHERE id = :gameId LIMIT 1")
-    suspend fun getWishlist(gameId: Int) : Wishlist
+    fun getWishlist(gameId: Int) : Flow<Wishlist>
 }

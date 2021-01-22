@@ -16,4 +16,5 @@
     <dimen name="dimen_2dp">2dp</dimen>
     <dimen name="dimen_40dp">40dp</dimen>
     <dimen name="wishlist_reveal_height">200dp</dimen>
+    <dimen name="dimen_200dp">200dp</dimen>
 </resources>

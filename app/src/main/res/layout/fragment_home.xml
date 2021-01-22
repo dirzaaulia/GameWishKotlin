@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,15 +27,12 @@
             android:backgroundTint="@color/material_on_surface_stroke"
             app:layout_constraintTop_toBottomOf="@id/home_toolbar"/>
 
-        <TextView
-            android:id="@+id/home_text_view"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:gravity="center"
-            android:text="GAMEWISH CURRENTLY ON DEVELOPMENT BY DIRZA AULIA"
-            android:textSize="50sp"
             app:layout_constraintTop_toBottomOf="@id/home_toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_wishlist"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

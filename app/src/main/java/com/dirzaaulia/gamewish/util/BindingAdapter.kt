@@ -12,7 +12,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -30,15 +29,48 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.Developer
 import com.dirzaaulia.gamewish.data.models.Platforms
+import com.dirzaaulia.gamewish.data.models.Publisher
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
-import com.google.android.material.textfield.TextInputEditText
+import org.w3c.dom.Text
 import timber.log.Timber
 import vas.com.currencyconverter.CurrencyConverter
 import java.util.*
+
+@BindingAdapter("listPublishers")
+fun TextView.listPublishers(publisher: List<Publisher>?) {
+    var value = ""
+    if (publisher?.isNotEmpty() == true) {
+        publisher.forEach {
+            value += it.name.toString()
+            value += "\n"
+        }
+        if (value.isNotEmpty()) {
+            value = value.substring(0, value.length - 1)
+            text = value
+        }
+    }
+}
+
+
+@BindingAdapter("listDevelopers")
+fun TextView.listDevelopers(developers: List<Developer>?) {
+    var value = ""
+    if (developers?.isNotEmpty() == true) {
+        developers.forEach {
+            value += it.name.toString()
+            value += "\n"
+        }
+        if (value.isNotEmpty()) {
+            value = value.substring(0, value.length - 1)
+            text = value
+        }
+    }
+}
 
 @BindingAdapter("getSubReddit")
 fun TextView.getSubReddit(value: String?) {
@@ -126,7 +158,11 @@ fun imageIfWishlisted(imgView: ImageView, it: Any?) {
 
 @BindingAdapter("goneIfNull")
 fun goneIfNull(view: View, it: Any?) {
-    view.visibility = if (it == null || it == "" || it == 0) GONE else VISIBLE
+    view.visibility = if (it == null || it == "" || it == 0 || it == true) {
+        GONE
+    } else {
+        VISIBLE
+    }
 }
 
 /**

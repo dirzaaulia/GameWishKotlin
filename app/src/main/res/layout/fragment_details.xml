@@ -64,7 +64,7 @@
                     app:sliderIndicatorPadding="3dp"
                     app:sliderIndicatorRadius="2dp"
                     app:sliderIndicatorSelectedColor="@color/white"
-                    app:sliderIndicatorUnselectedColor="@color/color_on_surface_emphasis_high"
+                    app:sliderIndicatorUnselectedColor="?colorPrimary"
                     app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"/>
 
@@ -172,7 +172,7 @@
                     android:layout_marginTop="@dimen/dimen_4dp"
                     android:text="@string/developers"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-                    app:goneIfNull="@{viewModel.developer.name}"
+                    app:goneIfNull="@{viewModel.gameDetails.developers.empty}"
                     app:layout_constraintTop_toBottomOf="@id/details_released"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide" />
 
@@ -181,8 +181,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.Gamewish.Body2"
-                    android:text="@{viewModel.developer.name}"
-                    app:goneIfNull="@{viewModel.developer.name}"
+                    app:listDevelopers="@{viewModel.gameDetails.developers}"
+                    app:goneIfNull="@{viewModel.gameDetails.developers.empty}"
                     app:layout_constraintTop_toBottomOf="@id/details_label_developers"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"
                     tools:text="Ubisoft Montreal"/>
@@ -194,7 +194,7 @@
                     android:layout_marginTop="@dimen/dimen_4dp"
                     android:text="@string/publishers"
                     android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
-                    app:goneIfNull="@{viewModel.publisher.name}"
+                    app:goneIfNull="@{viewModel.gameDetails.publishers.empty}"
                     app:layout_constraintTop_toBottomOf="@id/details_developers"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide" />
 
@@ -203,8 +203,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.Gamewish.Body2"
-                    android:text="@{viewModel.publisher.name}"
-                    app:goneIfNull="@{viewModel.publisher.name}"
+                    app:listPublishers="@{viewModel.gameDetails.publishers}"
+                    app:goneIfNull="@{viewModel.gameDetails.publishers.empty}"
                     app:layout_constraintTop_toBottomOf="@id/details_label_publisher"
                     app:layout_constraintStart_toStartOf="@id/details_start_guide"
                     tools:text="Ubisoft Montreal"/>
@@ -361,7 +361,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_16dp"
             android:onClick="@{(view) -> callback.add(viewModel.gameDetails)}"
-            app:imageIfWishlisted="@{viewModel.wishlist.id}"
+            app:imageIfWishlisted="@{viewModel.itemWishlist.id}"
             app:layout_anchor="@id/details_appbar_layout"
             app:layout_anchorGravity="bottom|end"
             app:tint="@color/white"/>

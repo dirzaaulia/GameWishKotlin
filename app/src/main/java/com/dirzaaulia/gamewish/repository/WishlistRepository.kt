@@ -1,7 +1,9 @@
 package com.dirzaaulia.gamewish.repository
 
+import androidx.lifecycle.LiveData
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.database.WishlistDao
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,18 +11,17 @@ import javax.inject.Singleton
 class WishlistRepository @Inject constructor(
     private val wishlistDao: WishlistDao
 ) {
+    fun getWishlist(gameId: Int) = wishlistDao.getWishlist(gameId)
 
-    suspend fun addToWishlist(wishlist: Wishlist) {
-        wishlistDao.insert(wishlist)
-    }
+    fun getAllWishlist() = wishlistDao.getAllWishlist()
 
-    suspend fun getWistlist(gameId: Int) : Wishlist {
-        return wishlistDao.getWishlist(gameId)
-    }
+    fun isWishlisted(gamesId: Int) = wishlistDao.isWishlisted(gamesId)
 
     suspend fun removeFromWishlist(wishlist: Wishlist) {
         return wishlistDao.delete(wishlist)
     }
 
-    fun isAdded(gamesId: Int) = wishlistDao.isAdded(gamesId)
+    suspend fun addToWishlist(wishlist: Wishlist) {
+        wishlistDao.insert(wishlist)
+    }
 }

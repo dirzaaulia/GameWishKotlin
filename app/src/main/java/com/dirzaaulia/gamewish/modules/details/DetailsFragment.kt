@@ -36,7 +36,6 @@ class DetailsFragment :
     DetailsStoresAdapter.DetailsStoresAdapterListener{
 
     private val args: DetailsFragmentArgs by navArgs()
-    private lateinit var binding : FragmentDetailsBinding
 
     private val detailsStoresAdapter = DetailsStoresAdapter(this)
     private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
@@ -66,7 +65,7 @@ class DetailsFragment :
         savedInstanceState: Bundle?
     ): View {
 
-        binding = DataBindingUtil.inflate<FragmentDetailsBinding>(
+        val binding = DataBindingUtil.inflate<FragmentDetailsBinding>(
             inflater,
             R.layout.fragment_details,
             container,
@@ -76,84 +75,15 @@ class DetailsFragment :
             lifecycleOwner = viewLifecycleOwner
             callback = Callback { gameDetails ->
                 gameDetails?.let {
-                    val wishlist = Wishlist(
-                        it.id,
-                        it.name,
-                        it.backgroundImage
-                    )
-
-                    if (detailsViewModel.wishlist.value?.id == null) {
-                        detailsViewModel.addToWishlist(wishlist)
-                        val message = String.format("%s has been added to your wishlist", it.name)
-                        showSnackbarShort(root, message)
-                    } else {
-                        detailsViewModel.removeFromWishlist(        wishlist)
-                        val message = String.format("%s has been removed from your wishlist", it.name)
-                        showSnackbarShort(root, message)
-                    }
-
-
+                    actionWishlist(it, this)
                 }
             }
 
-            var isToolbarShown = false
-
-            // scroll change listener begins at Y = 0 when image is fully collapsed
-            detailsNestedScrollView.setOnScrollChangeListener(
-                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-
-                    // User scrolled past image to height of toolbar and the title text is
-                    // underneath the toolbar, so the toolbar should be shown.
-                    val shouldShowToolbar = scrollY > toolbar.height
-
-
-                    // The new state of the toolbar differs from the previous state; update
-                    // appbar and toolbar attributes.
-                    if (isToolbarShown != shouldShowToolbar) {
-                        isToolbarShown = shouldShowToolbar
-
-                        // Use shadow animator to add elevation if toolbar is shown
-                        detailsAppbarLayout.isActivated = shouldShowToolbar
-
-                        // Show the plant name if toolbar is shown
-                        detailsToolbarLayout.isTitleEnabled = shouldShowToolbar
-                    }
-                }
-            )
-
-            //Toolbar
-            toolbar.setNavigationOnClickListener { view ->
-                view.findNavController().navigateUp()
-            }
-
-            detailsViewModel.gameDetails.observe(viewLifecycleOwner) { gameDetails ->
-                detailsStoresAdapter.submitList(gameDetails.stores)
-                storesRecylerView.adapter = detailsStoresAdapter
-
-                //OnClickListener
-                detailsWebsite.setOnClickListener {
-                    openLink(gameDetails.website!!)
-                }
-
-                detailsReddit.setOnClickListener {
-                    openLink(gameDetails.redditUrl!!)
-                }
-
-                detailsLabelRawg.setOnClickListener {
-                    openLink("https://rawg.io")
-                }
-            }
-
-            detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
-                detailsImageBannerAdapter = DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
-                detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
-                detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
-                detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
-                detailsImageSlider.scrollTimeInSec = 3
-                detailsImageSlider.startAutoCycle()
-            }
+            setupScrollChangeListeners(this)
+            subscribeGameDetails(this)
+            subscribeGameDetailsScreenshots(this)
         }
-        
+
         return binding.root
     }
 
@@ -162,10 +92,109 @@ class DetailsFragment :
         openLink(url)
     }
 
+    private fun actionWishlist(
+        gameDetails: GameDetails,
+        binding: FragmentDetailsBinding
+    ) {
+        val wishlist = Wishlist(
+            gameDetails.id,
+            gameDetails.name,
+            gameDetails.backgroundImage
+        )
+
+        val message : String
+
+        if (detailsViewModel.isWishlisted.value == false) {
+            detailsViewModel.addToWishlist(wishlist)
+            message = String.format("%s has been added to your wishlist", gameDetails.name)
+            binding.detailsFab.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_favorite_24)
+            )
+            //detailsViewModel.updateIsWishlisted(true)
+            detailsViewModel.checkIfWishlisted(wishlist.id!!)
+        } else {
+            detailsViewModel.removeFromWishlist(wishlist)
+            message = String.format("%s has been removed from your wishlist", gameDetails.name)
+            binding.detailsFab.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_favorite_border_24)
+            )
+            //detailsViewModel.updateIsWishlisted(false)
+            detailsViewModel.checkIfWishlisted(wishlist.id!!)
+        }
+        showSnackbarShort(binding.root, message)
+    }
+
+    private fun setupScrollChangeListeners(binding: FragmentDetailsBinding) {
+        var isToolbarShown = false
+
+        // scroll change listener begins at Y = 0 when image is fully collapsed
+        binding.detailsNestedScrollView.setOnScrollChangeListener(
+            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+
+                // User scrolled past image to height of toolbar and the title text is
+                // underneath the toolbar, so the toolbar should be shown.
+                val shouldShowToolbar = scrollY > binding.toolbar.height
+
+
+                // The new state of the toolbar differs from the previous state; update
+                // appbar and toolbar attributes.
+                if (isToolbarShown != shouldShowToolbar) {
+                    isToolbarShown = shouldShowToolbar
+
+                    // Use shadow animator to add elevation if toolbar is shown
+                    binding.detailsAppbarLayout.isActivated = shouldShowToolbar
+
+                    // Show the plant name if toolbar is shown
+                    binding.detailsToolbarLayout.isTitleEnabled = shouldShowToolbar
+                }
+            }
+        )
+    }
+
     private fun openLink(link : String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(link)
         startActivity(intent)
+    }
+
+    private fun subscribeGameDetails(binding: FragmentDetailsBinding) {
+        detailsViewModel.gameDetails.observe(viewLifecycleOwner) { gameDetails ->
+            detailsStoresAdapter.submitList(gameDetails.stores)
+            binding.storesRecylerView.adapter = detailsStoresAdapter
+
+            setOnClickListeners(gameDetails, binding)
+        }
+    }
+
+    private fun subscribeGameDetailsScreenshots(binding: FragmentDetailsBinding) {
+        detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
+            detailsImageBannerAdapter = DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
+            binding.detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
+            binding.detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
+            binding.detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+            binding.detailsImageSlider.scrollTimeInSec = 3
+            binding.detailsImageSlider.startAutoCycle()
+        }
+    }
+
+    private fun setOnClickListeners(gameDetails: GameDetails, binding: FragmentDetailsBinding) {
+        //OnClickListener
+        binding.detailsWebsite.setOnClickListener {
+            openLink(gameDetails.website!!)
+        }
+
+        binding.detailsReddit.setOnClickListener {
+            openLink(gameDetails.redditUrl!!)
+        }
+
+        binding.detailsLabelRawg.setOnClickListener {
+            openLink("https://rawg.io")
+        }
+
+        //Toolbar
+        binding.toolbar.setNavigationOnClickListener { view ->
+            view.findNavController().navigateUp()
+        }
     }
 
     fun interface Callback {

@@ -3,19 +3,12 @@ package com.dirzaaulia.gamewish.modules.deals
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.Deals
@@ -23,12 +16,10 @@ import com.dirzaaulia.gamewish.data.models.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
-import com.dirzaaulia.gamewish.modules.home.listener.NavigationIconClickListener
 import com.dirzaaulia.gamewish.modules.main.MainActivity
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_DEALS_REQUEST
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_STORE_NAME
 import com.dirzaaulia.gamewish.util.currencyConverterLocaletoUSD
-import com.dirzaaulia.gamewish.util.numberFormatter
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +29,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -51,7 +41,6 @@ class DealsFragment :
     private var job: Job? = null
     private val viewModel: DealsViewModel by viewModels()
     private var adapter = DealsAdapter(this)
-    //private var bottomSheetBehavior = BottomSheetBehavior<ConstraintLayout>()
     private var dealsRequest = DealsRequest("1", 0, 100, "", false)
     private var storeID = "1"
     private var storeName = "Steam"
@@ -82,11 +71,7 @@ class DealsFragment :
         initAdapter()
         initOnClickListener()
         getStoreList()
-
-        if (savedInstanceState != null) {
-            dealsRequest = savedInstanceState.getParcelable(DEALS_FRAGMENT_DEALS_REQUEST)!!
-            storeName = savedInstanceState.getString(DEALS_FRAGMENT_STORE_NAME)!!
-        }
+        checkSavedInstanceState(savedInstanceState)
         setupView()
         refreshDeals(dealsRequest)
         initSearchDeals()
@@ -114,6 +99,13 @@ class DealsFragment :
 
     override fun onItemClicked(view: View, deals: Deals) {
         openDealsId(deals.dealID)
+    }
+
+    private fun checkSavedInstanceState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            dealsRequest = savedInstanceState.getParcelable(DEALS_FRAGMENT_DEALS_REQUEST)!!
+            storeName = savedInstanceState.getString(DEALS_FRAGMENT_STORE_NAME)!!
+        }
     }
 
     private fun toggleFilterView() {
