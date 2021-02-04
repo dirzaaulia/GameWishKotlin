@@ -93,9 +93,9 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
 
-        val searchGamesDetailTransitionName = getString(R.string.games_detail_transition_name)
+        val searchGamesDetailTransitionName = getString(R.string.detail_transition_name)
         val extras = FragmentNavigatorExtras(view to searchGamesDetailTransitionName)
-        val directions = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(games)
+        val directions = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(games.id!!)
         view.findNavController().navigate(directions, extras)
     }
 

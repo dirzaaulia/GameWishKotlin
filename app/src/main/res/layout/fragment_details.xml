@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:transitionName="@string/games_detail_transition_name"
+        android:transitionName="@string/detail_transition_name"
         tools:context="com.dirzaaulia.gamewish.modules.main.MainActivity"
         tools:ignore="MergeRootFrame">
 

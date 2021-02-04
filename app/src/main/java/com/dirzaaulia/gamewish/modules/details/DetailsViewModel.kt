@@ -1,30 +1,32 @@
 package com.dirzaaulia.gamewish.modules.details
 
 import androidx.lifecycle.*
-import com.dirzaaulia.gamewish.data.models.*
+import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class DetailsViewModel @AssistedInject constructor(
     private val wishlistRepository: WishlistRepository,
     rawgRepository: RawgRepository,
-    @Assisted private val games: Games
+    @Assisted private val gameId: Int
 ) : ViewModel() {
 
-    val gameDetails = rawgRepository.getGameDetails(games.id!!).asLiveData()
-    val gameDetailsScreenshots = rawgRepository.getGameDetailsScreenshots(games.id!!).asLiveData()
-    val itemWishlist = wishlistRepository.getWishlist(games.id!!).asLiveData()
-
+    val gameDetails = rawgRepository.getGameDetails(gameId).asLiveData()
+    val gameDetailsScreenshots = rawgRepository.getGameDetailsScreenshots(gameId).asLiveData()
+    val itemWishlist = wishlistRepository.getWishlist(gameId).asLiveData()
 
     private val _isWishlisted = MutableLiveData<Boolean>()
     val isWishlisted: LiveData<Boolean>
         get() = _isWishlisted
+
+    init {
+        checkIfWishlisted(gameId)
+    }
 
     fun addToWishlist(wishlist: Wishlist) {
         viewModelScope.launch {
@@ -38,7 +40,6 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-
     fun checkIfWishlisted(gameId: Int) {
         _isWishlisted.value = wishlistRepository.isWishlisted(gameId).asLiveData().value
     }
@@ -46,11 +47,11 @@ class DetailsViewModel @AssistedInject constructor(
     companion object {
         fun provideFactory(
             assistedFactory: DetailsViewModelFactory,
-            games: Games
-        ) : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            gameId: Int
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(games) as T
+                return assistedFactory.create(gameId) as T
             }
         }
     }
@@ -58,5 +59,5 @@ class DetailsViewModel @AssistedInject constructor(
 
 @AssistedFactory
 interface DetailsViewModelFactory {
-    fun create(games: Games): DetailsViewModel
+    fun create(gameId: Int): DetailsViewModel
 }

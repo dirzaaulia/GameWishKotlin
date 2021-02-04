@@ -149,7 +149,7 @@ fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
 
 @BindingAdapter("imageIfWishlisted")
 fun imageIfWishlisted(imgView: ImageView, it: Any?) {
-    if (it == null) {
+    if (it == null || it == false) {
         imgView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
     } else {
         imgView.setImageResource(R.drawable.ic_baseline_favorite_24)

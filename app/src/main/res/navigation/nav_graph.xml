@@ -10,10 +10,14 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"/>
         <action
             android:id="@+id/action_homeFragment_to_dealsFragment"
             app:destination="@id/dealsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:launchSingleTop="false" />
     </fragment>
 
     <fragment
@@ -30,20 +34,10 @@
         android:name="com.dirzaaulia.gamewish.modules.details.DetailsFragment"
         tools:layout="@layout/fragment_details">
         <argument
-            android:name="games"
-            app:argType="com.dirzaaulia.gamewish.data.models.Games" />
-        <action
-            android:id="@+id/action_searchDetailsFragment_to_searchDetailsImageViewerFragment"
-            app:destination="@id/detailsImageViewerFragment" />
+            android:name="game_id"
+            app:argType="integer" />
     </fragment>
 
-    <fragment
-        android:id="@+id/detailsImageViewerFragment"
-        android:name="com.dirzaaulia.gamewish.modules.details.imageviewer.DetailsImageViewerFragment">
-        <argument
-            android:name="screenshots"
-            app:argType="com.dirzaaulia.gamewish.data.models.Screenshots" />
-    </fragment>
     <fragment
         android:id="@+id/dealsFragment"
         android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment"

@@ -1,7 +1,6 @@
 package com.dirzaaulia.gamewish.database
 
 import androidx.room.*
-import com.dirzaaulia.gamewish.data.models.GameDetails
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import kotlinx.coroutines.flow.Flow
 

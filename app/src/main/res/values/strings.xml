@@ -34,8 +34,7 @@
     <string name="released_date_format">Released Date %s</string>
 
     <!-- Search Fragment -->
-    <string name="search_games_transition_name">search_games_%1$s</string>
-    <string name="games_detail_transition_name">search_games_detail</string>
+    <string name="detail_transition_name">details_%1$s</string>
 
     <string name="background_image_game_details">Background Image Game Details</string>
     <string name="esrb_rating_image">ESRB Rating Image</string>
@@ -55,4 +54,8 @@
     <string name="links">Links</string>
     <string name="reddit_image_logo">Reddit Image Logo</string>
     <string name="price_is_based_on_usd_converted_to_your_locale_currency_actual_price_maybe_different">Price is based on USD converted to your locale currency. Actual price maybe different.</string>
+    <string name="your_wishlist">Your Wishlist</string>
+    <string name="wishlist_empty">Your wishlist is currently empty! Search games and add it to your wishlist.</string>
+    <string name="filter">Filter</string>
+    <string name="game_name">Game Name</string>
 </resources>

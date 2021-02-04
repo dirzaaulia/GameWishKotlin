@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{(view) -> listener.onGamesClicked(view, gamesItem)}"
-        android:transitionName="@{@string/search_games_transition_name(gamesItem.id)}">
+        android:transitionName="@{@string/detail_transition_name(gamesItem.id)}">
 
         <TextView
             android:id="@+id/release_date"

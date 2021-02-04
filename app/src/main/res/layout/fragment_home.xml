@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.dirzaaulia.gamewish.modules.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +17,7 @@
             android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:title="@string/app_name"
+            app:title="@string/wishlist"
             app:titleTextAppearance="@style/TextAppearance.Gamewish.Headline5"
             app:titleTextColor="@color/color_on_surface_emphasis_high"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -27,9 +29,23 @@
             android:backgroundTint="@color/material_on_surface_stroke"
             app:layout_constraintTop_toBottomOf="@id/home_toolbar"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wishlist_empty"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAlignment="center"
+            app:goneIfNotNull="@{viewModel.listWishlist}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/home_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_wishlist"/>

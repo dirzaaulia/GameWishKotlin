@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.util.DATABASE_NAME
 
-@Database(entities = [Wishlist::class], version = 1, exportSchema = false)
+@Database(entities = [Wishlist::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun wishlistDao(): WishlistDao
@@ -24,6 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }

@@ -33,7 +33,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailsFragment :
     Fragment(),
-    DetailsStoresAdapter.DetailsStoresAdapterListener{
+    DetailsStoresAdapter.DetailsStoresAdapterListener {
 
     private val args: DetailsFragmentArgs by navArgs()
 
@@ -41,10 +41,10 @@ class DetailsFragment :
     private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
 
     @Inject
-    lateinit var detailsViewModelFactory : DetailsViewModelFactory
+    lateinit var detailsViewModelFactory: DetailsViewModelFactory
 
     private val detailsViewModel: DetailsViewModel by viewModels {
-        DetailsViewModel.provideFactory(detailsViewModelFactory, args.games)
+        DetailsViewModel.provideFactory(detailsViewModelFactory, args.gameId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,9 +102,9 @@ class DetailsFragment :
             gameDetails.backgroundImage
         )
 
-        val message : String
+        val message: String
 
-        if (detailsViewModel.isWishlisted.value == false) {
+        if (detailsViewModel.isWishlisted.value == false || detailsViewModel.isWishlisted.value == null) {
             detailsViewModel.addToWishlist(wishlist)
             message = String.format("%s has been added to your wishlist", gameDetails.name)
             binding.detailsFab.setImageDrawable(
@@ -116,7 +116,10 @@ class DetailsFragment :
             detailsViewModel.removeFromWishlist(wishlist)
             message = String.format("%s has been removed from your wishlist", gameDetails.name)
             binding.detailsFab.setImageDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_favorite_border_24)
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_baseline_favorite_border_24
+                )
             )
             //detailsViewModel.updateIsWishlisted(false)
             detailsViewModel.checkIfWishlisted(wishlist.id!!)
@@ -151,7 +154,7 @@ class DetailsFragment :
         )
     }
 
-    private fun openLink(link : String) {
+    private fun openLink(link: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(link)
         startActivity(intent)
@@ -168,7 +171,8 @@ class DetailsFragment :
 
     private fun subscribeGameDetailsScreenshots(binding: FragmentDetailsBinding) {
         detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
-            detailsImageBannerAdapter = DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
+            detailsImageBannerAdapter =
+                DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
             binding.detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
             binding.detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
             binding.detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
