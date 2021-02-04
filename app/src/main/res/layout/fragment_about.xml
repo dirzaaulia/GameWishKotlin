@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".modules.about.AboutFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:title="@string/about"
+            app:titleTextAppearance="@style/TextAppearance.Gamewish.Headline5"
+            app:titleTextColor="@color/color_on_surface_emphasis_high"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:backgroundTint="@color/material_on_surface_stroke"
+            app:layout_constraintTop_toBottomOf="@id/about_toolbar"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_container_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16dp"
+            app:strokeColor="@color/color_on_surface_emphasis_high"
+            app:layout_constraintTop_toBottomOf="@id/about_toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/about_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    android:text="@string/about_app"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                <TextView
+                    android:id="@+id/about_app_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    android:text="@string/about_app_2"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_container_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16dp"
+            app:strokeColor="@color/color_on_surface_emphasis_high"
+            app:layout_constraintTop_toBottomOf="@id/about_container_1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/about_deals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    android:text="@string/about_deals"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                <TextView
+                    android:id="@+id/about_games"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    android:text="@string/about_games"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_container_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16dp"
+            app:strokeColor="@color/color_on_surface_emphasis_high"
+            app:layout_constraintTop_toBottomOf="@id/about_container_2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/about_snr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_8dp"
+                    android:text="@string/about_snr"
+                    android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+
+                <Button
+                    android:id="@+id/about_button_send_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_8dp"
+                    android:layout_marginStart="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_8dp"
+                    android:text="@string/send_e_mail"
+                    app:strokeColor="@color/color_on_surface_emphasis_high"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

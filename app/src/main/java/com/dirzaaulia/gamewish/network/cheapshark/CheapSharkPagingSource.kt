@@ -2,7 +2,7 @@ package com.dirzaaulia.gamewish.network.cheapshark
 
 import androidx.paging.PagingSource
 import com.dirzaaulia.gamewish.data.models.Deals
-import com.dirzaaulia.gamewish.data.models.DealsRequest
+import com.dirzaaulia.gamewish.data.request.DealsRequest
 import java.lang.Exception
 
 private const val CHEAPSHARK_STARTING_PAGE_INDEX = 0

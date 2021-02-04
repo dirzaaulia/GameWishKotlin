@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dirzaaulia.gamewish.data.models.Deals
-import com.dirzaaulia.gamewish.data.models.DealsRequest
+import com.dirzaaulia.gamewish.data.request.DealsRequest
 import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.repository.CheapSharkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

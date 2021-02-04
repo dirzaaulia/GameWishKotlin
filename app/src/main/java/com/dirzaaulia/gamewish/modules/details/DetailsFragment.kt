@@ -27,6 +27,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -104,14 +105,12 @@ class DetailsFragment :
 
         val message: String
 
-        if (detailsViewModel.isWishlisted.value == false || detailsViewModel.isWishlisted.value == null) {
+        if (detailsViewModel.itemWishlist.value == null )  {
             detailsViewModel.addToWishlist(wishlist)
             message = String.format("%s has been added to your wishlist", gameDetails.name)
             binding.detailsFab.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_favorite_24)
             )
-            //detailsViewModel.updateIsWishlisted(true)
-            detailsViewModel.checkIfWishlisted(wishlist.id!!)
         } else {
             detailsViewModel.removeFromWishlist(wishlist)
             message = String.format("%s has been removed from your wishlist", gameDetails.name)
@@ -121,8 +120,6 @@ class DetailsFragment :
                     R.drawable.ic_baseline_favorite_border_24
                 )
             )
-            //detailsViewModel.updateIsWishlisted(false)
-            detailsViewModel.checkIfWishlisted(wishlist.id!!)
         }
         showSnackbarShort(binding.root, message)
     }

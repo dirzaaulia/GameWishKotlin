@@ -24,6 +24,7 @@ import com.dirzaaulia.gamewish.databinding.FragmentSearchBinding
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesLoadStateAdapter
 import com.dirzaaulia.gamewish.util.SEARCH_FRAGMENT_QUERY
+import com.dirzaaulia.gamewish.util.isOnline
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -126,6 +127,16 @@ class SearchFragment : Fragment(), SearchGamesAdapter.SearchGamesAdapterListener
             binding.searchGamesRetryButton.isVisible = loadState.source.refresh is LoadState.Error
             binding.searchGamesTextViewStatus.isVisible = loadState.source.refresh is LoadState.Error
             binding.searchGamesImageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+
+            if (loadState.source.refresh is LoadState.Error) {
+                if (isOnline(requireContext())) {
+                    binding.searchGamesTextViewStatus.text = getString(R.string.search_games_not_found)
+                    binding.searchGamesRetryButton.visibility = View.GONE
+                    binding.searchGamesImageViewStatus.visibility = View.GONE
+                } else {
+                    binding.searchGamesImageViewStatus.visibility = View.VISIBLE
+                }
+            }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error

@@ -107,6 +107,13 @@ fun RecyclerView.setPlatforms(platforms: List<Platforms>) {
     adapter = platformsAdapter
 }
 
+@BindingAdapter("textFormatSavings")
+fun TextView.textSavings(value: String?) {
+    value?.let {
+        text = String.format("%.2f%% Off", value.toFloat())
+    }
+}
+
 @BindingAdapter("textFormatReleaseDate")
 fun TextView.textReleaseDate(value: String?) {
     value?.let {
@@ -170,7 +177,7 @@ fun goneIfNull(view: View, it: Any?) {
  */
 @BindingAdapter("goneIfNotNull")
 fun goneIfNotNull(view: View, it: Any?) {
-    view.visibility = if (it != null) GONE else VISIBLE
+    view.visibility = if (it != null || it != "" || it != 0 || it == false) GONE else VISIBLE
 }
 
 /**

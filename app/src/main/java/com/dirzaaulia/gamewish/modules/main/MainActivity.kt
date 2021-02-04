@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launchWhenResumed {
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     when (destination.id) {
-                        R.id.homeFragment, R.id.dealsFragment -> bottomNav.show()
+                        R.id.homeFragment, R.id.dealsFragment, R.id.aboutFragment -> bottomNav.show()
                         else -> bottomNav.hide()
                     }
                 }

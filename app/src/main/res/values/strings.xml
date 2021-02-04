@@ -58,4 +58,29 @@
     <string name="wishlist_empty">Your wishlist is currently empty! Search games and add it to your wishlist.</string>
     <string name="filter">Filter</string>
     <string name="game_name">Game Name</string>
+    <string name="about">About</string>
+
+    <string name="about_app"><b>GameWish</b> is created and developed by <b>Dirza Aulia</b>
+        \n\nCheckout my social media and other profiles <u>here!</u>
+    </string>
+
+    <string name="about_app_2">
+        Checkout my other apps on <u>Google Play Store</u>
+    </string>
+
+    <string name="about_deals">
+        Deals data is provided by <u>Cheapshark</u>
+    </string>
+
+    <string name="about_games">
+        Games data is provided by <u>RAWG</u>
+    </string>
+
+    <string name="about_snr">
+        If you have suggestion, critic for this GameWish app or issue and problem that you encounter. Feel free to send
+        me e-mail
+    </string>
+    <string name="send_e_mail">Send E-Mail</string>
+    <string name="search_games_not_found">No Games Found! Please check and change your game name to be more specific</string>
+    <string name="deals_not_found">No Deals found! Please check and change your Deals search filter</string>
 </resources>

@@ -48,6 +48,20 @@
                 app:layout_constraintTop_toBottomOf="@id/item_thumb_deals"
                 tools:text="Assassin's Creed"/>
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/item_savings_deals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/color_on_primary_surface_emphasis_high"
+                android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+                app:textFormatSavings="@{dealsItem.savings}"
+                app:chipBackgroundColor="?colorPrimary"
+                app:layout_constraintStart_toStartOf="@id/start_grid"
+                app:layout_constraintTop_toBottomOf="@id/item_title_deals"
+                app:layout_constraintStart_toEndOf="@id/item_title_deals"
+                tools:text="40% Off"/>
+
             <TextView
                 android:id="@+id/item_normal_price"
                 android:layout_width="0dp"
@@ -56,7 +70,7 @@
                 android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                 app:textCurrencyFormatted="@{dealsItem.normalPrice}"
                 app:strikeThrough="@{true}"
-                app:layout_constraintTop_toBottomOf="@id/item_title_deals"
+                app:layout_constraintTop_toBottomOf="@id/item_savings_deals"
                 app:layout_constraintStart_toStartOf="@id/start_grid"
                 app:layout_constraintEnd_toEndOf="@id/end_grid"/>
 

@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.data.models
+package com.dirzaaulia.gamewish.data.request
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

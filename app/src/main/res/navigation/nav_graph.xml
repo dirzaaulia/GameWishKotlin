@@ -12,9 +12,6 @@
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment"/>
         <action
-            android:id="@+id/action_homeFragment_to_dealsFragment"
-            app:destination="@id/dealsFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:launchSingleTop="false" />
@@ -37,10 +34,13 @@
             android:name="game_id"
             app:argType="integer" />
     </fragment>
-
     <fragment
         android:id="@+id/dealsFragment"
         android:name="com.dirzaaulia.gamewish.modules.deals.DealsFragment"
-        tools:layout="@layout/fragment_deals"/>
+        android:label="DealsFragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.dirzaaulia.gamewish.modules.about.AboutFragment"
+        android:label="AboutFragment" />
 
 </navigation>

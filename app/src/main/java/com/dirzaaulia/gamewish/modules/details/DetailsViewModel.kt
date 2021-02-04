@@ -8,6 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class DetailsViewModel @AssistedInject constructor(
@@ -20,14 +21,6 @@ class DetailsViewModel @AssistedInject constructor(
     val gameDetailsScreenshots = rawgRepository.getGameDetailsScreenshots(gameId).asLiveData()
     val itemWishlist = wishlistRepository.getWishlist(gameId).asLiveData()
 
-    private val _isWishlisted = MutableLiveData<Boolean>()
-    val isWishlisted: LiveData<Boolean>
-        get() = _isWishlisted
-
-    init {
-        checkIfWishlisted(gameId)
-    }
-
     fun addToWishlist(wishlist: Wishlist) {
         viewModelScope.launch {
             wishlistRepository.addToWishlist(wishlist)
@@ -38,10 +31,6 @@ class DetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             wishlistRepository.removeFromWishlist(wishlist)
         }
-    }
-
-    fun checkIfWishlisted(gameId: Int) {
-        _isWishlisted.value = wishlistRepository.isWishlisted(gameId).asLiveData().value
     }
 
     companion object {

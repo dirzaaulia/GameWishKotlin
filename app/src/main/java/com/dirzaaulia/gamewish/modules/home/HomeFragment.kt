@@ -2,6 +2,9 @@ package com.dirzaaulia.gamewish.modules.home
 
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
@@ -52,11 +55,37 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupAdapter()
-        subscribeWishlist(adapter)
+        subscribeWishlist()
+        viewModel.setFilterQuery("")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
+
+        val searchItem : MenuItem = menu.findItem(R.id.menu_filter_home)
+
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnCloseListener {
+            searchView.onActionViewCollapsed()
+            true
+        }
+
+        val searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
+        searchPlate.hint = getString(R.string.game_name)
+
+        val searchPlateView : View = searchView.findViewById(androidx.appcompat.R.id.search_plate)
+        searchPlateView.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { viewModel.setFilterQuery(it) }
+                return false
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem) : Boolean {
@@ -89,7 +118,7 @@ class HomeFragment :
         binding.homeRecyclerView.adapter = adapter
     }
 
-    private fun subscribeWishlist(adapter : HomeAdapter) {
+    private fun subscribeWishlist() {
         viewModel.listWishlist.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }

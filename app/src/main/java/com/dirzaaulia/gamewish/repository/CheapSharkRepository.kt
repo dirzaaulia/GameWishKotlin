@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.dirzaaulia.gamewish.data.models.Deals
-import com.dirzaaulia.gamewish.data.models.DealsRequest
+import com.dirzaaulia.gamewish.data.request.DealsRequest
 import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkPagingSource
 import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService

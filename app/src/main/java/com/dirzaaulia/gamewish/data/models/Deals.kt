@@ -12,7 +12,7 @@ data class Deals(
         val gameID: String?,
         val salePrice: String?,
         val normalPrice: String?,
-        val releaseDate: Long?,
+        val savings: String?,
         val steamAppID: String?,
         val thumb: String?
 )

@@ -23,10 +23,16 @@
     </style>
 
     <style name="ProgressBarStyle" parent="Theme.GameWish">
-        <item name="android:colorAccent">@color/white</item>
+        <item name="android:colorAccent">@color/color_on_surface_emphasis_high</item>
     </style>
     
     <style name="SwitchStyle" parent="Theme.GameWish">
         <item name="colorOnSurface">@color/color_on_surface_emphasis_high</item>
+    </style>
+
+    <style name="SearchStyle" parent="Theme.GameWish">
+        <item name="editTextColor">@color/color_on_primary_surface_emphasis_high</item>
+        <item name="searchIcon">@drawable/ic_baseline_filter_list_24</item>
+        <item name="closeIcon">@drawable/ic_baseline_close_24</item>
     </style>
 </resources>

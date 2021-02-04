@@ -2,6 +2,10 @@ package com.dirzaaulia.gamewish.repository
 
 import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.database.WishlistDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +17,11 @@ class WishlistRepository @Inject constructor(
 
     fun getAllWishlist() = wishlistDao.getAllWishlist()
 
-    fun isWishlisted(gamesId: Int) = wishlistDao.isWishlisted(gamesId)
+    fun getFilteredWishlist(gameName : String) : Flow<List<Wishlist>> {
+        return wishlistDao.getFilteredWishlist(gameName)
+            .flowOn(Dispatchers.Default)
+            .conflate()
+    }
 
     suspend fun removeFromWishlist(wishlist: Wishlist) {
         return wishlistDao.delete(wishlist)

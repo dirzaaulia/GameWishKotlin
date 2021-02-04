@@ -60,6 +60,7 @@
         <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
         <item name="bottomNavigationStyle">@style/Widget.GameWish.BottomNavigationView</item>
+        <item name="searchViewStyle">@style/SearchStyle</item>
 
         <!--System/Platform attributes-->
         <item name="android:windowBackground">?android:colorBackground</item>

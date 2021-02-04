@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.Deals
-import com.dirzaaulia.gamewish.data.models.DealsRequest
+import com.dirzaaulia.gamewish.data.request.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
@@ -20,6 +20,7 @@ import com.dirzaaulia.gamewish.modules.main.MainActivity
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_DEALS_REQUEST
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_STORE_NAME
 import com.dirzaaulia.gamewish.util.currencyConverterLocaletoUSD
+import com.dirzaaulia.gamewish.util.isOnline
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,6 +148,16 @@ class DealsFragment :
             binding.dealsLayout.retryButton.isVisible = loadState.source.refresh is LoadState.Error
             binding.dealsLayout.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
             binding.dealsLayout.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
+
+            if (loadState.source.refresh is LoadState.Error) {
+                if (isOnline(requireContext())) {
+                    binding.dealsLayout.textViewStatus.text = getString(R.string.deals_not_found)
+                    binding.dealsLayout.retryButton.visibility = View.GONE
+                    binding.dealsLayout.imageViewStatus.visibility = View.GONE
+                } else {
+                    binding.dealsLayout.imageViewStatus.visibility = View.VISIBLE
+                }
+            }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error

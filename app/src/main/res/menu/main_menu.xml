@@ -9,7 +9,12 @@
 
         <item
             android:id="@+id/dealsFragment"
-            android:icon="@drawable/ic_baseline_videogame_asset_24"
+            android:icon="@drawable/ic_baseline_local_offer_24"
             android:title="@string/deals"/>
+
+        <item
+            android:id="@+id/aboutFragment"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="@string/about"/>
     </group>
 </menu>
