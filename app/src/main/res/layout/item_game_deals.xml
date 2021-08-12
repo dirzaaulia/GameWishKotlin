@@ -6,7 +6,7 @@
     <data>
         <variable
             name="dealsItem"
-            type="com.dirzaaulia.gamewish.data.models.Deals" />
+            type="com.dirzaaulia.gamewish.data.models.cheapshark.Deals" />
         <variable
             name="listener"
             type="com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter.DealsAdapterListener" />

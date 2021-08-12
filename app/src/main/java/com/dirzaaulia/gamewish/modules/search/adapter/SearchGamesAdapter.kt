@@ -3,13 +3,11 @@ package com.dirzaaulia.gamewish.modules.search.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.dirzaaulia.gamewish.data.models.Games
+import com.dirzaaulia.gamewish.data.models.rawg.Games
 import com.dirzaaulia.gamewish.databinding.ItemSearchGamesBinding
-import com.dirzaaulia.gamewish.modules.search.SearchFragmentDirections
 
 class SearchGamesAdapter(
     private val listener : SearchGamesAdapterListener

@@ -1,21 +1,18 @@
 package com.dirzaaulia.gamewish.network.rawg
 
-import com.dirzaaulia.gamewish.data.models.GameDetails
-import com.dirzaaulia.gamewish.data.response.ScreenshotsResponse
-import com.dirzaaulia.gamewish.data.response.SearchGamesResponse
+import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
+import com.dirzaaulia.gamewish.data.response.*
 import com.dirzaaulia.gamewish.util.RAWG_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dagger.Provides
-import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.http.GET
-import retrofit2.http.Query
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface RawgService {
@@ -26,7 +23,10 @@ interface RawgService {
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int,
         @Query("search_precise") searchPrecise: Boolean,
-        @Query("search") search: String
+        @Query("search") search: String?,
+        @Query("genres") genres: Int?,
+        @Query("publishers") publishers: Int?,
+        @Query("platforms") platforms: Int?
     ) : SearchGamesResponse
 
     @GET("games/{id}")
@@ -40,6 +40,25 @@ interface RawgService {
         @Path("id") id : Int,
         @Query("key") key : String
     ) : ScreenshotsResponse
+
+    @GET("genres")
+    suspend fun getGenres(
+        @Query("key") key : String
+    ) : GenresResponse
+
+    @GET("publishers")
+    suspend fun getPublishers(
+        @Query("key") key : String,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int
+    ) : PublishersResponse
+
+    @GET("platforms")
+    suspend fun getPlatforms(
+        @Query("key") key : String,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int
+    ) : PlatformsResponse
 
     companion object {
         fun create(): RawgService {

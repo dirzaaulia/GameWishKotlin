@@ -3,28 +3,27 @@ package com.dirzaaulia.gamewish.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.dirzaaulia.gamewish.data.models.GameDetails
-import com.dirzaaulia.gamewish.data.models.Games
-import com.dirzaaulia.gamewish.data.models.Screenshots
-import com.dirzaaulia.gamewish.data.response.ScreenshotsResponse
-import com.dirzaaulia.gamewish.data.response.SearchGamesResponse
-import com.dirzaaulia.gamewish.network.rawg.RawgPagingSource
+import com.dirzaaulia.gamewish.data.models.rawg.*
+import com.dirzaaulia.gamewish.network.rawg.pagingsource.SearchGamesPagingSource
+import com.dirzaaulia.gamewish.network.rawg.pagingsource.PublishersPagingSource
 import com.dirzaaulia.gamewish.network.rawg.RawgService
+import com.dirzaaulia.gamewish.network.rawg.pagingsource.GenresPagingSource
+import com.dirzaaulia.gamewish.network.rawg.pagingsource.PlatformsPagingSource
 import com.dirzaaulia.gamewish.util.GAMES_PAGE_SIZE
 import com.dirzaaulia.gamewish.util.RAWG_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RawgRepository @Inject constructor(private val service: RawgService) {
 
-    fun refreshSearchGames(search: String) : Flow<PagingData<Games>> {
+    fun refreshSearchGames(search: String?, genres: Int?, publisher: Int?, platforms: Int?)
+    : Flow<PagingData<Games>> {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = GAMES_PAGE_SIZE),
-            pagingSourceFactory = { RawgPagingSource(service, search) }
+            pagingSourceFactory = { SearchGamesPagingSource(service, search, genres, publisher, platforms) }
         ).flow
     }
 
@@ -40,5 +39,26 @@ class RawgRepository @Inject constructor(private val service: RawgService) {
              val screenshotsResponse = service.getGameDetailsScreenshots(gameId, RAWG_KEY).results
              emit(screenshotsResponse)
          }.flowOn(Dispatchers.IO)
+    }
+
+    fun getGenres() : Flow<PagingData<Genre>> {
+        return Pager(
+            config = PagingConfig(enablePlaceholders = false, pageSize = GAMES_PAGE_SIZE),
+            pagingSourceFactory = { GenresPagingSource(service) }
+        ).flow
+    }
+
+    fun getPublishers() : Flow<PagingData<Publisher>> {
+        return Pager(
+            config = PagingConfig(enablePlaceholders = false, pageSize = GAMES_PAGE_SIZE),
+            pagingSourceFactory = { PublishersPagingSource(service) }
+        ).flow
+    }
+
+    fun getPlatforms() : Flow<PagingData<Platform>> {
+        return Pager(
+            config = PagingConfig(enablePlaceholders = false, pageSize = GAMES_PAGE_SIZE),
+            pagingSourceFactory = { PlatformsPagingSource(service) }
+        ).flow
     }
 }

@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.dirzaaulia.gamewish.data.models.Stores
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.rawg.Stores
 import com.dirzaaulia.gamewish.databinding.ItemStoresListBinding
 
 class DetailsStoresAdapter(

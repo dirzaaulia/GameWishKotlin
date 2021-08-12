@@ -11,11 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Deals
+import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
 import com.dirzaaulia.gamewish.data.request.DealsRequest
 import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter
-import com.dirzaaulia.gamewish.modules.deals.adapter.DealsLoadStateAdapter
+import com.dirzaaulia.gamewish.modules.global.adapter.GlobalGridLoadStateAdapter
 import com.dirzaaulia.gamewish.modules.main.MainActivity
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_DEALS_REQUEST
 import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_STORE_NAME
@@ -132,12 +132,14 @@ class DealsFragment :
     }
 
     private fun initAdapter() {
+
         binding.dealsLayout.dealsRecyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = DealsLoadStateAdapter { adapter.retry() },
-            footer = DealsLoadStateAdapter { adapter.retry() }
+            header = GlobalGridLoadStateAdapter { adapter.retry() },
+            footer = GlobalGridLoadStateAdapter { adapter.retry() }
         )
 
         adapter.addLoadStateListener { loadState ->
+
             // Refresh Success
             binding.dealsLayout.dealsRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
 
@@ -149,15 +151,21 @@ class DealsFragment :
             binding.dealsLayout.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
             binding.dealsLayout.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
 
-            if (loadState.source.refresh is LoadState.Error) {
+            //No Deals Found
+            if (loadState.source.refresh is LoadState.NotLoading && adapter.itemCount < 1) {
+                binding.dealsLayout.dealsRecyclerView.isVisible = false
+
                 if (isOnline(requireContext())) {
                     binding.dealsLayout.textViewStatus.text = getString(R.string.deals_not_found)
-                    binding.dealsLayout.retryButton.visibility = View.GONE
-                    binding.dealsLayout.imageViewStatus.visibility = View.GONE
                 } else {
-                    binding.dealsLayout.imageViewStatus.visibility = View.VISIBLE
+                    binding.dealsLayout.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
                 }
+
+                binding.dealsLayout.textViewStatus.isVisible = true
+            } else {
+                binding.dealsLayout.dealsRecyclerView.isVisible = true
             }
+
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
@@ -226,15 +234,17 @@ class DealsFragment :
     private fun getStoreList() {
         viewModel.getStoreList()
         viewModel.storeList.observe(viewLifecycleOwner) { listStore ->
-            binding.layoutFilter.spinnerStore.setAdapter(
-                ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_list_item_1,
-                    listStore.map { stores ->
-                        stores.storeName
-                    }
+            if (listStore.isNotEmpty()) {
+                binding.layoutFilter.spinnerStore.setAdapter(
+                    ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_list_item_1,
+                        listStore.map { stores ->
+                            stores.storeName
+                        }
+                    )
                 )
-            )
+            }
         }
         binding.layoutFilter.spinnerStore.setText(getString(R.string.steam), false)
     }

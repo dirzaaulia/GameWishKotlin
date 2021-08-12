@@ -37,15 +37,18 @@
             android:layout_marginTop="@dimen/dimen_4dp"
             android:paddingStart="@dimen/dimen_16dp"
             android:paddingEnd="@dimen/dimen_16dp"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             app:layout_constraintTop_toBottomOf="@id/label_store_name"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_game_deals" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/deals_error_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/dimen_24dp">
 
             <ProgressBar
                 android:id="@+id/deals_progress_bar"

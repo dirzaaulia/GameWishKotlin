@@ -14,20 +14,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.GameDetails
-import com.dirzaaulia.gamewish.data.models.Stores
-import com.dirzaaulia.gamewish.data.models.Wishlist
+import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
+import com.dirzaaulia.gamewish.data.models.rawg.Stores
+import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.databinding.FragmentDetailsBinding
 import com.dirzaaulia.gamewish.modules.details.DetailsFragment.Callback
-import com.dirzaaulia.gamewish.modules.details.adapter.DetailsImageBannerAdapter
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.util.showSnackbarShort
 import com.google.android.material.transition.MaterialContainerTransform
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
-import com.smarteist.autoimageslider.SliderAnimations
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -39,7 +37,7 @@ class DetailsFragment :
     private val args: DetailsFragmentArgs by navArgs()
 
     private val detailsStoresAdapter = DetailsStoresAdapter(this)
-    private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
+//    private lateinit var detailsImageBannerAdapter: DetailsImageBannerAdapter
 
     @Inject
     lateinit var detailsViewModelFactory: DetailsViewModelFactory
@@ -168,13 +166,21 @@ class DetailsFragment :
 
     private fun subscribeGameDetailsScreenshots(binding: FragmentDetailsBinding) {
         detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
-            detailsImageBannerAdapter =
-                DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
-            binding.detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
-            binding.detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
-            binding.detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
-            binding.detailsImageSlider.scrollTimeInSec = 3
-            binding.detailsImageSlider.startAutoCycle()
+            val imageList = ArrayList<SlideModel>()
+
+            it?.forEach { screenshots ->
+                imageList.add(SlideModel(screenshots.image))
+            }
+
+//            detailsImageBannerAdapter =
+//                DetailsImageBannerAdapter(detailsViewModel.gameDetailsScreenshots)
+//            binding.detailsImageSlider.setSliderAdapter(detailsImageBannerAdapter)
+//            binding.detailsImageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
+//            binding.detailsImageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+//            binding.detailsImageSlider.scrollTimeInSec = 3
+//            binding.detailsImageSlider.startAutoCycle()
+
+            binding.detailsImageSlider.setImageList(imageList, ScaleTypes.FIT)
         }
     }
 

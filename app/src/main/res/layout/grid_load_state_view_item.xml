@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/deals_item_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/deals_item_error_message"
+            android:textColor="?android:textColorPrimary"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/deals_item_progress_bar"
+            tools:text="Timeout" />
+
+        <Button
+            android:id="@+id/deals_item_retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/retry"
+            app:layout_constraintStart_toStartOf="@id/deals_item_error_message"
+            app:layout_constraintEnd_toEndOf="@id/deals_item_error_message"
+            app:layout_constraintTop_toBottomOf="@id/deals_item_error_message"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -8,12 +8,13 @@
             type="com.dirzaaulia.gamewish.modules.deals.DealsViewModel" />
         <variable
             name="stores"
-            type="com.dirzaaulia.gamewish.data.models.Stores" />
+            type="com.dirzaaulia.gamewish.data.models.rawg.Stores" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/deals_toolbar"
@@ -37,7 +38,6 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/deals_toolbar_divider"
             app:layout_constraintBottom_toBottomOf="parent">
-
 
                 <LinearLayout
                     android:id="@+id/deals_filter_layout"

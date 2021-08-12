@@ -1,9 +1,5 @@
 package com.dirzaaulia.gamewish.modules.details.adapter
 
-import androidx.recyclerview.widget.GridLayoutManager
-import com.dirzaaulia.gamewish.R
-import kotlin.random.Random
-
 //class DetailsImageGridAdapter(
 //    private val spans : Int
 //) : DetailsImageAdapter() {

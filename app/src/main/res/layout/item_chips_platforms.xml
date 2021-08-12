@@ -6,7 +6,7 @@
     <data>
         <variable
             name="platformItem"
-            type="com.dirzaaulia.gamewish.data.models.Platforms" />
+            type="com.dirzaaulia.gamewish.data.models.rawg.Platforms" />
     </data>
 
     <com.google.android.material.chip.Chip

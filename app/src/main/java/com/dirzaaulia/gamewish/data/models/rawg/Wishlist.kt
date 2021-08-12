@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.data.models
+package com.dirzaaulia.gamewish.data.models.rawg
 
 import android.os.Parcelable
 import androidx.room.Entity

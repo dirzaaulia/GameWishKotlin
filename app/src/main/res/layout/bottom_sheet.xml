@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/search_indicator"
+            android:layout_width="@dimen/dimen_32dp"
+            android:layout_height="@dimen/dimen_4dp"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            app:cardCornerRadius="@dimen/dimen_32dp"
+            app:cardBackgroundColor="?colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/search_label_rawg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_4dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:text="@string/games_data_provided_by_rawg"
+            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/search_indicator"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="@dimen/dimen_8dp"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="true"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/search_label_rawg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_search_games"/>
+
+        <ProgressBar
+            android:id="@+id/search_games_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/search_games_image_view_status"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/no_internet_connection_image"
+            app:srcCompat="@drawable/ic_baseline_cloud_off_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/search_games_text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24dp"
+            android:text="@string/please_check_your_internet_connection"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            app:layout_constraintTop_toBottomOf="@id/search_games_image_view_status" />
+
+        <Button
+            android:id="@+id/search_games_retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_games_text_view_status" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

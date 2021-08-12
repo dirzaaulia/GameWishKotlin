@@ -9,104 +9,71 @@
             type="com.dirzaaulia.gamewish.modules.search.SearchViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionGroup="true"
+        android:animateLayoutChanges="true"
         tools:context=".modules.search.SearchFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/search_toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            app:layout_constraintTop_toTopOf="parent"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+            android:layout_height="match_parent" >
 
-            <EditText
-                android:id="@+id/searchEditText"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/search_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:lines="1"
-                android:hint="@string/search_games"
-                android:selectAllOnFocus="true"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                tools:ignore="Autofill"/>
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
 
-        </com.google.android.material.appbar.MaterialToolbar>
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:lines="1"
+                    android:hint="@string/search_games"
+                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    tools:ignore="Autofill"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/white"
-            android:backgroundTint="@color/material_on_surface_stroke"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
+            </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
-            android:id="@+id/search_label_rawg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dimen_4dp"
-            android:layout_marginStart="@dimen/dimen_8dp"
-            android:text="@string/games_data_provided_by_rawg"
-            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
-            app:goneIfNull="@{viewModel.currentSearchGamesResult}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/white"
+                android:backgroundTint="@color/material_on_surface_stroke"
+                app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="@dimen/dimen_8dp"
-            android:clipToPadding="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/search_label_rawg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_search_games"/>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/search_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
 
-        <ProgressBar
-            android:id="@+id/search_games_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/search_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="@dimen/dimen_8dp"
+                android:clipToPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/search_tab_layout"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/search_games_image_view_status"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/no_internet_connection_image"
-            app:srcCompat="@drawable/ic_baseline_cloud_off_24"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/search_games_text_view_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/please_check_your_internet_connection"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
-            app:layout_constraintTop_toBottomOf="@id/search_games_image_view_status" />
+        <include
+            android:id="@+id/bottom_sheet"
+            layout="@layout/bottom_sheet"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <Button
-            android:id="@+id/search_games_retry_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/retry"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_games_text_view_status" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

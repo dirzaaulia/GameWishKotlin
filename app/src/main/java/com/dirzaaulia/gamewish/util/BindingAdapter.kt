@@ -29,14 +29,13 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Developer
-import com.dirzaaulia.gamewish.data.models.Platforms
-import com.dirzaaulia.gamewish.data.models.Publisher
+import com.dirzaaulia.gamewish.data.models.rawg.Developer
+import com.dirzaaulia.gamewish.data.models.rawg.Platforms
+import com.dirzaaulia.gamewish.data.models.rawg.Publisher
 import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
 import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
-import org.w3c.dom.Text
 import timber.log.Timber
 import vas.com.currencyconverter.CurrencyConverter
 import java.util.*
@@ -101,7 +100,7 @@ fun RecyclerView.setDetailsPlatforms(platforms: List<Platforms>?) {
 }
 
 @BindingAdapter("setPlatforms")
-fun RecyclerView.setPlatforms(platforms: List<Platforms>) {
+fun RecyclerView.setPlatforms(platforms: List<Platforms>?) {
     val platformsAdapter = SearchGamesPlatformsAdapter()
     platformsAdapter.submitList(platforms)
     adapter = platformsAdapter
@@ -177,7 +176,11 @@ fun goneIfNull(view: View, it: Any?) {
  */
 @BindingAdapter("goneIfNotNull")
 fun goneIfNotNull(view: View, it: Any?) {
-    view.visibility = if (it != null || it != "" || it != 0 || it == false) GONE else VISIBLE
+    view.visibility = if (it != null || it != "" || it != 0 || it == false) {
+        GONE
+    } else {
+        VISIBLE
+    }
 }
 
 /**

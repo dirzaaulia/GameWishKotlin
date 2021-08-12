@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Games
-import com.dirzaaulia.gamewish.data.models.Platform
-import com.dirzaaulia.gamewish.data.models.Platforms
+import com.dirzaaulia.gamewish.data.models.rawg.Platforms
 import com.dirzaaulia.gamewish.databinding.ItemChipsPlatformsBinding
 
 class SearchGamesPlatformsAdapter : ListAdapter<Platforms, SearchGamesPlatformsAdapter.ViewHolder>

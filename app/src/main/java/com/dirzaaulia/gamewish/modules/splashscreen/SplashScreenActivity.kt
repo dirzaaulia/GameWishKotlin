@@ -1,11 +1,11 @@
 package com.dirzaaulia.gamewish.modules.splashscreen
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.ActivitySplashScreenBinding
 import com.dirzaaulia.gamewish.modules.main.MainActivity

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="storesItem"
-            type="com.dirzaaulia.gamewish.data.models.Stores" />
+            type="com.dirzaaulia.gamewish.data.models.rawg.Stores" />
         <variable
             name="listener"
             type="com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />

@@ -9,7 +9,7 @@
             type="com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesAdapter.SearchGamesAdapterListener" />
         <variable
             name="gamesItem"
-            type="com.dirzaaulia.gamewish.data.models.Games" />
+            type="com.dirzaaulia.gamewish.data.models.rawg.Games" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

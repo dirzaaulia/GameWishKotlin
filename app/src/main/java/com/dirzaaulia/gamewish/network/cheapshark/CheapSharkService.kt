@@ -1,7 +1,7 @@
 package com.dirzaaulia.gamewish.network.cheapshark
 
-import com.dirzaaulia.gamewish.data.models.Deals
-import com.dirzaaulia.gamewish.data.models.Stores
+import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
+import com.dirzaaulia.gamewish.data.models.rawg.Stores
 import com.dirzaaulia.gamewish.util.CHEAPSHARK_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

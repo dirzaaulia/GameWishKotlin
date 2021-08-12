@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
 import com.dirzaaulia.gamewish.databinding.ItemGameDealsBinding
-import com.dirzaaulia.gamewish.data.models.Deals
 
 class DealsAdapter(
   private val listener : DealsAdapterListener

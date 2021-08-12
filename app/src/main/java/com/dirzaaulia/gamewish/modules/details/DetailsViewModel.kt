@@ -1,14 +1,16 @@
 package com.dirzaaulia.gamewish.modules.details
 
-import androidx.lifecycle.*
-import com.dirzaaulia.gamewish.data.models.Wishlist
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 class DetailsViewModel @AssistedInject constructor(

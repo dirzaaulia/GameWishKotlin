@@ -6,10 +6,6 @@ import android.text.Html
 import android.text.Spanned
 import timber.log.Timber
 import vas.com.currencyconverter.CurrencyConverter
-import java.lang.Exception
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

@@ -1,7 +1,4 @@
-package com.dirzaaulia.gamewish.data.models
-
-import com.squareup.moshi.JsonClass
-import java.lang.reflect.Type
+package com.dirzaaulia.gamewish.data.models.cheapshark
 
 data class Deals(
         val internalName: String?,

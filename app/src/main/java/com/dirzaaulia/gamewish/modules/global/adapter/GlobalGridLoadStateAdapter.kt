@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.modules.deals.adapter
+package com.dirzaaulia.gamewish.modules.global.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,11 +7,11 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.databinding.ItemGameDealsLoadStateViewItemBinding
+import com.dirzaaulia.gamewish.databinding.GridLoadStateViewItemBinding
 
-class DealsLoadStateAdapter(
+class GlobalGridLoadStateAdapter(
     private val retry: () -> Unit
-) : LoadStateAdapter<DealsLoadStateAdapter.ViewHolder>() {
+) : LoadStateAdapter<GlobalGridLoadStateAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, loadState: LoadState) {
         holder.bind(loadState)
@@ -22,7 +22,7 @@ class DealsLoadStateAdapter(
     }
 
     class ViewHolder(
-        private val binding: ItemGameDealsLoadStateViewItemBinding,
+        private val binding: GridLoadStateViewItemBinding,
         retry: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -43,8 +43,8 @@ class DealsLoadStateAdapter(
         companion object {
             fun create(parent: ViewGroup, retry: () -> Unit): ViewHolder {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_game_deals_load_state_view_item, parent, false)
-                val binding = ItemGameDealsLoadStateViewItemBinding.bind(view)
+                    .inflate(R.layout.grid_load_state_view_item, parent, false)
+                val binding = GridLoadStateViewItemBinding.bind(view)
 
                 return ViewHolder(binding, retry)
             }

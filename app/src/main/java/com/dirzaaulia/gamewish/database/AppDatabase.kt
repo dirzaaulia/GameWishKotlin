@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dirzaaulia.gamewish.data.models.Wishlist
+import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.util.DATABASE_NAME
 
 @Database(entities = [Wishlist::class], version = 2, exportSchema = false)

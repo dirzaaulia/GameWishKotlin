@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dirzaaulia.gamewish.data.models.Wishlist
+import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.databinding.ItemWishlistBinding
 
 class HomeAdapter(

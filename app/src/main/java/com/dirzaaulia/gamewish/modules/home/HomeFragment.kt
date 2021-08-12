@@ -5,13 +5,14 @@ import android.view.*
 import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.dirzaaulia.gamewish.R
-import com.dirzaaulia.gamewish.data.models.Wishlist
+import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.databinding.FragmentHomeBinding
 import com.dirzaaulia.gamewish.modules.home.adapter.HomeAdapter
 import com.dirzaaulia.gamewish.modules.main.MainActivity
@@ -44,7 +45,7 @@ class HomeFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) : View {
+    ) : View? {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -56,7 +57,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupAdapter()
         subscribeWishlist()
-        viewModel.setFilterQuery("")
+        viewModel.query.value = ""
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -82,7 +83,7 @@ class HomeFragment :
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { viewModel.setFilterQuery(it) }
+                newText?.let { viewModel.query.value = newText}
                 return false
             }
         })
@@ -120,6 +121,7 @@ class HomeFragment :
 
     private fun subscribeWishlist() {
         viewModel.listWishlist.observe(viewLifecycleOwner) {
+            binding.homeEmptyLable.isVisible = it.isNullOrEmpty()
             adapter.submitList(it)
         }
     }

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.dirzaaulia.gamewish.data.models.Deals
+import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
+import com.dirzaaulia.gamewish.data.models.rawg.Stores
 import com.dirzaaulia.gamewish.data.request.DealsRequest
-import com.dirzaaulia.gamewish.data.models.Stores
 import com.dirzaaulia.gamewish.repository.CheapSharkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -46,12 +46,10 @@ class DealsViewModel @Inject constructor(
             } catch (e : Exception) {
                 e.printStackTrace()
             }
-
         }
     }
 
     fun updateStoreList(storeName : String){
         _storeName.value = storeName
-
     }
 }
