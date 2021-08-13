@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GameWish.DayNight"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".modules.webview.WebViewActivity"
+            android:exported="true" />
         <activity android:name=".modules.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.main.MainActivity"/>
+        <activity android:name=".modules.main.MainActivity" />
     </application>
 
 </manifest>

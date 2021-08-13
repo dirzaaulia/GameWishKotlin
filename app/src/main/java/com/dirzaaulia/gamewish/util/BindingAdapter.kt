@@ -183,6 +183,15 @@ fun goneIfNotNull(view: View, it: Any?) {
     }
 }
 
+@BindingAdapter("showIfNotNull")
+fun showIfNotNull(view: View, it: Any?) {
+    view.visibility = if (it != null || it != "" || it != 0 || it == false) {
+        VISIBLE
+    } else {
+        GONE
+    }
+}
+
 /**
  * Binding adapter used to display images from URL using Glide
  */

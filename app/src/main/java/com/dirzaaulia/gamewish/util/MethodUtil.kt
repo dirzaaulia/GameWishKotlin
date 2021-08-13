@@ -6,7 +6,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.view.View
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
+import com.dirzaaulia.gamewish.R
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
@@ -38,9 +44,33 @@ fun showInfiniteSnackbar(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).show()
 }
 
+fun openLink(context: Context, link: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(link)
+    startActivity(context, intent, null)
+}
+
 fun openRawgLink(context: Context) {
     val url = "https://www.rawg.io"
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(url)
     startActivity(context, intent, null)
+}
+
+fun setImageWithGlide(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().scheme("https").build()
+
+        val circularProgressDrawable = CircularProgressDrawable(imgView.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(imgView.context, R.color.color_on_surface_emphasis_high))
+        circularProgressDrawable.start()
+
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .placeholder(circularProgressDrawable)
+            .error(R.drawable.ic_baseline_broken_image_24)
+            .into(imgView)
+    }
 }

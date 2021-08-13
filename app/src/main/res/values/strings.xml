@@ -75,6 +75,10 @@
         Deals data is provided by <u>Cheapshark</u>
     </string>
 
+    <string name="about_myanimelist">
+       Anime and Manga data is provided by <u>MyAnimeList</u>
+    </string>
+
     <string name="about_games">
         Games data is provided by <u>RAWG</u>
     </string>
@@ -84,10 +88,13 @@
         me e-mail
     </string>
     <string name="send_e_mail">Send E-Mail</string>
+    <string name="link_myanimelist">Link MyAnimeList Account</string>
+    <string name="unlink_myanimelist">Unlink MyAnimeList Account</string>
     <string name="search_games_not_found">No Games Found! Please check and change your game name to be more specific</string>
     <string name="deals_not_found">No Deals found! Please check and change your Deals search filter</string>
     <string name="search_games_label">Search games with games name or select category you want to search</string>
     <string name="genres_empty">Something when wrong when getting genres data. Please try it again!</string>
     <string name="publishers_empty">Something when wrong when getting publishers data. Please try it again!</string>
     <string name="platforms_empty">Something when wrong when getting platforms data. Please try it again!</string>
+    <string name="game_details_empty">Something when wrong when getting platforms data. Please try it again!</string>
 </resources>

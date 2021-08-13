@@ -1,21 +1,46 @@
 package com.dirzaaulia.gamewish.modules.about
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.myanimelist.User
+import com.dirzaaulia.gamewish.data.response.MyAnimeListTokenResponse
 import com.dirzaaulia.gamewish.databinding.FragmentAboutBinding
 import com.dirzaaulia.gamewish.modules.main.MainActivity
+import com.dirzaaulia.gamewish.modules.webview.WebViewActivity
+import com.dirzaaulia.gamewish.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AboutFragment : Fragment() {
 
     private lateinit var binding : FragmentAboutBinding
+    private val viewModel : AboutViewModel by viewModels()
+    private var accessToken : String? = null
+    private val openPostActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                intent?.let { intentData ->
+                    val value = intentData.getParcelableExtra<MyAnimeListTokenResponse>("tokenResponse")
+                    value?.accessToken?.let{
+                        showSnackbarShort(binding.root, it)
+                    }
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,33 +51,80 @@ class AboutFragment : Fragment() {
 
         (activity as MainActivity).setSupportActionBar(binding.aboutToolbar)
 
-        setupView()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        subscribeAccessToken()
+        subscribeMyAnimeListUser()
+        setupView()
+    }
+
+    private fun subscribeAccessToken() {
+        viewModel.getSavedMyAnimeListToken()
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty()) {
+                binding.aboutButtonMyanimelistLink.isVisible = true
+                binding.aboutButtonMyanimelistLink.text = getString(R.string.link_myanimelist)
+            } else {
+                binding.aboutButtonMyanimelistLink.text = getString(R.string.unlink_myanimelist)
+                subscribeMyAnimeListUser()
+            }
+        }
+    }
+
+    private fun subscribeMyAnimeListUser() {
+        Timber.i("subscribeMyAnimeListUser")
+        viewModel.getMyAnimeListUsername()
+        viewModel.myAnimeListUser.observe(viewLifecycleOwner) {
+            if (it.id.isNullOrEmpty()) {
+                val value = String.format("Something when wrong when getting MyAnimeListData! Please try it again",
+                    it.name)
+                binding.aboutMyanimelistLinkText.text = value
+                binding.aboutMyanimelistLinkText.isVisible = true
+
+                binding.aboutMyanimelistImage.isVisible = false
+            } else {
+                val value = String.format("MyAnimeList Account Linked : %s", it.name)
+                binding.aboutMyanimelistLinkText.text = value
+                binding.aboutMyanimelistLinkText.isVisible = true
+
+                binding.aboutMyanimelistImage.isVisible = true
+                setImageWithGlide(binding.aboutMyanimelistImage, it.picture)
+            }
+        }
     }
 
     private fun setupView() {
         binding.aboutApp.setOnClickListener {
-            openLink("https://linktr.ee/DirzaAulia")
+            openLink(requireContext(),"https://linktr.ee/DirzaAulia")
         }
 
         binding.aboutApp2.setOnClickListener {
-            openLink("https://play.google.com/store/apps/dev?id=4806849608818858118")
+            openLink(requireContext(), "https://play.google.com/store/apps/dev?id=4806849608818858118")
         }
 
         binding.aboutGames.setOnClickListener {
-            openLink("https://www.rawg.io")
+            openLink(requireContext(), "https://www.rawg.io")
         }
 
         binding.aboutButtonSendEmail.setOnClickListener {
             sendEmail()
         }
-    }
 
-    private fun openLink(url : String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+        binding.aboutMyanimelist.setOnClickListener {
+            openLink(requireContext(), MYANIMELIST_BASE_URL)
+        }
+
+        binding.aboutButtonMyanimelistLink.setOnClickListener {
+            if (accessToken.isNullOrEmpty()) {
+                val intent = Intent(requireContext(), WebViewActivity::class.java)
+                openPostActivity.launch(intent)
+            } else {
+                viewModel.unlinkMyAnimeList()
+            }
+        }
     }
 
     @SuppressLint("QueryPermissionsNeeded")

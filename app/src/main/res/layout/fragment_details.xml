@@ -342,6 +342,54 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/details_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/details_image_view_status"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/no_internet_connection_image"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_baseline_cloud_off_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/details_text_view_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_24dp"
+                android:text="@string/please_check_your_internet_connection"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/details_image_view_status" />
+
+            <Button
+                android:id="@+id/details_retry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_text_view_status" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/details_fab"
             android:contentDescription="@string/add_new_wishlist"
@@ -353,13 +401,6 @@
             app:layout_anchor="@id/details_appbar_layout"
             app:layout_anchorGravity="bottom|end"
             app:tint="@color/white"/>
-
-        <ProgressBar
-            android:id="@+id/details_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:goneIfNotNull="@{viewModel.gameDetails.id}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

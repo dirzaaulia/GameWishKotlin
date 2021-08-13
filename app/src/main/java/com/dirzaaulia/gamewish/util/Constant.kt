@@ -11,8 +11,13 @@ const val GAMES_PAGE_SIZE = 10
 const val CHEAPSHARK_BASE_URL = "https://www.cheapshark.com/api/1.0/"
 const val RAWG_BASE_URL = "https://api.rawg.io/api/"
 const val RAWG_KEY = "b1ece946fa424f4f887871a867743d0e"
-const val SEARCH_GENRES_FRAGMENT_RESULT_KEY = "searchGenresFragmentResultKey"
-const val SEARCH_PUBLISHERS_FRAGMENT_RESULT_KEY = "searchPublishersFragmentResultKey"
-const val SEARCH_PLATFORMS_FRAGMENT_RESULT_KEY = "searchPlatformsFragmentResultKey"
-const val SEARCH_TAB_FRAGMENT_BUNDLE_KEY = "searchTabFragmentBundleKey"
 const val RAWG_STARTING_PAGE_INDEX = 1
+const val MYANIMELIST_URL = "myanimelist.net"
+const val MYANIMELIST_BASE_URL = "https://myanimelist.net"
+const val MYANIMELIST_API_URL = "https://api.myanimelist.net"
+const val MYANIMELIST_CLIENT_ID = "fb4e767cff574de2df92708d060a323c"
+const val MYANIMELIST_CODE_CHALLENGE = "u2Rs-9MLEb-eah-avSTbv8qrxVFLwpEfPwhBwsMAuXOTn_D0mlDFhMwPNVSQkLdZE70cpn5IuJW" +
+        "_6vfkSOMZA36zAZ8b-BTmgokAjx-ecGDf1ddZ_0b5gg_SQsTauMdJ"
+const val MYANIMELIST_STATE = "gameWishRequest"
+const val MYANIMELIST_BASE_URL_CALLBCK = "https://dirzaaulia.com/callback"
+const val DATA_STORE_FILE_NAME = "user_prefs.pb"

@@ -4,9 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_main.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_web_view.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/bottom_sheet.xml" value="0.37551355792933444" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/bottom_sheet2.xml" value="0.15032894736842106" />
-        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_about.xml" value="0.1" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_about.xml" value="0.16" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_deals.xml" value="0.1" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_details.xml" value="0.1" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_genres.xml" value="0.15032894736842106" />
@@ -23,6 +24,7 @@
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_search_games.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_search_games_load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_wishlist.xml" value="0.1" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/layout_filter.xml" value="0.1486111111111111" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/layout_item_deals.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/menu/main_menu.xml" value="0.15032894736842106" />

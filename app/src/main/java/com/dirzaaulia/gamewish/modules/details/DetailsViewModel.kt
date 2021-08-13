@@ -1,27 +1,59 @@
 package com.dirzaaulia.gamewish.modules.details
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
+import com.dirzaaulia.gamewish.data.models.rawg.Screenshots
 import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class DetailsViewModel @AssistedInject constructor(
     private val wishlistRepository: WishlistRepository,
-    rawgRepository: RawgRepository,
+    private val rawgRepository: RawgRepository,
     @Assisted private val gameId: Int
 ) : ViewModel() {
 
-    val gameDetails = rawgRepository.getGameDetails(gameId).asLiveData()
-    val gameDetailsScreenshots = rawgRepository.getGameDetailsScreenshots(gameId).asLiveData()
     val itemWishlist = wishlistRepository.getWishlist(gameId).asLiveData()
+
+    private val _gameDetails = MutableLiveData<GameDetails?>()
+    val gameDetails : LiveData<GameDetails?>
+        get() = _gameDetails
+
+    private val _gameDetailsScreenshots = MutableLiveData<List<Screenshots>?>()
+    val gameDetailsScreenshots : LiveData<List<Screenshots>?>
+        get() = _gameDetailsScreenshots
+
+    fun fetchGameDetails() {
+        viewModelScope.launch {
+            try {
+                rawgRepository.getGameDetails(gameId).collect {
+                    _gameDetails.value = it
+                }
+            } catch (e : Exception) {
+                e.printStackTrace()
+                _gameDetails.value = null
+            }
+        }
+    }
+
+    fun fetchGameDetailsScrenshoots() {
+        viewModelScope.launch {
+            try {
+                rawgRepository.getGameDetailsScreenshots(gameId).collect {
+                    _gameDetailsScreenshots.value = it
+                }
+            } catch (e : Exception) {
+                e.printStackTrace()
+                _gameDetailsScreenshots.value = emptyList()
+            }
+        }
+    }
 
     fun addToWishlist(wishlist: Wishlist) {
         viewModelScope.launch {

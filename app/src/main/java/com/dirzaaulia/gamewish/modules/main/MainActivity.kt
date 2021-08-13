@@ -1,15 +1,27 @@
 package com.dirzaaulia.gamewish.modules.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.UserPreferences
 import com.dirzaaulia.gamewish.databinding.ActivityMainBinding
+import com.dirzaaulia.gamewish.util.DATA_STORE_FILE_NAME
+import com.dirzaaulia.gamewish.util.ProtoSerializer
 import com.dirzaaulia.gamewish.util.contentView
 import dagger.hilt.android.AndroidEntryPoint
+
+// Build the DataStore
+private val Context.userPreferencesStore: DataStore<UserPreferences> by dataStore(
+    fileName = DATA_STORE_FILE_NAME,
+    serializer = ProtoSerializer,
+)
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

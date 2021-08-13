@@ -225,7 +225,7 @@ class DealsFragment :
     private fun refreshDeals(request: DealsRequest) {
         job?.cancel()
         job = lifecycleScope.launch {
-            viewModel.refreshDeals(request).collectLatest {
+            viewModel.refreshDeals(request).collect {
                 adapter.submitData(it)
             }
         }
