@@ -52,4 +52,16 @@ class ProtoRepository @Inject constructor(
             preference.toBuilder().setExpiresIn(expiresIn).build()
         }
     }
+
+    suspend fun updateLocalDataStatus(status : Boolean) {
+        context.userPreferencesStore.updateData { preference ->
+            preference.toBuilder().setIsLocalData(status).build()
+        }
+    }
+
+    suspend fun updateUserAuthId(uid : String) {
+        context.userPreferencesStore.updateData { preference ->
+            preference.toBuilder().setUserAuthId(uid).build()
+        }
+    }
 }

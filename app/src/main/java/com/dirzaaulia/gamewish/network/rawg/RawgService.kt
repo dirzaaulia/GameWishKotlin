@@ -1,7 +1,7 @@
 package com.dirzaaulia.gamewish.network.rawg
 
 import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
-import com.dirzaaulia.gamewish.data.response.*
+import com.dirzaaulia.gamewish.data.response.rawg.*
 import com.dirzaaulia.gamewish.util.RAWG_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.home.HomeViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".modules.home.HomeFragment">
+        tools:context=".modules.fragment.home.HomeFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/home_toolbar"
@@ -52,6 +52,15 @@
             app:layout_constraintTop_toBottomOf="@id/home_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_wishlist"/>
+
+        <ProgressBar
+            android:id="@+id/home_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

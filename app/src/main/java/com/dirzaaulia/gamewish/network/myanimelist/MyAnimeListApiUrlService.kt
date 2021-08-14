@@ -1,9 +1,7 @@
 package com.dirzaaulia.gamewish.network.myanimelist
 
 import com.dirzaaulia.gamewish.data.models.myanimelist.User
-import com.dirzaaulia.gamewish.data.response.MyAnimeListTokenResponse
 import com.dirzaaulia.gamewish.util.MYANIMELIST_API_URL
-import com.dirzaaulia.gamewish.util.MYANIMELIST_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

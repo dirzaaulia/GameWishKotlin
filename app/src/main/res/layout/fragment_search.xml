@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.search.SearchViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.search.SearchViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:transitionGroup="true"
         android:animateLayoutChanges="true"
-        tools:context=".modules.search.SearchFragment">
+        tools:context=".modules.fragment.search.SearchFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

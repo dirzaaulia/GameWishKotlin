@@ -7,7 +7,7 @@
     <data>
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.search.tab.modules.adapter.PlatformsAdapter.PlatformsAdapterListener"/>
+            type="com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter.PlatformsAdapter.PlatformsAdapterListener"/>
         <variable
             name="platformItem"
             type="com.dirzaaulia.gamewish.data.models.rawg.Platform"/>

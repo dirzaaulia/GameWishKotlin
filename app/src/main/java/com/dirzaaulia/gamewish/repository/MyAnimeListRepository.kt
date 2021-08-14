@@ -1,7 +1,7 @@
 package com.dirzaaulia.gamewish.repository
 
 import com.dirzaaulia.gamewish.data.models.myanimelist.User
-import com.dirzaaulia.gamewish.data.response.MyAnimeListTokenResponse
+import com.dirzaaulia.gamewish.data.response.myanimelist.MyAnimeListTokenResponse
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListApiUrlService
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListBaseUrlService
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +19,14 @@ class MyAnimeListRepository @Inject constructor(
             Flow<MyAnimeListTokenResponse> {
         return flow {
             val response = baseUrlService.getMyAnimeListToken(clientId, code, codeVerifier, grantType)
+            emit(response)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getMyAnimeListRefreshToken(clientId : String, refreshToken : String) : Flow<MyAnimeListTokenResponse> {
+        return flow {
+            val response = baseUrlService.
+            getMyAnimeListRefreshToken(clientId, "refresh_token", refreshToken)
             emit(response)
         }.flowOn(Dispatchers.IO)
     }

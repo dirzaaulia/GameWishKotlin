@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.about.AboutViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.about.AboutViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".modules.about.AboutFragment">
+                tools:context=".modules.fragment.about.AboutFragment">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/about_container_1"
@@ -152,6 +152,7 @@
                                 android:layout_margin="@dimen/dimen_8dp"
                                 android:scaleType="fitCenter"
                                 android:padding="@dimen/dimen_2dp"
+                                android:visibility="gone"
                                 app:showIfNotNull="@{viewModel.myAnimeListUser.id}"
                                 app:imageUrl="@{viewModel.myAnimeListUser.picture}"
                                 app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
@@ -168,7 +169,7 @@
                                 android:gravity="center"
                                 android:paddingHorizontal="@dimen/dimen_8dp"
                                 android:textAppearance="@style/TextAppearance.Gamewish.Body2"
-                                app:showIfNotNull="@{viewModel.myAnimeListUser.id}"
+                                android:visibility="gone"
                                 app:layout_constraintTop_toTopOf="@id/about_myanimelist_image"
                                 app:layout_constraintBottom_toBottomOf="@id/about_myanimelist_image"
                                 app:layout_constraintStart_toEndOf="@id/about_myanimelist_image"
@@ -184,7 +185,6 @@
                                 android:layout_marginEnd="@dimen/dimen_8dp"
                                 android:text="@string/link_myanimelist"
                                 android:textColor="@color/color_on_surface_emphasis_high"
-                                app:showIfNotNull="@{viewModel.myAnimeListUser.id.empty}"
                                 app:strokeColor="@color/color_on_surface_emphasis_high"
                                 app:layout_constraintTop_toBottomOf="@id/about_myanimelist_image"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton" />

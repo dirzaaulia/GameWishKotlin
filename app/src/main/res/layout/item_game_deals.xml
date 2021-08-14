@@ -9,7 +9,7 @@
             type="com.dirzaaulia.gamewish.data.models.cheapshark.Deals" />
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.deals.adapter.DealsAdapter.DealsAdapterListener" />
+            type="com.dirzaaulia.gamewish.modules.fragment.deals.adapter.DealsAdapter.DealsAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

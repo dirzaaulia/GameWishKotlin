@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.dirzaaulia.gamewish.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
@@ -73,4 +74,11 @@ fun setImageWithGlide(imgView: ImageView, imgUrl: String?) {
             .error(R.drawable.ic_baseline_broken_image_24)
             .into(imgView)
     }
+}
+
+fun showAlertDialogWithoutButton(context: Context, title : String, message: String) {
+    MaterialAlertDialogBuilder(context)
+        .setTitle(title)
+        .setMessage(message)
+        .show()
 }

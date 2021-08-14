@@ -32,8 +32,8 @@ import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.rawg.Developer
 import com.dirzaaulia.gamewish.data.models.rawg.Platforms
 import com.dirzaaulia.gamewish.data.models.rawg.Publisher
-import com.dirzaaulia.gamewish.modules.details.adapter.DetailsPlatformsAdapter
-import com.dirzaaulia.gamewish.modules.search.adapter.SearchGamesPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.fragment.details.adapter.DetailsPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.fragment.search.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
 import timber.log.Timber

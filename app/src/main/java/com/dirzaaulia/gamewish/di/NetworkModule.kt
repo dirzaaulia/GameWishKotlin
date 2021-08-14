@@ -4,6 +4,7 @@ import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListApiUrlService
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListBaseUrlService
 import com.dirzaaulia.gamewish.network.rawg.RawgService
+import com.dirzaaulia.gamewish.repository.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,10 @@ class NetworkModule {
     @Provides
     fun provideMyAnimeListApiUrlService() : MyAnimeListApiUrlService {
         return MyAnimeListApiUrlService.create()
+    }
+
+    @Provides
+    fun provideFirebaseRepository() : FirebaseRepository {
+        return FirebaseRepository()
     }
 }

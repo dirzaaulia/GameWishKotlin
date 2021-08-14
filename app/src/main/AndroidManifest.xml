@@ -14,16 +14,21 @@
         android:theme="@style/Theme.GameWish.DayNight"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".modules.webview.WebViewActivity"
+            android:name=".modules.activity.login.LoginActivity"
             android:exported="true" />
-        <activity android:name=".modules.splashscreen.SplashScreenActivity">
+        <activity
+            android:name=".modules.activity.webview.WebViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".modules.activity.splashscreen.SplashScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.main.MainActivity" />
+        <activity android:name=".modules.activity.main.MainActivity" />
     </application>
 
 </manifest>

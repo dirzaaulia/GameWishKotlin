@@ -7,10 +7,10 @@
     <data>
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.home.adapter.HomeAdapter.HomeAdapterListener"/>
+            type="com.dirzaaulia.gamewish.modules.fragment.home.adapter.HomeAdapter.HomeAdapterListener"/>
         <variable
             name="wishlistItem"
-            type="com.dirzaaulia.gamewish.data.models.rawg.Wishlist"/>
+            type="com.dirzaaulia.gamewish.data.models.Wishlist"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -97,4 +97,6 @@
     <string name="publishers_empty">Something when wrong when getting publishers data. Please try it again!</string>
     <string name="platforms_empty">Something when wrong when getting platforms data. Please try it again!</string>
     <string name="game_details_empty">Something when wrong when getting platforms data. Please try it again!</string>
+    <string name="i_in_circle">ⓘ</string>
+    <string name="skip_login">Skip Login</string>
 </resources>

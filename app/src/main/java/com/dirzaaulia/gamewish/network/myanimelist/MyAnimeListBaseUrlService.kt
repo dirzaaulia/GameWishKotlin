@@ -1,8 +1,6 @@
 package com.dirzaaulia.gamewish.network.myanimelist
 
-import com.dirzaaulia.gamewish.data.models.myanimelist.User
-import com.dirzaaulia.gamewish.data.response.MyAnimeListTokenResponse
-import com.dirzaaulia.gamewish.util.MYANIMELIST_API_URL
+import com.dirzaaulia.gamewish.data.response.myanimelist.MyAnimeListTokenResponse
 import com.dirzaaulia.gamewish.util.MYANIMELIST_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -22,6 +20,14 @@ interface MyAnimeListBaseUrlService {
         @Field("code") code : String,
         @Field("code_verifier") code_verifier : String,
         @Field("grant_type") grant_type : String
+    ) : MyAnimeListTokenResponse
+
+    @FormUrlEncoded
+    @POST("v1/oauth2/token")
+    suspend fun getMyAnimeListRefreshToken(
+        @Field("client_id") client_id: String,
+        @Field("grant_type") grant_type: String,
+        @Field("refresh_token") refresh_token : String
     ) : MyAnimeListTokenResponse
 
     companion object {

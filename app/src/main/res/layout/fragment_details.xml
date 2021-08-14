@@ -6,10 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.details.DetailsViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.DetailsViewModel" />
         <variable
             name="callback"
-            type="com.dirzaaulia.gamewish.modules.details.DetailsFragment.Callback" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.DetailsFragment.Callback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -397,7 +397,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_16dp"
             android:onClick="@{(view) -> callback.add(viewModel.gameDetails)}"
-            app:imageIfWishlisted="@{viewModel.itemWishlist.id}"
+            app:imageIfWishlisted="@{viewModel.wishlistItem.id}"
             app:layout_anchor="@id/details_appbar_layout"
             app:layout_anchorGravity="bottom|end"
             app:tint="@color/white"/>

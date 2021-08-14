@@ -9,7 +9,7 @@
             type="com.dirzaaulia.gamewish.data.models.rawg.Stores" />
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.details.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -1,6 +1,6 @@
 package com.dirzaaulia.gamewish.repository
 
-import com.dirzaaulia.gamewish.data.models.rawg.Wishlist
+import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.database.WishlistDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

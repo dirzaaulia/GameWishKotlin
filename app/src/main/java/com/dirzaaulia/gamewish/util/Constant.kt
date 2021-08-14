@@ -1,7 +1,5 @@
 package com.dirzaaulia.gamewish.util
 
-const val HOME_INDEX = 0
-const val DEALS_INDEX = 1
 const val DATABASE_NAME= "gamewish_database"
 const val DEALS_FRAGMENT_DEALS_REQUEST = "deals_fragment_deals_request"
 const val DEALS_FRAGMENT_STORE_NAME = "deals_fragment_store_name"
@@ -21,3 +19,6 @@ const val MYANIMELIST_CODE_CHALLENGE = "u2Rs-9MLEb-eah-avSTbv8qrxVFLwpEfPwhBwsMA
 const val MYANIMELIST_STATE = "gameWishRequest"
 const val MYANIMELIST_BASE_URL_CALLBCK = "https://dirzaaulia.com/callback"
 const val DATA_STORE_FILE_NAME = "user_prefs.pb"
+const val GOOGLE_SIGN_IN_WEB_CLIENT_ID = "203885987594-4u6tk8rbssjram2c5jf5jsls5ejeig0s.apps.googleusercontent.com"
+const val FIREBASE_DATABASE_URL = "https://gamewish-f7e0c-default-rtdb.asia-southeast1.firebasedatabase.app/"
+const val FIREBASE_TABLE_NAME = "wishlist"
