@@ -3,77 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.fragment.search.SearchViewModel" />
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionGroup="true"
-        android:animateLayoutChanges="true"
         tools:context=".modules.fragment.search.SearchFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/search_fragment_container"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="0dp"
+            app:defaultNavHost="false"
+            app:navGraph="@navigation/search_nav_graph"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/search_bottom_nav"/>
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/search_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                app:layout_constraintTop_toTopOf="parent"
-                app:contentInsetStartWithNavigation="0dp"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/search_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/search_bottom_nav_menu"/>
 
-                <EditText
-                    android:id="@+id/searchEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:lines="1"
-                    android:hint="@string/search_games"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    tools:ignore="Autofill"/>
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white"
-                android:backgroundTint="@color/material_on_surface_stroke"
-                app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/search_tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/search_toolbar"/>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/search_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:padding="@dimen/dimen_8dp"
-                android:clipToPadding="true"
-                app:layout_constraintTop_toBottomOf="@id/search_tab_layout"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include
-            android:id="@+id/bottom_sheet"
-            layout="@layout/bottom_sheet"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

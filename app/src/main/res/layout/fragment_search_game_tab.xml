@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.SearchTabViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.search.modules.game.tab.SearchGameTabViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
-        tools:context=".modules.fragment.search.tab.modules.SearchTabFragment">
+        tools:context=".modules.fragment.search.modules.game.SearchTabFragment">
 
         <TextView
             android:id="@+id/label_rawg"

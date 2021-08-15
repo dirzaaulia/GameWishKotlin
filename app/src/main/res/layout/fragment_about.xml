@@ -139,9 +139,8 @@
                                 android:id="@+id/about_myanimelist_progress_bar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:goneIfNotNull="@{viewModel.myAnimeListUser.id}"
+                                app:layout_constraintBottom_toTopOf="@id/about_button_myanimelist_link"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -153,13 +152,13 @@
                                 android:scaleType="fitCenter"
                                 android:padding="@dimen/dimen_2dp"
                                 android:visibility="gone"
-                                app:showIfNotNull="@{viewModel.myAnimeListUser.id}"
                                 app:imageUrl="@{viewModel.myAnimeListUser.picture}"
                                 app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                                 app:strokeColor="?colorPrimary"
                                 app:strokeWidth="1dp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/about_button_myanimelist_link"
                                 tools:src="@drawable/gamewish"/>
 
                             <TextView
@@ -186,7 +185,7 @@
                                 android:text="@string/link_myanimelist"
                                 android:textColor="@color/color_on_surface_emphasis_high"
                                 app:strokeColor="@color/color_on_surface_emphasis_high"
-                                app:layout_constraintTop_toBottomOf="@id/about_myanimelist_image"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

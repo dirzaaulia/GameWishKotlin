@@ -11,7 +11,5 @@ data class User (
     val joinedAt : String?,
     val picture : String?,
     @Json(name = "anime_statistics")
-    val animeStatistics : AnimeStatistic?,
-    val error : String?,
-    val message : String?
+    val animeStatistics : AnimeStatistic?
 )

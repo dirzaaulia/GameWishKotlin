@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-printusage build/outputs/apk/debug/usage.txt
+-keepattributes SourceFile,LineNumberTable
+#-keep class com.dirzaaulia.gamewish.** {*;}
+-keep class com.dirzaaulia.gamewish.** {*;}
+#-keep class com.google.protobuf.GeneratedMessageLite.** {*;}

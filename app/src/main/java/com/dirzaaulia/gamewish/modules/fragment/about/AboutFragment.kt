@@ -27,18 +27,6 @@ class AboutFragment : Fragment() {
     private lateinit var binding : FragmentAboutBinding
     private val viewModel : AboutViewModel by viewModels()
     private var accessToken : String? = null
-    private val openPostActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                intent?.let { intentData ->
-                    val value = intentData.getParcelableExtra<MyAnimeListTokenResponse>("tokenResponse")
-                    value?.accessToken?.let{
-                        showSnackbarShort(binding.root, it)
-                    }
-                }
-            }
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +56,8 @@ class AboutFragment : Fragment() {
 
                 binding.aboutMyanimelistImage.isVisible = false
                 binding.aboutMyanimelistLinkText.isVisible = false
+
+                binding.aboutMyanimelistProgressBar.isVisible = false
             } else {
                 binding.aboutButtonMyanimelistLink.text = getString(R.string.unlink_myanimelist)
                 subscribeMyAnimeListUser(it)
@@ -77,7 +67,6 @@ class AboutFragment : Fragment() {
 
     private fun subscribeMyAnimeListUser(accessToken: String) {
         Timber.i("subscribeMyAnimeListUser")
-        binding.aboutMyanimelistProgressBar.isVisible = true
         viewModel.getMyAnimeListUsername(accessToken)
         viewModel.myAnimeListUser.observe(viewLifecycleOwner) {
             binding.aboutMyanimelistProgressBar.isVisible = false
@@ -90,6 +79,8 @@ class AboutFragment : Fragment() {
 
                 binding.aboutMyanimelistImage.isVisible = false
             } else {
+                binding.aboutMyanimelistProgressBar.isVisible = false
+
                 val value = String.format("MyAnimeList Account Linked : %s", it.name)
                 binding.aboutMyanimelistLinkText.text = value
                 binding.aboutMyanimelistLinkText.isVisible = true
@@ -124,7 +115,7 @@ class AboutFragment : Fragment() {
         binding.aboutButtonMyanimelistLink.setOnClickListener {
             if (accessToken.isNullOrEmpty()) {
                 val intent = Intent(requireContext(), WebViewActivity::class.java)
-                openPostActivity.launch(intent)
+                startActivity(intent)
             } else {
                 viewModel.unlinkMyAnimeList()
             }
@@ -133,8 +124,13 @@ class AboutFragment : Fragment() {
 
     private fun subscribeErrorMessage() {
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
+            if (it.isNotEmpty()) {
                 showSnackbarShort(binding.root, it)
+
+                val progressBarMyAnimeListIsVisible = binding.aboutMyanimelistProgressBar.isVisible
+                if (progressBarMyAnimeListIsVisible) {
+                    binding.aboutMyanimelistProgressBar.isVisible = false
+                }
             }
         }
     }

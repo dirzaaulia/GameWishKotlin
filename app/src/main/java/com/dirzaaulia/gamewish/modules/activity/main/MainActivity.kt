@@ -19,12 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by contentView(R.layout.activity_main)
 
-    private lateinit var firebaseAuth : FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        checkGoogleLogin()
 
         binding.apply{
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -41,9 +37,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun checkGoogleLogin() {
-
     }
 }

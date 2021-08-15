@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter
+package com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter
 
 import android.view.LayoutInflater
 import android.view.View

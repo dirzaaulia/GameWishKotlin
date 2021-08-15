@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.dirzaaulia.gamewish.modules.fragment.search.modules.game.SearchGameViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/search_game_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="true"
+        android:animateLayoutChanges="true"
+        tools:context=".modules.fragment.search.SearchFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/search_game_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:lines="1"
+                    android:hint="@string/search_games"
+                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    tools:ignore="Autofill"/>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/white"
+                android:backgroundTint="@color/material_on_surface_stroke"
+                app:layout_constraintTop_toBottomOf="@id/search_game_toolbar"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/search_game_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/search_game_toolbar"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/search_game_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="@dimen/dimen_8dp"
+                android:clipToPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/search_game_tab_layout"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/bottom_sheet"
+            layout="@layout/bottom_sheet_search_game"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

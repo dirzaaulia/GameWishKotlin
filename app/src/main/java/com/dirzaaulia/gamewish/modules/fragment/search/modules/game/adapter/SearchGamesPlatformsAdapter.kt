@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.modules.fragment.search.adapter
+package com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater

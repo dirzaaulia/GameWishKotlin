@@ -25,8 +25,11 @@ class FirebaseRepository {
     }
 
     fun getAllWishlistFromRealtimeDatabase(uid: String): DatabaseReference {
-
         return realtimeDatabase.reference.child(FIREBASE_TABLE_NAME).child(uid)
+    }
+
+    fun getWishlistFromRealtimeDatabase(uid: String, gameId : String): DatabaseReference {
+        return realtimeDatabase.reference.child(FIREBASE_TABLE_NAME).child(uid).child(gameId)
     }
 
     fun addWishlistToRealtimeDatabase(uid : String, wishlist: Wishlist) {

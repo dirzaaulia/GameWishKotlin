@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="nodeItem"
+            type="com.dirzaaulia.gamewish.data.models.myanimelist.Node" />
+        <variable
+            name="listener"
+            type="com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.adapter.SearchAnimeAdapter.SearchAnimeAdapterListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_4dp"
+        android:onClick="@{(view) -> listener.onItemClicked(view, nodeItem)}"
+        app:cardCornerRadius="@dimen/dimen_12dp"
+        app:cardElevation="@dimen/dimen_4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/item_anime_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_200dp"
+                android:contentDescription="@string/image_view_game_deals"
+                android:scaleType="fitXY"
+                app:imageUrl="@{nodeItem.mainPicture.large}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/item_anime_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{nodeItem.title}"
+                android:paddingTop="@dimen/dimen_8dp"
+                android:paddingBottom="@dimen/dimen_8dp"
+                android:textAppearance="@style/TextAppearance.Gamewish.Subtitle2"
+                app:layout_constraintStart_toStartOf="@id/start_grid"
+                app:layout_constraintEnd_toEndOf="@id/end_grid"
+                app:layout_constraintTop_toBottomOf="@id/item_anime_image"
+                tools:text="Assassin's Creed"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/start_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_begin="@dimen/dimen_12dp"
+                android:orientation="vertical" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/end_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_12dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

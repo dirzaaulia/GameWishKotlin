@@ -161,10 +161,10 @@ class DealsFragment :
                 }
 
                 binding.dealsLayout.textViewStatus.isVisible = true
-            } else {
-                binding.dealsLayout.dealsRecyclerView.isVisible = true
-            }
 
+            } else if (loadState.source.refresh is LoadState.Loading && adapter.itemCount >= 1) {
+                binding.dealsLayout.dealsProgressBar.isVisible = false
+            }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error

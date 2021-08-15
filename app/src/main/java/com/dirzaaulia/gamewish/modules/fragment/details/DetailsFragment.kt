@@ -95,11 +95,10 @@ class DetailsFragment :
 
             detailsViewModel.getLocalDataStatus()
 
-            Timber.i("itemWishlist : %s", detailsViewModel.wishlistItem.value?.id)
-
             setupScrollChangeListeners(this)
             subscribeGameDetails(this)
             subscribeGameDetailsScreenshots(this)
+            subscribeErrorMessage(this)
             setupRetryButton(this)
         }
 
@@ -185,25 +184,14 @@ class DetailsFragment :
 
     private fun subscribeGameDetails(binding: FragmentDetailsBinding) {
         binding.detailsProgressBar.isVisible = true
-        lifecycleScope.launch {
-            delay(1000)
-            detailsViewModel.fetchGameDetails()
-            detailsViewModel.gameDetails.observe(viewLifecycleOwner) { gameDetails ->
-                detailsStoresAdapter.submitList(gameDetails?.stores)
-                binding.storesRecylerView.adapter = detailsStoresAdapter
+        detailsViewModel.fetchGameDetails()
+        detailsViewModel.gameDetails.observe(viewLifecycleOwner) { gameDetails ->
+            detailsStoresAdapter.submitList(gameDetails?.stores)
+            binding.storesRecylerView.adapter = detailsStoresAdapter
 
-                setOnClickListeners(gameDetails, binding)
+            setOnClickListeners(gameDetails, binding)
 
-                if (gameDetails == null) {
-                    if (isOnline(requireContext())) {
-                        showConnectionError(binding)
-                    } else {
-                        showNoInternet(binding)
-                    }
-                } else {
-                    showNormal(binding)
-                }
-            }
+            showNormal(binding)
         }
     }
 
@@ -220,16 +208,25 @@ class DetailsFragment :
         }
     }
 
+    private fun subscribeErrorMessage(binding: FragmentDetailsBinding) {
+        detailsViewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                if (isOnline(requireContext())) {
+                    showConnectionError(binding)
+                } else {
+                    showNoInternet(binding)
+                }
+            }
+        }
+    }
+
     private fun setupRetryButton(binding: FragmentDetailsBinding) {
         binding.detailsRetryButton.setOnClickListener {
             showNormal(binding)
             binding.detailsProgressBar.isVisible = true
 
-            lifecycleScope.launch {
-                delay(1000)
-                subscribeGameDetails(binding)
-                subscribeGameDetailsScreenshots(binding)
-            }
+            subscribeGameDetails(binding)
+            subscribeGameDetailsScreenshots(binding)
         }
     }
 

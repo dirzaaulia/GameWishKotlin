@@ -1,5 +1,6 @@
 package com.dirzaaulia.gamewish.di
 
+import android.content.Context
 import com.dirzaaulia.gamewish.network.cheapshark.CheapSharkService
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListApiUrlService
 import com.dirzaaulia.gamewish.network.myanimelist.MyAnimeListBaseUrlService
@@ -8,6 +9,8 @@ import com.dirzaaulia.gamewish.repository.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -35,8 +38,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMyAnimeListApiUrlService() : MyAnimeListApiUrlService {
-        return MyAnimeListApiUrlService.create()
+    fun provideMyAnimeListApiUrlService(@ApplicationContext context: Context) : MyAnimeListApiUrlService {
+        return MyAnimeListApiUrlService.create(context)
     }
 
     @Provides

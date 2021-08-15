@@ -1,19 +1,19 @@
-package com.dirzaaulia.gamewish.modules.fragment.search
+package com.dirzaaulia.gamewish.modules.fragment.search.modules.game
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dirzaaulia.gamewish.data.models.rawg.Games
+import com.dirzaaulia.gamewish.data.models.rawg.Genre
+import com.dirzaaulia.gamewish.data.models.rawg.Platform
+import com.dirzaaulia.gamewish.data.models.rawg.Publisher
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchGameViewModel @Inject constructor(
     private val repository: RawgRepository
 ) : ViewModel() {
 

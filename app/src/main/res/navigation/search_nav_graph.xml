@@ -1,0 +1,31 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/searchGameFragment">
+
+    <fragment
+        android:id="@+id/searchGameFragment"
+        android:name="com.dirzaaulia.gamewish.modules.fragment.search.modules.game.SearchGameFragment"
+        tools:layout="@layout/fragment_search_game">
+        <action
+            android:id="@+id/action_searchGameFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchAnimeFragment"
+        android:name="com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.SearchAnimeFragment"
+        tools:layout="@layout/fragment_search_anime">
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.dirzaaulia.gamewish.modules.fragment.details.DetailsFragment"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="game_id"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

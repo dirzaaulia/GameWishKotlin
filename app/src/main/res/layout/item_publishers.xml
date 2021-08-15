@@ -7,7 +7,7 @@
     <data>
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter.PublishersAdapter.PublishersAdapterListener"/>
+            type="com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.PublishersAdapter.PublishersAdapterListener"/>
         <variable
             name="publisherItem"
             type="com.dirzaaulia.gamewish.data.models.rawg.Publisher"/>

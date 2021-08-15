@@ -26,11 +26,14 @@
     <string name="deals_on_steam">Deals on Steam</string>
     <string name="deals_by_cheapshark">Deals by CheapShark</string>
     <string name="search_games">Search Game Name</string>
+    <string name="search_myanimelist">Search Anime or Manga Title</string>
     <string name="release_date">Release Date</string>
     <string name="platforms">Platforms</string>
     <string name="games_data_provided_by_rawg">Games data provided by <u>RAWG</u></string>
     <string name="genres_data_provided_by_rawg">Genres data provided by <u>RAWG</u></string>
     <string name="publishers_data_provided_by_rawg">Publishers data provided by <u>RAWG</u></string>
+    <string name="anime_data_provided_by_myanimelist">Anime data provided by <u>MyAnimeList</u></string>
+    <string name="manga_data_provided_by_myanimelist">Manga data provided by <u>MyAnimeList</u></string>
     <string name="platforms_data_provided_by_rawg">Platforms data provided by <u>RAWG</u></string>
     <string name="screenshots">Screenshots</string>
     <string name="metacritic_image_logo">Metacritic Image Logo</string>
@@ -92,11 +95,17 @@
     <string name="unlink_myanimelist">Unlink MyAnimeList Account</string>
     <string name="search_games_not_found">No Games Found! Please check and change your game name to be more specific</string>
     <string name="deals_not_found">No Deals found! Please check and change your Deals search filter</string>
+    <string name="search_anime_not_found">No Anime or Manga Found! Please check and change your search query to be more
+        specific</string>
     <string name="search_games_label">Search games with games name or select category you want to search</string>
     <string name="genres_empty">Something when wrong when getting genres data. Please try it again!</string>
     <string name="publishers_empty">Something when wrong when getting publishers data. Please try it again!</string>
     <string name="platforms_empty">Something when wrong when getting platforms data. Please try it again!</string>
-    <string name="game_details_empty">Something when wrong when getting platforms data. Please try it again!</string>
+    <string name="game_details_empty">Something when wrong when getting game data. Please try it again!</string>
     <string name="i_in_circle">ⓘ</string>
     <string name="skip_login">Skip Login</string>
+    <string name="games">Games</string>
+    <string name="anime_manga"><![CDATA[Anime & Manga]]></string>
+    <string name="anime">Anime</string>
+    <string name="manga">Manga</string>
 </resources>

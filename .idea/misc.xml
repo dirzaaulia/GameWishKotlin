@@ -3,28 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/drawable/ic_baseline_videogame_asset_24.xml" value="0.15895765472312703" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_login.xml" value="0.16799999999999998" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_main.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_splash_screen.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/activity_web_view.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/bottom_sheet.xml" value="0.37551355792933444" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/bottom_sheet2.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/bottom_sheet_search_game.xml" value="0.11736111111111111" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_about.xml" value="0.16" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_deals.xml" value="0.1" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_details.xml" value="0.1" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_genres.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_search_anime.xml" value="0.12083333333333333" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_search_game.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_search_game_tab.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/fragment_search_tab.xml" value="0.264" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/grid_load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_chips_platforms.xml" value="0.1423611111111111" />
-        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_game_deals.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_game_deals.xml" value="0.2" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_game_deals_load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_genres.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_platform_list.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_platforms.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_publishers.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_screenshots_list.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_search_anime.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_search_games.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_search_games_load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/item_stores_list.xml" value="0.15032894736842106" />
@@ -34,6 +40,7 @@
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/layout/load_state_view_item.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/menu/home_menu.xml" value="0.15032894736842106" />
         <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/menu/main_menu.xml" value="0.15032894736842106" />
+        <entry key="..\:/Android Studio/Projects/GameWishKotlin/app/src/main/res/menu/search_bottom_nav_menu.xml" value="0.15032894736842106" />
       </map>
     </option>
   </component>

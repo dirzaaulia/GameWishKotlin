@@ -8,11 +8,18 @@ import com.dirzaaulia.gamewish.repository.FirebaseRepository
 import com.dirzaaulia.gamewish.repository.ProtoRepository
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import com.dirzaaulia.gamewish.repository.WishlistRepository
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class DetailsViewModel @AssistedInject constructor(
@@ -23,10 +30,13 @@ class DetailsViewModel @AssistedInject constructor(
     @Assisted private val gameId: Int
 ) : ViewModel() {
 
-    //    val itemWishlist = wishlistRepository.getWishlist(gameId).asLiveData()
     private val userPreferencesFlow = protoRepository.userPreferencesFlow
 
     val wishlistItem = wishlistRepository.getWishlist(gameId).asLiveData()
+
+    private lateinit var _wishlistItemFirebase : LiveData<Wishlist>
+    val wishlistItemFirebase : LiveData<Wishlist>
+        get() = _wishlistItemFirebase
 
     private val _gameDetails = MutableLiveData<GameDetails?>()
     val gameDetails : LiveData<GameDetails?>
@@ -44,6 +54,10 @@ class DetailsViewModel @AssistedInject constructor(
     val userAuthId : LiveData<String>
         get() = _userAuthId
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage : LiveData<String>
+        get() = _errorMessage
+
     fun getUserAuthId() {
         viewModelScope.launch {
             userPreferencesFlow.collect {
@@ -58,6 +72,34 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun getWishlistFromRealtimeDatabase(uid: String, gameId: String) {
+        try {
+            val task = firebaseRepository.getWishlistFromRealtimeDatabase(uid, gameId)
+
+            task.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                   val value = snapshot.getValue(Wishlist::class.java)
+
+                    if (value != null) {
+                        val valueFlow = flow {
+                            emit(value)
+                        }
+
+                        _wishlistItemFirebase = valueFlow.asLiveData()
+                        Timber.i(_wishlistItemFirebase.value?.name)
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+        } catch (e : java.lang.Exception) {
+
+        }
+    }
+
     fun fetchGameDetails() {
         viewModelScope.launch {
             try {
@@ -66,7 +108,8 @@ class DetailsViewModel @AssistedInject constructor(
                 }
             } catch (e : Exception) {
                 e.printStackTrace()
-                _gameDetails.value = null
+                _errorMessage.value = "Something when wrong when getting game data. " +
+                        "Please try it again!"
             }
         }
     }

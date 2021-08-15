@@ -33,6 +33,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -91,7 +97,7 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation 'androidx.room:room-ktx:2.3.0'
 
-    // WorkManager Kotlin + coroutines
+    // WorkManager
     implementation 'androidx.work:work-runtime-ktx:2.5.0'
 
     //Hilt - Depedency Injection
@@ -109,6 +115,10 @@ dependencies {
 
     //HTTP Logger Interceptor
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
+
+    //Chucker Logger Interceptor
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:4.12.0"

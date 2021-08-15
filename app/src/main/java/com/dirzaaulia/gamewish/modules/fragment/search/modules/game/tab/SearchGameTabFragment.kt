@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.modules.fragment.search.tab.modules
+package com.dirzaaulia.gamewish.modules.fragment.search.modules.game.tab
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,13 +14,15 @@ import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.rawg.Genre
 import com.dirzaaulia.gamewish.data.models.rawg.Platform
 import com.dirzaaulia.gamewish.data.models.rawg.Publisher
-import com.dirzaaulia.gamewish.databinding.FragmentSearchTabBinding
+import com.dirzaaulia.gamewish.databinding.FragmentSearchGameTabBinding
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.SearchGameViewModel
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.GenresAdapter
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.PlatformsAdapter
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.PublishersAdapter
 import com.dirzaaulia.gamewish.modules.global.adapter.GlobalLoadStateAdapter
-import com.dirzaaulia.gamewish.modules.fragment.search.SearchViewModel
-import com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter.GenresAdapter
-import com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter.PlatformsAdapter
-import com.dirzaaulia.gamewish.modules.fragment.search.tab.modules.adapter.PublishersAdapter
-import com.dirzaaulia.gamewish.util.*
+import com.dirzaaulia.gamewish.util.isOnline
+import com.dirzaaulia.gamewish.util.openRawgLink
+import com.dirzaaulia.gamewish.util.showSnackbarShort
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -29,27 +31,27 @@ import kotlinx.coroutines.launch
 const val ARGS_POSITION = "argsPosition"
 
 @AndroidEntryPoint
-class SearchTabFragment :
+class SearchGameTabFragment :
     Fragment(),
     GenresAdapter.GenresAdapterListener,
     PublishersAdapter.PublishersAdapterListener,
     PlatformsAdapter.PlatformsAdapterListener{
 
-    private lateinit var binding: FragmentSearchTabBinding
+    private lateinit var binding: FragmentSearchGameTabBinding
     private var job: Job? = null
-    private val viewModel: SearchTabViewModel by viewModels()
-    private val parentViewModel : SearchViewModel by activityViewModels()
+    private val viewModel: SearchGameTabViewModel by viewModels()
+    private val parentViewModel : SearchGameViewModel by activityViewModels()
     private val genresAdapter = GenresAdapter(this)
     private val publishersAdapter = PublishersAdapter(this)
     private val platformsAdapter = PlatformsAdapter(this)
     private var position : Int = 0
 
     companion object {
-        fun newInstance(position : Int) : SearchTabFragment {
+        fun newInstance(position : Int) : SearchGameTabFragment {
             val args = Bundle()
             args.putInt(ARGS_POSITION, position)
 
-            val fragment = SearchTabFragment()
+            val fragment = SearchGameTabFragment()
             fragment.arguments = args
             return fragment
         }
@@ -59,7 +61,7 @@ class SearchTabFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchTabBinding.inflate(inflater, container, false)
+        binding = FragmentSearchGameTabBinding.inflate(inflater, container, false)
 
         position = arguments?.getInt(ARGS_POSITION) ?: 0
 

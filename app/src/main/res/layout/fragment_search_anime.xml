@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="true"
+        android:animateLayoutChanges="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/search_anime_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24">
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:lines="1"
+                android:hint="@string/search_myanimelist"
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                tools:ignore="Autofill"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:backgroundTint="@color/material_on_surface_stroke"
+            app:layout_constraintTop_toBottomOf="@id/search_anime_toolbar"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/search_anime_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/search_anime_toolbar">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anime" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/manga" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <TextView
+            android:id="@+id/search_label_myanimelist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_4dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:text="@string/anime_data_provided_by_myanimelist"
+            android:textAppearance="@style/TextAppearance.Gamewish.Caption"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/search_anime_tab_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_anime_recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="@dimen/dimen_8dp"
+            android:clipToPadding="true"
+            app:spanCount="2"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_search_anime"
+            app:layout_constraintTop_toBottomOf="@id/search_label_myanimelist"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/search_anime_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/search_anime_image_view_status"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/no_internet_connection_image"
+            app:srcCompat="@drawable/ic_baseline_cloud_off_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/search_anime_text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24dp"
+            android:text="@string/please_check_your_internet_connection"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/search_anime_image_view_status" />
+
+        <Button
+            android:id="@+id/search_anime_retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_anime_text_view_status" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

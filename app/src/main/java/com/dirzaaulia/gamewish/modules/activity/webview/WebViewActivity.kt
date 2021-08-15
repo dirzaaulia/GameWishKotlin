@@ -76,13 +76,7 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun subscribeToken() {
         viewModel.accessToken.observe(this) {
-            if (it != null) {
-                val intent = Intent().apply {
-                    putExtra("tokenResponse", viewModel.tokenResponse.value)
-                }
-                setResult(Activity.RESULT_OK, intent)
-                finish()
-            }
+            if (it != null) { finish() }
         }
     }
 }
