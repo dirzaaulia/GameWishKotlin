@@ -22,19 +22,38 @@
         <item name="android:textAppearance">@style/TextAppearance.Gamewish.Headline6</item>
     </style>
 
+    <style name="MaterialAlertDialog.GameWish" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.GameWish.LargeComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.GameWish.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.GameWish</item>
+    </style>
+
+    <style name="Widget.Gamewish.DialogFragment" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="dialogTheme">@style/MaterialAlertDialog.GameWish</item>
+    </style>
+
     <style name="ProgressBarStyle" parent="Theme.GameWish">
         <item name="android:colorAccent">@color/color_on_surface_emphasis_high</item>
     </style>
-    
-    <style name="SwitchStyle" parent="Theme.GameWish">
-        <item name="colorOnSurface">@color/color_on_surface_emphasis_high</item>
+
+    <style name="Widget.GameWish.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GameWish.Switch</item>
     </style>
+
+    <style name="ThemeOverlay.GameWish.Switch" parent="">
+        <item name="colorOnSurface">@color/grey_600</item>
+        <item name="colorSecondary">@color/grey_300</item>
+    </style>
+
 
     <style name="SearchStyle" parent="Theme.GameWish">
         <item name="editTextColor">@color/color_on_primary_surface_emphasis_high</item>
         <item name="searchIcon">@drawable/ic_baseline_filter_list_24</item>
         <item name="closeIcon">@drawable/ic_baseline_close_24</item>
     </style>
+
 
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>

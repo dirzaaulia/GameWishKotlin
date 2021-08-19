@@ -28,6 +28,18 @@ class AboutFragment : Fragment() {
     private val viewModel : AboutViewModel by viewModels()
     private var accessToken : String? = null
 
+    private val openPostActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                binding.aboutMyanimelistImage.isVisible = false
+                binding.aboutMyanimelistLinkText.isVisible = false
+
+                binding.aboutMyanimelistProgressBar.isVisible = true
+
+                subscribeAccessToken()
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -115,7 +127,7 @@ class AboutFragment : Fragment() {
         binding.aboutButtonMyanimelistLink.setOnClickListener {
             if (accessToken.isNullOrEmpty()) {
                 val intent = Intent(requireContext(), WebViewActivity::class.java)
-                startActivity(intent)
+                openPostActivity.launch(intent)
             } else {
                 viewModel.unlinkMyAnimeList()
             }

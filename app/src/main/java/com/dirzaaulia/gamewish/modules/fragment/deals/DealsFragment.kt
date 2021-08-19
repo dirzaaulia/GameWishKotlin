@@ -17,10 +17,7 @@ import com.dirzaaulia.gamewish.databinding.FragmentDealsBinding
 import com.dirzaaulia.gamewish.modules.fragment.deals.adapter.DealsAdapter
 import com.dirzaaulia.gamewish.modules.global.adapter.GlobalGridLoadStateAdapter
 import com.dirzaaulia.gamewish.modules.activity.main.MainActivity
-import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_DEALS_REQUEST
-import com.dirzaaulia.gamewish.util.DEALS_FRAGMENT_STORE_NAME
-import com.dirzaaulia.gamewish.util.currencyConverterLocaletoUSD
-import com.dirzaaulia.gamewish.util.isOnline
+import com.dirzaaulia.gamewish.util.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,12 +26,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
 class DealsFragment :
     Fragment(),
-    DealsAdapter.DealsAdapterListener{
+    DealsAdapter.DealsAdapterListener {
 
     private lateinit var binding: FragmentDealsBinding
 
@@ -120,6 +118,7 @@ class DealsFragment :
 
     private fun initOnClickListener() {
         binding.dealsLayout.retryButton.setOnClickListener {
+            removeErrorView()
             adapter.retry()
             getStoreList()
         }
@@ -131,39 +130,35 @@ class DealsFragment :
     }
 
     private fun initAdapter() {
-
         binding.dealsLayout.dealsRecyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
             header = GlobalGridLoadStateAdapter { adapter.retry() },
             footer = GlobalGridLoadStateAdapter { adapter.retry() }
         )
 
         adapter.addLoadStateListener { loadState ->
-
             // Refresh Success
             binding.dealsLayout.dealsRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.dealsLayout.labelStoreName.isVisible = loadState.source.refresh is LoadState.NotLoading
 
             // Ongoing Refresh
             binding.dealsLayout.dealsProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-            // Refresh Failed
-            binding.dealsLayout.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.dealsLayout.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-            binding.dealsLayout.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-
-            //No Deals Found
             if (loadState.source.refresh is LoadState.NotLoading && adapter.itemCount < 1) {
-                binding.dealsLayout.dealsRecyclerView.isVisible = false
-
-                if (isOnline(requireContext())) {
-                    binding.dealsLayout.textViewStatus.text = getString(R.string.deals_not_found)
-                } else {
-                    binding.dealsLayout.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
-                }
-
-                binding.dealsLayout.textViewStatus.isVisible = true
-
+                //No Deals Found
+                showNoDealsFound()
+            } else if (loadState.source.refresh is LoadState.NotLoading && adapter.itemCount >= 1) {
+                removeErrorView()
             } else if (loadState.source.refresh is LoadState.Loading && adapter.itemCount >= 1) {
-                binding.dealsLayout.dealsProgressBar.isVisible = false
+                //Changing deals filter
+                showChangingFilters()
+            } else if (loadState.source.refresh is LoadState.Loading && adapter.itemCount < 1) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Error) {
+                if (isOnline(requireContext())) {
+                    showResponseError()
+                } else {
+                    showNoInternet()
+                }
             }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -172,11 +167,8 @@ class DealsFragment :
                 ?: loadState.append as? LoadState.Error
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
-                Snackbar.make(
-                    binding.root,
-                    "\uD83D\uDE28 Wooops ${it.error}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                showSnackbarShort(binding.root,"\uD83D\uDE28 Wooops ${it.error}")
+                Timber.e("loadStateAdapter : ${it.error}")
             }
         }
     }
@@ -268,4 +260,44 @@ class DealsFragment :
         intent.data = Uri.parse(url)
         startActivity(intent)
     }
+
+    private fun removeErrorView() {
+        binding.dealsLayout.dealsRecyclerView.isVisible = true
+        binding.dealsLayout.retryButton.isVisible = false
+        binding.dealsLayout.imageViewStatus.isVisible = false
+        binding.dealsLayout.textViewStatus.isVisible = false
+    }
+
+    private fun showNoInternet() {
+        binding.dealsLayout.labelStoreName.isVisible = false
+        binding.dealsLayout.dealsRecyclerView.isVisible = false
+        binding.dealsLayout.retryButton.isVisible = true
+        binding.dealsLayout.imageViewStatus.isVisible = true
+        binding.dealsLayout.textViewStatus.isVisible = true
+        binding.dealsLayout.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
+    }
+
+    private fun showResponseError() {
+        binding.dealsLayout.labelStoreName.isVisible = false
+        binding.dealsLayout.dealsRecyclerView.isVisible = false
+        binding.dealsLayout.retryButton.isVisible = true
+        binding.dealsLayout.imageViewStatus.isVisible = false
+        binding.dealsLayout.textViewStatus.isVisible = true
+        binding.dealsLayout.textViewStatus.text = getString(R.string.deals_error)
+    }
+
+    private fun showNoDealsFound() {
+        binding.dealsLayout.labelStoreName.isVisible = false
+        binding.dealsLayout.dealsRecyclerView.isVisible = false
+        binding.dealsLayout.retryButton.isVisible = true
+        binding.dealsLayout.imageViewStatus.isVisible = false
+        binding.dealsLayout.textViewStatus.isVisible = true
+        binding.dealsLayout.textViewStatus.text = getString(R.string.deals_not_found)
+    }
+
+    private fun showChangingFilters() {
+        binding.dealsLayout.dealsRecyclerView.isVisible = false
+        binding.dealsLayout.dealsProgressBar.isVisible = true
+    }
+
 }

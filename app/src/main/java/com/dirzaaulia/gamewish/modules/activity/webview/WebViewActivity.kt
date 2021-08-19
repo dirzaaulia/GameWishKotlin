@@ -76,7 +76,10 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun subscribeToken() {
         viewModel.accessToken.observe(this) {
-            if (it != null) { finish() }
+            if (it != null) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 }

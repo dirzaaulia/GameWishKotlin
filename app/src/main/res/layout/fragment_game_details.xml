@@ -6,10 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dirzaaulia.gamewish.modules.fragment.details.DetailsViewModel" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.game.DetailsViewModel" />
         <variable
             name="callback"
-            type="com.dirzaaulia.gamewish.modules.fragment.details.DetailsFragment.Callback" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.game.GameDetailsFragment.Callback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:transitionName="@string/detail_transition_name"
         tools:context="com.dirzaaulia.gamewish.modules.main.MainActivity"
         tools:ignore="MergeRootFrame">
 
@@ -400,6 +399,7 @@
             app:imageIfWishlisted="@{viewModel.wishlistItem.id}"
             app:layout_anchor="@id/details_appbar_layout"
             app:layout_anchorGravity="bottom|end"
+            android:backgroundTint="@color/material_on_background_disabled"
             app:tint="@color/white"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

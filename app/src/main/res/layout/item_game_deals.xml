@@ -44,7 +44,7 @@
                 android:textColor="@color/color_on_primary_surface_emphasis_high"
                 android:textAppearance="@style/TextAppearance.Gamewish.Caption"
                 app:textFormatSavings="@{dealsItem.savings}"
-                app:chipBackgroundColor="?colorPrimary"
+                app:chipBackgroundColor="@color/material_on_background_disabled"
                 app:chipMinHeight="@dimen/dimen_16dp"
                 app:chipMinTouchTargetSize="@dimen/dimen_16dp"
                 app:chipStartPadding="@dimen/dimen_0dp"

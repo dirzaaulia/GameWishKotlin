@@ -10,7 +10,7 @@ import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.databinding.ItemWishlistBinding
 
 class HomeAdapter(
-    private val listener : HomeAdapterListener
+private val listener : HomeAdapterListener
 ) : ListAdapter<Wishlist, HomeAdapter.ViewHolder>(WishlistDiffCallback()) {
 
     interface HomeAdapterListener {
@@ -42,9 +42,9 @@ class HomeAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-           binding.run {
-               this.listener = listener
-           }
+            binding.run {
+                this.listener = listener
+            }
         }
 
         fun bind(wishlist: Wishlist) {

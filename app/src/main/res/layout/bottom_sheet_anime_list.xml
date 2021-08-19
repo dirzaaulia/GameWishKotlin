@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen_16dp">
+
+        <ImageView
+            android:id="@+id/button_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:contentDescription="@string/delete_from_myanimelist"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/red_700" />
+
+        <ImageView
+            android:id="@+id/button_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_12dp"
+            android:src="@drawable/ic_baseline_article_24"
+            android:contentDescription="@string/delete_from_myanimelist"
+            app:layout_constraintTop_toTopOf="@id/button_delete"
+            app:layout_constraintEnd_toStartOf="@id/button_delete"
+            app:tint="@color/blue_700" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+            app:layout_constraintTop_toBottomOf="@id/button_delete"
+            tools:text="Naruto: Shippuden" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/field_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12dp"
+            android:hint="@string/status"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:layout_constraintTop_toBottomOf="@id/title">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                tools:ignore="LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/field_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/score"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:layout_constraintTop_toBottomOf="@id/field_status">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:enabled="false"
+                tools:ignore="LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/field_watched_episode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/episodes_watched"
+            app:layout_constraintTop_toBottomOf="@id/field_score">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/watched_episode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="number"
+                android:enabled="false"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_rewatching"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            android:text="@string/is_rewatching"
+            android:enabled="false"
+            app:layout_constraintTop_toBottomOf="@id/field_watched_episode"
+            app:useMaterialThemeColors="false" />
+
+        <Button
+            android:id="@+id/button_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/update"
+            android:textColor="@color/color_on_surface_emphasis_high"
+            style="?attr/materialButtonOutlinedStyle"
+            app:layout_constraintTop_toBottomOf="@id/switch_rewatching" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -15,8 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(view) -> listener.onGamesClicked(view, gamesItem)}"
-        android:transitionName="@{@string/detail_transition_name(gamesItem.id)}">
+        android:onClick="@{(view) -> listener.onGamesClicked(view, gamesItem)}">
 
         <TextView
             android:id="@+id/release_date"

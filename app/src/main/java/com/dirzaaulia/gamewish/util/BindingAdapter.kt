@@ -32,7 +32,7 @@ import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.rawg.Developer
 import com.dirzaaulia.gamewish.data.models.rawg.Platforms
 import com.dirzaaulia.gamewish.data.models.rawg.Publisher
-import com.dirzaaulia.gamewish.modules.fragment.details.adapter.DetailsPlatformsAdapter
+import com.dirzaaulia.gamewish.modules.fragment.details.game.adapter.DetailsPlatformsAdapter
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.SearchGamesPlatformsAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.elevation.ElevationOverlayProvider
@@ -355,12 +355,26 @@ private fun createGlideRequest(
     return req
 }
 
+@BindingAdapter("timber")
+fun View.timberLog(value : String?) {
+    Timber.i("Timber Log : %s", value)
+}
+
 @BindingAdapter("goneIf")
 fun View.bindGoneIf(gone: Boolean) {
     visibility = if (gone) {
         GONE
     } else {
         VISIBLE
+    }
+}
+
+@BindingAdapter("showIf")
+fun View.showGoneIf(show: Boolean) {
+    visibility = if (show) {
+        VISIBLE
+    } else {
+        GONE
     }
 }
 

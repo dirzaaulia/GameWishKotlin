@@ -8,34 +8,29 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.rawg.Games
 import com.dirzaaulia.gamewish.databinding.FragmentSearchGameBinding
-import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.SearchGamesAdapter
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.SearchGameViewPagerAdapter
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.adapter.SearchGamesAdapter
 import com.dirzaaulia.gamewish.modules.global.adapter.GlobalLoadStateAdapter
-import com.dirzaaulia.gamewish.util.SEARCH_FRAGMENT_QUERY
+import com.dirzaaulia.gamewish.util.isOnline
 import com.dirzaaulia.gamewish.util.openRawgLink
+import com.dirzaaulia.gamewish.util.showSnackbarShort
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -47,12 +42,6 @@ class SearchGameFragment :
     private var job: Job? = null
     private val viewModel: SearchGameViewModel by activityViewModels()
     private var adapterSearchGames = SearchGamesAdapter(this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,42 +57,19 @@ class SearchGameFragment :
         setupViewPager()
         initOnClickListener()
         initAdapter()
-        if (savedInstanceState != null) {
-            val searchQuery = savedInstanceState.getString(SEARCH_FRAGMENT_QUERY)
-            if (!searchQuery.isNullOrEmpty()) {
-                refreshSearchGames(searchQuery, null, null, null)
-            }
-        }
         initSearch()
+        subscribeSearchQuery()
         subscribeGenre()
         subscribePublisher()
         subscribePlatform()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(SEARCH_FRAGMENT_QUERY, binding.searchEditText.text.trim().toString())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.updateGenre(0)
-        viewModel.updatePlatform(0)
-        viewModel.updatePublisher(0)
-    }
-
     override fun onGamesClicked(view: View, games: Games) {
-        exitTransition = MaterialElevationScale(false).apply {
+        exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-        }
-
-        val searchGamesDetailTransitionName = getString(R.string.detail_transition_name)
-        val extras = FragmentNavigatorExtras(view to searchGamesDetailTransitionName)
-        val directions = SearchGameFragmentDirections.actionSearchGameFragmentToDetailsFragment(games.id!!)
-        view.findNavController().navigate(directions, extras)
+        val directions = SearchGameFragmentDirections.actionSearchGameFragmentToGameDetailsFragment(games.id!!)
+        view.findNavController().navigate(directions)
     }
 
     private fun setupViewPager() {
@@ -132,6 +98,10 @@ class SearchGameFragment :
 
         binding.searchGameToolbar.setNavigationOnClickListener {
             navController.navigateUp()
+            viewModel.setSearchQuery("")
+            viewModel.updateGenre(0)
+            viewModel.updatePublisher(0)
+            viewModel.updatePlatform(0)
         }
 
         binding.bottomSheet.searchGamesRetryButton.setOnClickListener {
@@ -150,6 +120,10 @@ class SearchGameFragment :
                 }else{
                     isEnabled = false
                     navController.navigateUp()
+                    viewModel.setSearchQuery("")
+                    viewModel.updateGenre(0)
+                    viewModel.updatePublisher(0)
+                    viewModel.updatePlatform(0)
                 }
             }
         })
@@ -175,17 +149,18 @@ class SearchGameFragment :
             binding.bottomSheet.searchGamesTextViewStatus.isVisible = loadState.source.refresh is LoadState.Error
             binding.bottomSheet.searchGamesImageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
 
-            //No Search Found
             if (loadState.source.refresh is LoadState.NotLoading && adapterSearchGames.itemCount < 1) {
-                binding.bottomSheet.searchRecyclerView.isVisible = false
-                binding.bottomSheet.searchGamesTextViewStatus.text = getString(R.string.search_games_not_found)
-                binding.bottomSheet.searchGamesTextViewStatus.isVisible = true
-            } else if (loadState.source.refresh is LoadState.Loading && adapterSearchGames.itemCount >= 1) {
-                binding.bottomSheet.searchRecyclerView.isVisible = false
-                binding.bottomSheet.searchLabelRawg.isVisible = false
-            } else {
-                binding.bottomSheet.searchRecyclerView.isVisible = true
-                binding.bottomSheet.searchLabelRawg.isVisible = true
+                showEmpty()
+            } else if (loadState.source.refresh is LoadState.NotLoading && adapterSearchGames.itemCount >= 1) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Loading) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Error) {
+                if (isOnline(requireContext())) {
+                    showResponseError()
+                } else {
+                    showNoInternet()
+                }
             }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -195,6 +170,7 @@ class SearchGameFragment :
                 ?: loadState.prepend as? LoadState.Error
             errorState?.let {
                 Snackbar.make(binding.root, "\uD83D\uDE28 Wooops ${it.error}", Snackbar.LENGTH_SHORT).show()
+                showSnackbarShort(binding.root, "\uD83D\uDE28 Wooops ${it.error}")
             }
         }
     }
@@ -210,17 +186,6 @@ class SearchGameFragment :
                 false
             }
         }
-
-        // Scroll to top when the list is refreshed from network.
-        lifecycleScope.launch {
-            adapterSearchGames.loadStateFlow
-                // Only emit when REFRESH LoadState for RemoteMediator changes.
-                .distinctUntilChangedBy {
-                    it.refresh }
-                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.bottomSheet.searchRecyclerView.scrollToPosition(0) }
-        }
     }
 
     private fun refreshSearchGames(search: String?, genres: Int?, publishers: Int?, platforms: Int?) {
@@ -228,7 +193,7 @@ class SearchGameFragment :
         job = lifecycleScope.launch {
             viewModel.refreshSearchGames(search, genres, publishers, platforms).collect {
                 showBottomSheet()
-                adapterSearchGames.submitData(it)
+                adapterSearchGames.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
     }
@@ -236,7 +201,16 @@ class SearchGameFragment :
     private fun updateGamesSearch() {
         binding.searchEditText.text.trim().let {
             if (it.isNotEmpty()) {
+                viewModel.setSearchQuery(it.toString())
                 refreshSearchGames(it.toString(), null, null, null)
+            }
+        }
+    }
+
+    private fun subscribeSearchQuery() {
+        viewModel.searchQuery.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                refreshSearchGames(it, null, null, null)
             }
         }
     }
@@ -263,6 +237,37 @@ class SearchGameFragment :
                 refreshSearchGames(null, null, null, it)
             }
         }
+    }
+
+    private fun removeErrorView() {
+        binding.bottomSheet.searchRecyclerView.isVisible = true
+        binding.bottomSheet.searchGamesRetryButton.isVisible = false
+        binding.bottomSheet.searchGamesImageViewStatus.isVisible = false
+        binding.bottomSheet.searchGamesTextViewStatus.isVisible = false
+    }
+
+    private fun showNoInternet() {
+        binding.bottomSheet.searchRecyclerView.isVisible = false
+        binding.bottomSheet.searchGamesRetryButton.isVisible = true
+        binding.bottomSheet.searchGamesImageViewStatus.isVisible = true
+        binding.bottomSheet.searchGamesTextViewStatus.isVisible = true
+        binding.bottomSheet.searchGamesTextViewStatus.text = getString(R.string.please_check_your_internet_connection)
+    }
+
+    private fun showResponseError() {
+        binding.bottomSheet.searchRecyclerView.isVisible = false
+        binding.bottomSheet.searchGamesRetryButton.isVisible = true
+        binding.bottomSheet.searchGamesImageViewStatus.isVisible = false
+        binding.bottomSheet.searchGamesTextViewStatus.isVisible = true
+        binding.bottomSheet.searchGamesTextViewStatus.text = getString(R.string.search_games_wrong)
+    }
+
+    private fun showEmpty() {
+        binding.bottomSheet.searchRecyclerView.isVisible = false
+        binding.bottomSheet.searchGamesRetryButton.isVisible = true
+        binding.bottomSheet.searchGamesImageViewStatus.isVisible = false
+        binding.bottomSheet.searchGamesTextViewStatus.isVisible = true
+        binding.bottomSheet.searchGamesTextViewStatus.text = getString(R.string.search_games_empty)
     }
 
     private fun showBottomSheet() {

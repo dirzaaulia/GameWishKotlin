@@ -9,7 +9,7 @@
             type="com.dirzaaulia.gamewish.data.models.rawg.Stores" />
         <variable
             name="listener"
-            type="com.dirzaaulia.gamewish.modules.fragment.details.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />
+            type="com.dirzaaulia.gamewish.modules.fragment.details.game.adapter.DetailsStoresAdapter.DetailsStoresAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_4dp"
         android:onClick="@{(view) -> listener.onStoreClicked(view, storesItem)}"
-        app:cardBackgroundColor="?colorPrimary"
+        app:cardBackgroundColor="@color/material_on_background_disabled"
         app:cardCornerRadius="@dimen/dimen_5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -38,10 +38,6 @@
     <string name="screenshots">Screenshots</string>
     <string name="metacritic_image_logo">Metacritic Image Logo</string>
     <string name="released_date_format">Released Date %s</string>
-
-    <!-- Search Fragment -->
-    <string name="detail_transition_name">details_%1$s</string>
-
     <string name="background_image_game_details">Background Image Game Details</string>
     <string name="esrb_rating_image">ESRB Rating Image</string>
     <string name="no_internet_connection_image">No Internet Connection Image</string>
@@ -93,19 +89,60 @@
     <string name="send_e_mail">Send E-Mail</string>
     <string name="link_myanimelist">Link MyAnimeList Account</string>
     <string name="unlink_myanimelist">Unlink MyAnimeList Account</string>
-    <string name="search_games_not_found">No Games Found! Please check and change your game name to be more specific</string>
+    <string name="search_games_empty">No Games Found! Please check and change your game name to be more
+        specific</string>
+    <string name="search_games_wrong">Something went wrong when getting games data. Please try it again!</string>
     <string name="deals_not_found">No Deals found! Please check and change your Deals search filter</string>
+    <string name="deals_error">Something went wrong when getting Deals, please try it again!</string>
     <string name="search_anime_not_found">No Anime or Manga Found! Please check and change your search query to be more
         specific</string>
+    <string name="anime_list_empty">Your Anime list is currently empty! Search for some anime to watch and add
+        to your list</string>
+    <string name="manga_list_empty">Your Manga list is currently empty! Search for some manga to read and add
+        to your list</string>
     <string name="search_games_label">Search games with games name or select category you want to search</string>
     <string name="genres_empty">Something when wrong when getting genres data. Please try it again!</string>
     <string name="publishers_empty">Something when wrong when getting publishers data. Please try it again!</string>
     <string name="platforms_empty">Something when wrong when getting platforms data. Please try it again!</string>
     <string name="game_details_empty">Something when wrong when getting game data. Please try it again!</string>
+    <string name="seasonal_empty">Something when wrong when getting seasonal anime data. Please try it again!</string>
+    <string name="anime_empty">Something when wrong when getting anime data. Please try it again!</string>
+    <string name="manga_empty">Something when wrong when getting manga data. Please try it again!</string>
+    <string name="sort_myanimelist">Sort list by :</string>
     <string name="i_in_circle">ⓘ</string>
     <string name="skip_login">Skip Login</string>
     <string name="games">Games</string>
     <string name="anime_manga"><![CDATA[Anime & Manga]]></string>
+    <string name="seasonal">Seasonal Anime</string>
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
+    <string name="score">Score</string>
+    <string name="rank">Rank</string>
+    <string name="members">Members</string>
+    <string name="popularity">Popularity</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="myanimelist_link"><![CDATA[Wishlist for Anime & Manga supported wih MyAnimeList. Link your MyAnimeList acccount to get started.]]></string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="sort">Sort</string>
+    <string name="switch_to_manga">Switch to Manga</string>
+    <string name="switch_to_anime">Switch to Anime</string>
+    <string name="anime_list">Anime List</string>
+    <string name="manga_list">Manga List</string>
+    <string name="search_anime">Type anime title in the search bar to start your search</string>
+    <string name="search_manga">Type manga title in the search bar to start your search</string>
+    <string name="rewatching">Rewatching</string>
+    <string name="status">Status</string>
+    <string name="is_rewatching">Is Rewatching</string>
+    <string name="episodes_watched">Episodes Watched</string>
+    <string name="delete_from_myanimelist">Delete From MyAnimeList</string>
+    <string name="update">Update</string>
+    <string name="select_score">Select Score</string>
+    <string name="content_description_fab_myanimelist_details">Show Bottom Sheet Anime Dialog</string>
+    <string name="dialog_season_title">Select Season</string>
+    <string name="season">Season</string>
+    <string name="year">Year</string>
+    <string name="update_seasonal_anime">Update Seasonal Anime</string>
+    <string name="winter">Winter</string>
 </resources>

@@ -62,7 +62,7 @@ private class SearchAnimeDiffCallback : DiffUtil.ItemCallback<ParentNode>() {
         oldItem: ParentNode,
         newItem: ParentNode
     ): Boolean {
-        return oldItem.node.id == newItem.node.id
+        return oldItem.node?.id == newItem.node?.id
     }
 
     override fun areContentsTheSame(

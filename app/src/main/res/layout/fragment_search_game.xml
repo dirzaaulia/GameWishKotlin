@@ -46,6 +46,7 @@
             </com.google.android.material.appbar.MaterialToolbar>
 
             <View
+                android:id="@+id/search_game_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white"
@@ -56,14 +57,12 @@
                 android:id="@+id/search_game_tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/search_game_toolbar"/>
+                app:layout_constraintTop_toBottomOf="@id/search_game_separator"/>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/search_game_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="@dimen/dimen_8dp"
-                android:clipToPadding="true"
                 app:layout_constraintTop_toBottomOf="@id/search_game_tab_layout"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

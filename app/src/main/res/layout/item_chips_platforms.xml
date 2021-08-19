@@ -18,7 +18,7 @@
         android:text="@{platformItem.platform.name}"
         android:textColor="@color/color_on_primary_surface_emphasis_high"
         android:textAppearance="@style/TextAppearance.Gamewish.Caption"
-        app:chipBackgroundColor="?colorPrimary"
+        app:chipBackgroundColor="@color/material_on_background_disabled"
         tools:text="Tes">
 
     </com.google.android.material.chip.Chip>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_myanimelist_link_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/dimen_16dp">
+
+        <TextView
+            android:id="@+id/home_myanimelist_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+            android:text="@string/anime_list"
+            android:visibility="visible"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="@id/home_myanimelist_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/home_myanimelist_switch"
+            app:layout_constraintBottom_toBottomOf="@id/home_myanimelist_switch"
+            tools:text="Anime List"/>
+
+        <Button
+            android:id="@+id/home_myanimelist_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:minHeight="@dimen/dimen_0dp"
+            android:minWidth="@dimen/dimen_0dp"
+            android:text="@string/switch_to_manga"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Switch To Manga"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_myanimelist_recycler_vew"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:overScrollMode="never"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            app:layout_constraintTop_toBottomOf="@id/home_myanimelist_switch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_search_anime"/>
+
+        <TextView
+            android:id="@+id/home_myanimelist_link_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myanimelist_link"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/home_myanimelist_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/link_myanimelist"
+            app:layout_constraintTop_toBottomOf="@id/home_myanimelist_link_label" />
+
+        <ProgressBar
+            android:id="@+id/home_myanimelist_link_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/home_myanimelist_link_image_view_status"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/no_internet_connection_image"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_baseline_cloud_off_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/home_myanimelist_link_text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24dp"
+            android:text="@string/please_check_your_internet_connection"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/home_myanimelist_link_image_view_status" />
+
+        <Button
+            android:id="@+id/home_myanimelist_link_retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_myanimelist_link_text_view_status" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

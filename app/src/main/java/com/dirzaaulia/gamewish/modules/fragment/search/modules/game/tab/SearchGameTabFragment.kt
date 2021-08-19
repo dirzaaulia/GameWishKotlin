@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.viewpager2.widget.ViewPager2
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.rawg.Genre
 import com.dirzaaulia.gamewish.data.models.rawg.Platform
@@ -38,6 +39,7 @@ class SearchGameTabFragment :
     PlatformsAdapter.PlatformsAdapterListener{
 
     private lateinit var binding: FragmentSearchGameTabBinding
+
     private var job: Job? = null
     private val viewModel: SearchGameTabViewModel by viewModels()
     private val parentViewModel : SearchGameViewModel by activityViewModels()
@@ -109,9 +111,9 @@ class SearchGameTabFragment :
     private fun setupOnClickListeners() {
         binding.retryButton.setOnClickListener {
             when (position) {
-                1 -> getGenres()
-                2 -> getPublishers()
-                3 -> getPlatforms()
+                1 -> genresAdapter.retry()
+                2 -> publishersAdapter.retry()
+                3 -> platformsAdapter.retry()
             }
         }
 
@@ -138,28 +140,21 @@ class SearchGameTabFragment :
             //Loading
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-            //Error
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-            binding.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-
             //Show Label RAWG when data is not empty
             binding.labelRawg.isVisible = genresAdapter.itemCount >= 1
 
-            //No Genres Found
             if (loadState.source.refresh is LoadState.NotLoading && genresAdapter.itemCount < 1) {
-                binding.recyclerView.isVisible = false
-
+                showResponseError()
+            } else if (loadState.source.refresh is LoadState.NotLoading && genresAdapter.itemCount >= 1) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Loading) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Error) {
                 if (isOnline(requireContext())) {
-                    binding.textViewStatus.text = getString(R.string.genres_empty)
+                    showResponseError()
                 } else {
-                    binding.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
+                    showNoInternet()
                 }
-
-                binding.textViewStatus.isVisible = true
-                binding.retryButton.isVisible = true
-            } else {
-                binding.recyclerView.isVisible = true
             }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -200,28 +195,21 @@ class SearchGameTabFragment :
             //Loading
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-            //Error
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-            binding.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-
             //Show Label RAWG when data is not empty
             binding.labelRawg.isVisible = publishersAdapter.itemCount >= 1
 
-            //No Publishers Found
             if (loadState.source.refresh is LoadState.NotLoading && publishersAdapter.itemCount < 1) {
-                binding.recyclerView.isVisible = false
-
+                showResponseError()
+            } else if (loadState.source.refresh is LoadState.NotLoading && publishersAdapter.itemCount >= 1) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Loading) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Error) {
                 if (isOnline(requireContext())) {
-                    binding.textViewStatus.text = getString(R.string.publishers_empty)
+                    showResponseError()
                 } else {
-                    binding.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
+                    showNoInternet()
                 }
-
-                binding.textViewStatus.isVisible = true
-                binding.retryButton.isVisible = true
-            } else {
-                binding.recyclerView.isVisible = true
             }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -262,28 +250,21 @@ class SearchGameTabFragment :
             //Loading
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-            //Error
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.textViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-            binding.imageViewStatus.isVisible = loadState.source.refresh is LoadState.Error
-
             //Show Label RAWG when data is not empty
             binding.labelRawg.isVisible = platformsAdapter.itemCount >= 1
 
-            //No Genres Found
             if (loadState.source.refresh is LoadState.NotLoading && platformsAdapter.itemCount < 1) {
-                binding.recyclerView.isVisible = false
-
+                showResponseError()
+            } else if (loadState.source.refresh is LoadState.NotLoading && platformsAdapter.itemCount >= 1) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Loading) {
+                removeErrorView()
+            } else if (loadState.source.refresh is LoadState.Error) {
                 if (isOnline(requireContext())) {
-                    binding.textViewStatus.text = getString(R.string.platforms_empty)
+                    showResponseError()
                 } else {
-                    binding.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
+                    showNoInternet()
                 }
-
-                binding.textViewStatus.isVisible = true
-                binding.retryButton.isVisible = true
-            } else {
-                binding.recyclerView.isVisible = true
             }
 
             // Snackbar on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -303,6 +284,34 @@ class SearchGameTabFragment :
             viewModel.getPlatforms().collectLatest {
                 platformsAdapter.submitData(it)
             }
+        }
+    }
+
+    private fun removeErrorView() {
+        binding.recyclerView.isVisible = true
+        binding.retryButton.isVisible = false
+        binding.imageViewStatus.isVisible = false
+        binding.textViewStatus.isVisible = false
+    }
+
+    private fun showNoInternet() {
+        binding.recyclerView.isVisible = false
+        binding.retryButton.isVisible = true
+        binding.imageViewStatus.isVisible = true
+        binding.textViewStatus.isVisible = true
+        binding.textViewStatus.text = getString(R.string.please_check_your_internet_connection)
+    }
+
+    private fun showResponseError() {
+        binding.recyclerView.isVisible = false
+        binding.retryButton.isVisible = true
+        binding.imageViewStatus.isVisible = false
+        binding.textViewStatus.isVisible = true
+
+        when (position) {
+            1 -> binding.textViewStatus.text = getString(R.string.genres_empty)
+            2 -> binding.textViewStatus.text = getString(R.string.publishers_empty)
+            3 -> binding.textViewStatus.text = getString(R.string.platforms_empty)
         }
     }
 }

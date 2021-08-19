@@ -1,55 +1,51 @@
-package com.dirzaaulia.gamewish.modules.fragment.details
+package com.dirzaaulia.gamewish.modules.fragment.details.game
 
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.dirzaaulia.gamewish.R
+import com.dirzaaulia.gamewish.data.models.Wishlist
 import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
 import com.dirzaaulia.gamewish.data.models.rawg.Stores
-import com.dirzaaulia.gamewish.data.models.Wishlist
-import com.dirzaaulia.gamewish.databinding.FragmentDetailsBinding
-import com.dirzaaulia.gamewish.modules.fragment.details.DetailsFragment.Callback
-import com.dirzaaulia.gamewish.modules.fragment.details.adapter.DetailsStoresAdapter
+import com.dirzaaulia.gamewish.databinding.FragmentGameDetailsBinding
+import com.dirzaaulia.gamewish.modules.fragment.details.game.GameDetailsFragment.Callback
+import com.dirzaaulia.gamewish.modules.fragment.details.game.adapter.DetailsStoresAdapter
 import com.dirzaaulia.gamewish.util.isOnline
 import com.dirzaaulia.gamewish.util.openLink
 import com.dirzaaulia.gamewish.util.openRawgLink
 import com.dirzaaulia.gamewish.util.showSnackbarShort
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
-class DetailsFragment :
+class GameDetailsFragment :
     Fragment(),
     DetailsStoresAdapter.DetailsStoresAdapterListener {
-
-    private val args: DetailsFragmentArgs by navArgs()
-    private val detailsStoresAdapter = DetailsStoresAdapter(this)
-
-    private lateinit var userAuthId : String
 
     @Inject
     lateinit var detailsViewModelFactory: DetailsViewModelFactory
 
+    private lateinit var userAuthId : String
+
+    private val args: GameDetailsFragmentArgs by navArgs()
+    private val detailsStoresAdapter = DetailsStoresAdapter(this)
     private val detailsViewModel: DetailsViewModel by viewModels {
         DetailsViewModel.provideFactory(detailsViewModelFactory, args.gameId)
     }
@@ -61,13 +57,8 @@ class DetailsFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            // Scope the transition to a view in the hierarchy so we know it will be added under
-            // the bottom app bar but over the elevation scale of the exiting HomeFragment.
-            drawingViewId = R.id.nav_host_fragment
+        enterTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(ContextCompat.getColor(requireContext(), R.color.scrimBackground))
         }
     }
 
@@ -76,9 +67,9 @@ class DetailsFragment :
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = DataBindingUtil.inflate<FragmentDetailsBinding>(
+        val binding = DataBindingUtil.inflate<FragmentGameDetailsBinding>(
             inflater,
-            R.layout.fragment_details,
+            R.layout.fragment_game_details,
             container,
             false
         ).apply {
@@ -112,7 +103,7 @@ class DetailsFragment :
 
     private fun actionWishlist(
         gameDetails: GameDetails,
-        binding: FragmentDetailsBinding
+        binding: FragmentGameDetailsBinding
     ) {
         val wishlist = Wishlist(
             gameDetails.id,
@@ -155,7 +146,7 @@ class DetailsFragment :
         showSnackbarShort(binding.root, message)
     }
 
-    private fun setupScrollChangeListeners(binding: FragmentDetailsBinding) {
+    private fun setupScrollChangeListeners(binding: FragmentGameDetailsBinding) {
         var isToolbarShown = false
 
         // scroll change listener begins at Y = 0 when image is fully collapsed
@@ -182,7 +173,7 @@ class DetailsFragment :
         )
     }
 
-    private fun subscribeGameDetails(binding: FragmentDetailsBinding) {
+    private fun subscribeGameDetails(binding: FragmentGameDetailsBinding) {
         binding.detailsProgressBar.isVisible = true
         detailsViewModel.fetchGameDetails()
         detailsViewModel.gameDetails.observe(viewLifecycleOwner) { gameDetails ->
@@ -195,7 +186,7 @@ class DetailsFragment :
         }
     }
 
-    private fun subscribeGameDetailsScreenshots(binding: FragmentDetailsBinding) {
+    private fun subscribeGameDetailsScreenshots(binding: FragmentGameDetailsBinding) {
         detailsViewModel.fetchGameDetailsScrenshoots()
         detailsViewModel.gameDetailsScreenshots.observe(viewLifecycleOwner) {
             val imageList = ArrayList<SlideModel>()
@@ -208,7 +199,7 @@ class DetailsFragment :
         }
     }
 
-    private fun subscribeErrorMessage(binding: FragmentDetailsBinding) {
+    private fun subscribeErrorMessage(binding: FragmentGameDetailsBinding) {
         detailsViewModel.errorMessage.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 if (isOnline(requireContext())) {
@@ -220,7 +211,7 @@ class DetailsFragment :
         }
     }
 
-    private fun setupRetryButton(binding: FragmentDetailsBinding) {
+    private fun setupRetryButton(binding: FragmentGameDetailsBinding) {
         binding.detailsRetryButton.setOnClickListener {
             showNormal(binding)
             binding.detailsProgressBar.isVisible = true
@@ -230,7 +221,7 @@ class DetailsFragment :
         }
     }
 
-    private fun setOnClickListeners(gameDetails: GameDetails?, binding: FragmentDetailsBinding) {
+    private fun setOnClickListeners(gameDetails: GameDetails?, binding: FragmentGameDetailsBinding) {
         binding.apply {
             gameDetails?.let {
                 binding.detailsWebsite.setOnClickListener {
@@ -249,10 +240,16 @@ class DetailsFragment :
             binding.toolbar.setNavigationOnClickListener { view ->
                 view.findNavController().navigateUp()
             }
+            
+            activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                  view?.findNavController()?.navigateUp()
+                }
+            })
         }
     }
 
-    private fun showConnectionError(binding: FragmentDetailsBinding) {
+    private fun showConnectionError(binding: FragmentGameDetailsBinding) {
         binding.detailsProgressBar.isVisible = false
 
         binding.detailsImageViewStatus.isVisible = false
@@ -263,7 +260,7 @@ class DetailsFragment :
         binding.detailsRetryButton.isVisible = true
     }
 
-    private fun showNoInternet(binding: FragmentDetailsBinding) {
+    private fun showNoInternet(binding: FragmentGameDetailsBinding) {
         binding.detailsProgressBar.isVisible = false
 
         binding.detailsImageViewStatus.isVisible = true
@@ -274,7 +271,7 @@ class DetailsFragment :
         binding.detailsRetryButton.isVisible = true
     }
 
-    private fun showNormal(binding : FragmentDetailsBinding) {
+    private fun showNormal(binding : FragmentGameDetailsBinding) {
         binding.detailsImageViewStatus.isVisible = false
         binding.detailsTextViewStatus.isVisible = false
         binding.detailsRetryButton.isVisible = false

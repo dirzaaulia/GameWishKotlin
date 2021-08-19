@@ -1,5 +1,6 @@
 package com.dirzaaulia.gamewish.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -16,6 +17,7 @@ import com.dirzaaulia.gamewish.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
+import java.util.*
 
 fun isOnline(context: Context): Boolean {
     val connectivityManager =
@@ -41,6 +43,11 @@ fun showSnackbarShort(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
 }
 
+fun showSnackbarShortWithAnchor(view: View, anchorView: View, message: String) {
+    Snackbar.make(view, message, Snackbar.LENGTH_SHORT).setAnchorView(anchorView).show()
+}
+
+
 fun showInfiniteSnackbar(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).show()
 }
@@ -53,6 +60,13 @@ fun openLink(context: Context, link: String) {
 
 fun openRawgLink(context: Context) {
     val url = "https://www.rawg.io"
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(url)
+    startActivity(context, intent, null)
+}
+
+fun openMyAnimeListLink(context: Context) {
+    val url = "https://www.myanimelist.net"
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(url)
     startActivity(context, intent, null)
@@ -82,3 +96,13 @@ fun showAlertDialogWithoutButton(context: Context, title : String, message: Stri
         .setMessage(message)
         .show()
 }
+
+@SuppressLint("DefaultLocale")
+fun String.capitalizeWords(): String =
+    split(" ").joinToString(" ") { it.lowercase(Locale.getDefault())
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } }
+
+
+@SuppressLint("DefaultLocale")
+fun String.lowerCaseWords(): String =
+    split(" ").joinToString(" ") { it.lowercase(Locale.getDefault()) }

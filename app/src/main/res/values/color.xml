@@ -272,13 +272,16 @@
     <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
+    <color name="grey_50_alpha_060">#60FAFAFA</color>
 
     <color name="black">#000000</color>
     <color name="black_800">#121212</color>
-    <color name="black_alpha_087">#87000000</color>
-    <color name="black_alpha_060">#60000000</color>
+    <color name="black_alpha_020">#33000000</color>
+    <color name="black_alpha_087">#de000000</color>
+    <color name="black_alpha_060">#99000000</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="white_alpha_060">#99ffffff</color>
 
     <color name="scrimBackground">@color/white</color>
 
@@ -293,4 +296,11 @@
     <color name="dark_bg_light_secondary_text">#B3FFFFFF</color>
     <color name="dark_bg_light_disabled_text">#80FFFFFF</color>
     <color name="dark_bg_light_hint_text">#80FFFFFF</color>
+
+    <!--Nav bar color protection for behavior differences between Android P and Q. All sdk-->
+    <!--levels should draw fullscreen. P should color the nav bar with a translucent background -->
+    <!--to guard for contrast. Q should have a transparent nav bar as Q will automatically -->
+    <!--handles contrast by either dynamically coloring the nav bar handle (gesture nav) -->
+    <!--or automatically applying a translucent background (3-button mode).-->
+    <color name="nav_bar">@color/black_alpha_020</color>
 </resources>

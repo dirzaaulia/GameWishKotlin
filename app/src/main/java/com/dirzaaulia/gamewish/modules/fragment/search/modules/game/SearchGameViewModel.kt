@@ -1,12 +1,12 @@
 package com.dirzaaulia.gamewish.modules.fragment.search.modules.game
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dirzaaulia.gamewish.data.models.rawg.Games
-import com.dirzaaulia.gamewish.data.models.rawg.Genre
-import com.dirzaaulia.gamewish.data.models.rawg.Platform
-import com.dirzaaulia.gamewish.data.models.rawg.Publisher
 import com.dirzaaulia.gamewish.repository.RawgRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +17,16 @@ class SearchGameViewModel @Inject constructor(
     private val repository: RawgRepository
 ) : ViewModel() {
 
-    var currentQueryValue: String? = null
-    var currentGenresValue: Int? = null
-    var currentPublishersValue: Int? = null
-    var currentPlatformsValue: Int? = null
+    private var currentQueryValue: String? = null
+    private var currentGenresValue: Int? = null
+    private var currentPublishersValue: Int? = null
+    private var currentPlatformsValue: Int? = null
 
     private var currentSearchGamesResult: Flow<PagingData<Games>>? = null
+
+    private val _searchQuery = MutableLiveData<String>()
+    val searchQuery : LiveData<String>
+        get() = _searchQuery
 
     private val _genre = MutableLiveData<Int>()
     val genre : LiveData<Int>
@@ -35,6 +39,10 @@ class SearchGameViewModel @Inject constructor(
     private val _platform = MutableLiveData<Int>()
     val platforms : LiveData<Int>
         get() = _platform
+
+    fun setSearchQuery(query : String) {
+        _searchQuery.value = query
+    }
 
     fun refreshSearchGames(request: String?, genres: Int?, publishers: Int?, platforms: Int?) :
             Flow<PagingData<Games>> {

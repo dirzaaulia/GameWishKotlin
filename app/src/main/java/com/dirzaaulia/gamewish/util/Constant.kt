@@ -3,8 +3,6 @@ package com.dirzaaulia.gamewish.util
 const val DATABASE_NAME= "gamewish_database"
 const val DEALS_FRAGMENT_DEALS_REQUEST = "deals_fragment_deals_request"
 const val DEALS_FRAGMENT_STORE_NAME = "deals_fragment_store_name"
-const val SEARCH_ANIME_TAB_SELECTED = "searchAnimeTabSelected"
-const val SEARCH_FRAGMENT_QUERY = "search_fragment_query"
 const val DEALS_PAGE_SIZE = 10
 const val GAMES_PAGE_SIZE = 10
 const val CHEAPSHARK_BASE_URL = "https://www.cheapshark.com/api/1.0/"

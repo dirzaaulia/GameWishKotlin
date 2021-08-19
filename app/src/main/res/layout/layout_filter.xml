@@ -76,15 +76,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            style="@style/SwitchStyle"
             android:id="@+id/switch_AAA_games"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_4dp"
-            android:textColor="@color/color_on_surface_emphasis_high"
             android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
             android:text="@string/aaa_games"
-            app:useMaterialThemeColors="false" />
+            android:textColorHint="@color/color_on_surface_emphasis_high"
+            app:useMaterialThemeColors="false"/>
 
         <Button
             android:id="@+id/button_filter"

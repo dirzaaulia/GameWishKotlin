@@ -15,6 +15,10 @@
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_animeDetailsFragment"
+            app:destination="@id/animeDetailsFragment"
+            app:launchSingleTop="false"/>
     </fragment>
 
     <fragment
@@ -25,8 +29,8 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.dirzaaulia.gamewish.modules.fragment.details.DetailsFragment"
-        tools:layout="@layout/fragment_details">
+        android:name="com.dirzaaulia.gamewish.modules.fragment.details.game.GameDetailsFragment"
+        tools:layout="@layout/fragment_game_details">
         <argument
             android:name="game_id"
             app:argType="integer" />
@@ -43,5 +47,17 @@
         android:name="com.dirzaaulia.gamewish.modules.fragment.about.AboutFragment"
         android:label="AboutFragment"
         tools:layout="@layout/fragment_about"/>
+
+    <fragment
+        android:id="@+id/animeDetailsFragment"
+        android:name="com.dirzaaulia.gamewish.modules.fragment.details.anime.AnimeDetailsFragment"
+        tools:layout="@layout/fragment_anime_details">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="code"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

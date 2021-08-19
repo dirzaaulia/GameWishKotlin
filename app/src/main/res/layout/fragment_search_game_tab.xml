@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/dimen_4dp"
-            android:layout_marginStart="@dimen/dimen_8dp"
+            android:layout_marginStart="@dimen/dimen_4dp"
             android:text="@string/genres_data_provided_by_rawg"
             android:textAppearance="@style/TextAppearance.Gamewish.Caption"
             app:layout_constraintTop_toTopOf="parent"/>

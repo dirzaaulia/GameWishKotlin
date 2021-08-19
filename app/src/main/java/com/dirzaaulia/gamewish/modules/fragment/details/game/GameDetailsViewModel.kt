@@ -1,4 +1,4 @@
-package com.dirzaaulia.gamewish.modules.fragment.details
+package com.dirzaaulia.gamewish.modules.fragment.details.game
 
 import androidx.lifecycle.*
 import com.dirzaaulia.gamewish.data.models.rawg.GameDetails
@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-
 
 class DetailsViewModel @AssistedInject constructor(
     private val wishlistRepository: WishlistRepository,
