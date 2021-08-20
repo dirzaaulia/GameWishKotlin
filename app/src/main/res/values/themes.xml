@@ -63,6 +63,7 @@
 
         <!--Theme-->
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.GameWish.MaterialAlertDialog</item>
+        <item name="dialogTheme">@style/ThemeOverlay.GameWish.Dialog</item>
 
         <!--System/Platform attributes-->
         <item name="android:windowBackground">?android:colorBackground</item>

@@ -2,9 +2,6 @@ package com.dirzaaulia.gamewish.modules.fragment.home.tab.anime
 
 import android.os.Bundle
 import android.view.*
-import android.widget.EditText
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -15,7 +12,7 @@ import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.HomeTabNavGraphDirections
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.myanimelist.ParentNode
-import com.dirzaaulia.gamewish.databinding.FragmentAnimeBinding
+import com.dirzaaulia.gamewish.databinding.FragmentMangaBinding
 import com.dirzaaulia.gamewish.modules.activity.main.MainActivity
 import com.dirzaaulia.gamewish.modules.fragment.home.HomeFragmentDirections
 import com.dirzaaulia.gamewish.modules.fragment.home.HomeViewModel
@@ -32,21 +29,21 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AnimeFragment :
+class MangaFragment :
     Fragment(),
     HomeAnimeAdapter.HomeAnimeAdapterListener,
     BottomSheetAnimeDialog.BottomSheetAnimeDialogListener {
 
-    private lateinit var binding : FragmentAnimeBinding
+    private lateinit var binding : FragmentMangaBinding
 
     private var job: Job? = null
     private var accessToken : String? = null
     private var updateMessage : String? = null
     private var sortValue : String = ""
-    private var checkedAnimeSort : Int = 0
+    private var checkedMangaSort : Int = 0
 
     private val viewModel : HomeViewModel by hiltNavGraphViewModels(R.id.home_tab_nav_graph)
-    private val animeAdapter = HomeAnimeAdapter(this)
+    private val mangaAdapter = HomeAnimeAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +54,7 @@ class AnimeFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAnimeBinding.inflate(inflater, container, false)
+        binding = FragmentMangaBinding.inflate(inflater, container, false)
 
         (activity as MainActivity).setSupportActionBar(requireActivity().findViewById(R.id.home_toolbar))
 
@@ -86,7 +83,7 @@ class AnimeFragment :
                 true
             }
             R.id.menu_sort -> {
-                openAnimeSortDialog()
+                openMangaSortDialog()
                 true
             }
             else -> false
@@ -105,7 +102,7 @@ class AnimeFragment :
     }
 
     override fun onItemClicked(view: View, parentNode: ParentNode) {
-        val bottomSheet = BottomSheetAnimeDialog.newInstance(1, parentNode, false)
+        val bottomSheet = BottomSheetAnimeDialog.newInstance(2, parentNode, false)
         bottomSheet.setBottomSheetAnimeDialogListener(this)
         bottomSheet.show(childFragmentManager, BottomSheetAnimeDialog::class.simpleName)
     }
@@ -114,41 +111,38 @@ class AnimeFragment :
         animeId: Int, status: String, isRewatching: Boolean?,
         score: Int?, episode: Int?, isUpdating: Boolean) {
         updateMessage = if (isUpdating) {
-            "Your anime list has been updated"
+            "Your manga list has been updated"
         } else {
-            "This anime has been added to your list"
+            "This manga has been added to your list"
         }
-        accessToken?.let { viewModel.updateMyAnimeListAnimeList(it, animeId, status, isRewatching, score, episode) }
+
+        accessToken?.let { viewModel.updateMyAnimeListMangaList(it, animeId, status, isRewatching, score, episode) }
     }
 
     override fun detailAnimeList(animeId: Int) {
         exitTransition = MaterialFadeThrough().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
-        val directions = HomeTabNavGraphDirections.actionGlobalAnimeDetailsNavGraph(animeId, 1)
+        val directions = HomeTabNavGraphDirections.actionGlobalAnimeDetailsNavGraph(animeId, 2)
         view?.findNavController()?.navigate(directions)
     }
 
     override fun deleteAnimeList(animeId: Int) {
-        updateMessage = "Anime has been deleted from your list!"
-        accessToken?.let { viewModel.deleteMyAnimeListAnimeList(it, animeId) }
+        updateMessage = "Manga has been deleted from your list!"
+        accessToken?.let { viewModel.deleteMyAnimeListMangaList(it, animeId) }
     }
 
     private fun setupOnClickListeners() {
-        binding.retryButton.setOnClickListener {
-            animeAdapter.retry()
-        }
+        binding.retryButton.setOnClickListener { mangaAdapter.retry() }
 
-        binding.animeLabel.setOnClickListener {
-            openMyAnimeListLink(requireContext())
-        }
+        binding.animeLabel.setOnClickListener { openMyAnimeListLink(requireContext()) }
     }
 
     private fun subscribeAccessToken() {
         viewModel.accessToken.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 accessToken = it
-                subscribeAnime()
+                subscribeManga()
             }
         }
     }
@@ -159,7 +153,7 @@ class AnimeFragment :
                 showSnackbarShortWithAnchor(requireActivity().findViewById(R.id.bottom_nav), requireActivity()
                     .findViewById(R.id.bottom_nav), message)
             }
-            refreshAnime()
+            refreshManga()
         }
     }
 
@@ -169,18 +163,18 @@ class AnimeFragment :
         }
     }
 
-    private fun subscribeAnime() {
-        initAnimeAdapter()
-        refreshAnime()
+    private fun subscribeManga() {
+        initMangaAdapter()
+        refreshManga()
     }
 
-    private fun initAnimeAdapter() {
-        binding.animeRecyclerView.adapter = animeAdapter.withLoadStateHeaderAndFooter(
-            header = GlobalGridLoadStateAdapter { animeAdapter.retry() },
-            footer = GlobalGridLoadStateAdapter { animeAdapter.retry() }
+    private fun initMangaAdapter() {
+        binding.animeRecyclerView.adapter = mangaAdapter.withLoadStateHeaderAndFooter(
+            header = GlobalGridLoadStateAdapter { mangaAdapter.retry() },
+            footer = GlobalGridLoadStateAdapter { mangaAdapter.retry() }
         )
 
-        animeAdapter.addLoadStateListener { loadState ->
+        mangaAdapter.addLoadStateListener { loadState ->
             //Refresh Success
             binding.animeRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
 
@@ -188,16 +182,16 @@ class AnimeFragment :
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
             //Show Label RAWG when data is not empty
-            binding.animeLabel.isVisible = animeAdapter.itemCount >= 1
-            binding.animeSortType.isVisible = animeAdapter.itemCount >= 1
+            binding.animeLabel.isVisible = mangaAdapter.itemCount >= 1
+            binding.animeSortType.isVisible = mangaAdapter.itemCount >= 1
 
-            if (loadState.source.refresh is LoadState.NotLoading && animeAdapter.itemCount < 1) {
+            if (loadState.source.refresh is LoadState.NotLoading && mangaAdapter.itemCount < 1) {
                 showEmpty()
-            } else if (loadState.source.refresh is LoadState.NotLoading && animeAdapter.itemCount >= 1) {
+            } else if (loadState.source.refresh is LoadState.NotLoading && mangaAdapter.itemCount >= 1) {
                 removeErrorView()
-            } else if (loadState.source.refresh is LoadState.Loading && animeAdapter.itemCount < 1) {
+            } else if (loadState.source.refresh is LoadState.Loading && mangaAdapter.itemCount < 1) {
                 removeErrorView()
-            } else if (loadState.source.refresh is LoadState.Loading && animeAdapter.itemCount >= 1) {
+            } else if (loadState.source.refresh is LoadState.Loading && mangaAdapter.itemCount >= 1) {
                 reloadView()
             } else if (loadState.source.refresh is LoadState.Error) {
                 if (isOnline(requireContext())) {
@@ -218,17 +212,17 @@ class AnimeFragment :
         }
     }
 
-    private fun refreshAnime() {
+    private fun refreshManga() {
         job?.cancel()
         job = lifecycleScope.launch {
             accessToken?.let { accessToken ->
                 if (sortValue.isEmpty()) {
-                    viewModel.getMyAnimeListAnimeList(accessToken, null)?.collectLatest {
-                        animeAdapter.submitData(it)
+                    viewModel.getMyAnimeListMangaList(accessToken, null)?.collectLatest {
+                        mangaAdapter.submitData(it)
                     }
                 } else {
-                    viewModel.getMyAnimeListAnimeList(accessToken, sortValue)?.collectLatest {
-                        animeAdapter.submitData(it)
+                    viewModel.getMyAnimeListMangaList(accessToken, sortValue)?.collectLatest {
+                        mangaAdapter.submitData(it)
                     }
                 }
             }
@@ -265,10 +259,10 @@ class AnimeFragment :
         binding.textViewStatus.isVisible = true
 
         if (sortValue.isEmpty()) {
-            binding.textViewStatus.text = getString(R.string.anime_list_empty)
+            binding.textViewStatus.text = getString(R.string.manga_list_empty)
         } else {
             val sort = sortValue.replace("_", " ").capitalizeWords()
-            binding.textViewStatus.text = String.format("There is no $sort anime is your list")
+            binding.textViewStatus.text = String.format("There is no $sort manga is your list")
         }
     }
 
@@ -277,11 +271,11 @@ class AnimeFragment :
         binding.retryButton.isVisible = true
         binding.imageViewStatus.isVisible = false
         binding.textViewStatus.isVisible = true
-        binding.textViewStatus.text = getString(R.string.anime_empty)
+        binding.textViewStatus.text = getString(R.string.manga_empty)
     }
 
-    private fun openAnimeSortDialog() {
-        val singleItems = arrayOf("All", "Watching", "Completed", "On Hold", "Dropped", "Plan To Watch")
+    private fun openMangaSortDialog() {
+        val singleItems = arrayOf("All", "Reading", "Completed", "On Hold", "Dropped", "Plan To Read")
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.sort_myanimelist))
@@ -296,15 +290,16 @@ class AnimeFragment :
                 } else {
                     sortValue
                 }
-                refreshAnime()
+                refreshManga()
             }
             // Single-choice items (initialized with checked item)
-            .setSingleChoiceItems(singleItems, checkedAnimeSort) { _, which ->
+            .setSingleChoiceItems(singleItems, checkedMangaSort) { _, which ->
                 sortValue = singleItems[which]
                 sortValue = sortValue.lowerCaseWords()
                 sortValue = sortValue.replace(" ", "_")
-                checkedAnimeSort = which
+                checkedMangaSort = which
             }
             .show()
     }
+
 }

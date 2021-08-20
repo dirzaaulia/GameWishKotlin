@@ -20,7 +20,8 @@
             android:layout_marginHorizontal="@dimen/dimen_16dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"/>
+            app:spanCount="2"
+            tools:listitem="@layout/item_search_anime"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

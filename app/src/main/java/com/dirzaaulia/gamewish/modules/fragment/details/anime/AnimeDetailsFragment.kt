@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.dirzaaulia.gamewish.AnimeDetailsNavGraphArgs
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.myanimelist.Details
-import com.dirzaaulia.gamewish.data.models.myanimelist.ListStatus
 import com.dirzaaulia.gamewish.data.models.myanimelist.Node
 import com.dirzaaulia.gamewish.data.models.myanimelist.ParentNode
 import com.dirzaaulia.gamewish.databinding.FragmentAnimeDetailsBinding
@@ -41,8 +41,8 @@ class AnimeDetailsFragment :
     private lateinit var accessToken: String
     private lateinit var updateSuccessMessage : String
 
-    private val args: AnimeDetailsFragmentArgs by navArgs()
-    private val viewModel : AnimeDetailsViewModel by viewModels()
+    private val args: AnimeDetailsNavGraphArgs by navArgs()
+    private val viewModel : AnimeDetailsViewModel by hiltNavGraphViewModels(R.id.anime_details_nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,6 @@ class AnimeDetailsFragment :
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimeDetailsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -70,20 +69,20 @@ class AnimeDetailsFragment :
 
     override fun updateAnimeList(
         animeId: Int, status: String, isRewatching: Boolean?, score: Int?, episode: Int?, isUpdating: Boolean) {
-        when (args.code) {
+        when (args.position) {
             0 -> viewModel.updateMyAnimeListAnimeList(accessToken, animeId, status, isRewatching, score, episode)
             1 -> viewModel.updateMyAnimeListAnimeList(accessToken, animeId, status, isRewatching, score, episode)
             2 -> viewModel.updateMyAnimeListMangaList(accessToken, animeId, status, isRewatching, score, episode)
         }
 
         if (isUpdating) {
-            when (args.code) {
+            when (args.position) {
                 0 -> updateSuccessMessage = "Your anime list has been updated"
                 1 -> updateSuccessMessage = "Your anime list has been updated"
                 2 -> updateSuccessMessage = "Your manga list has been updated"
             }
         } else {
-            when (args.code) {
+            when (args.position) {
                 0 -> updateSuccessMessage = "This anime has been added to your list"
                 1 -> updateSuccessMessage = "This anime has been added to your list"
                 2 -> updateSuccessMessage = "This manga has been added to your list"
@@ -94,7 +93,7 @@ class AnimeDetailsFragment :
     override fun detailAnimeList(animeId: Int) { }
 
     override fun deleteAnimeList(animeId: Int) {
-        when (args.code) {
+        when (args.position) {
             0 -> {
                 viewModel.deleteMyAnimeListAnimeList(accessToken, animeId)
                 updateSuccessMessage = "Anime has been deleted from your list!"
@@ -116,7 +115,7 @@ class AnimeDetailsFragment :
             val listStatus = details.listStatus
             val parentNode = ParentNode(node, null, listStatus, null)
 
-            val bottomSheet = BottomSheetAnimeDialog.newInstance(args.code, parentNode, true)
+            val bottomSheet = BottomSheetAnimeDialog.newInstance(args.position, parentNode, true)
             bottomSheet.setBottomSheetAnimeDialogListener(this)
             bottomSheet.show(childFragmentManager, BottomSheetAnimeDialog::class.simpleName)
         }
@@ -139,9 +138,10 @@ class AnimeDetailsFragment :
                 val intent = Intent(requireContext(), WebViewActivity::class.java)
                 startActivity(intent)
             } else {
+                Timber.i("access Token : $it")
                 accessToken = it
 
-                val code = args.code
+                val code = args.position
                 if (code == 0 || code == 1) {
                     subscribeAnimeDetails(it, id)
                 } else if (code == 2) {
@@ -207,7 +207,7 @@ class AnimeDetailsFragment :
     private fun setupDetails(details: Details) {
         this.details = details
 
-        if (args.code == 0 || args.code == 1) {
+        if (args.position == 0 || args.position == 1) {
             binding.animeDetailsType.text = getString(R.string.anime)
             binding.animeDetailsCount.text = String.format("%d Episodes", details.episodes)
         } else {
@@ -217,7 +217,7 @@ class AnimeDetailsFragment :
 
         var status = details.status
         if (status != null || status != "") {
-            status = status?.replace("_", "")
+            status = status?.replace("_", " ")
             status = status?.capitalizeWords()
             binding.animeDetailsStatus.text = status
         }

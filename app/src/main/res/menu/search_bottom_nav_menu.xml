@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
-            android:id="@+id/searchGameFragment"
+            android:id="@+id/search_game_nav_graph"
             android:icon="@drawable/ic_baseline_videogame_asset_24"
-            android:title="@string/games"/>
+            android:title="@string/games" />
 
         <item
-            android:id="@+id/searchAnimeFragment"
+            android:id="@+id/search_anime_nav_graph"
             android:icon="@drawable/ic_baseline_book_24"
-            android:title="@string/anime_manga"/>
+            android:title="@string/anime_manga" />
     </group>
 </menu>

@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dirzaaulia.gamewish.data.models.myanimelist.User
+import com.dirzaaulia.gamewish.repository.FirebaseRepository
 import com.dirzaaulia.gamewish.repository.MyAnimeListRepository
 import com.dirzaaulia.gamewish.repository.ProtoRepository
 import com.dirzaaulia.gamewish.util.MYANIMELIST_CLIENT_ID
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,10 +21,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AboutViewModel  @Inject constructor(
     private val myAnimeListRepository: MyAnimeListRepository,
-    private val protoRepository: ProtoRepository
+    private val protoRepository: ProtoRepository,
+    private val firebaseRepository: FirebaseRepository
 ) : ViewModel()  {
 
     private val userPreferencesFlow = protoRepository.userPreferencesFlow
+
+    private val _googleStatus = MutableLiveData<Boolean>()
+    val googleStatus : LiveData<Boolean>
+        get() = _googleStatus
 
     private val _accessToken = MutableLiveData<String>()
     val accessToken : LiveData<String>
@@ -36,15 +45,34 @@ class AboutViewModel  @Inject constructor(
     val errorMessage : LiveData<String>
         get() = _errorMessage
 
+    fun getFirebaseAuth(): FirebaseAuth {
+        return firebaseRepository.getFirebaseAuth()
+    }
+
+    fun authGoogleLogin(idToken: String): AuthCredential {
+        return firebaseRepository.authGoogleLogin(idToken)
+    }
+
+    fun getGoogleLoginStatus() {
+        viewModelScope.launch {
+            _googleStatus.value = firebaseRepository.getGoogleLoginStatus()
+        }
+    }
+
+    fun setLocalDataStatus(status : Boolean) {
+        viewModelScope.launch {
+            protoRepository.updateLocalDataStatus(status)
+        }
+    }
 
     fun getSavedMyAnimeListToken() {
         viewModelScope.launch {
-           userPreferencesFlow.collect {
-               Timber.i("accessToken : %s\nrefreshToken : %s\nexpiresIn : %d", it
-                   .accessToken, it.refreshToken, it.expiresIn)
-               _accessToken.value = it.accessToken
-               _refreshToken.value = it.refreshToken
-           }
+            userPreferencesFlow.collect {
+                Timber.i("accessToken : %s\nrefreshToken : %s\nexpiresIn : %d", it
+                    .accessToken, it.refreshToken, it.expiresIn)
+                _accessToken.value = it.accessToken
+                _refreshToken.value = it.refreshToken
+            }
         }
     }
 
@@ -100,6 +128,8 @@ class AboutViewModel  @Inject constructor(
             protoRepository.updateMyAnimeListAccessToken("")
             protoRepository.updateMyAnimeListRefreshToken("")
             protoRepository.updateMyAnimeListExpresIn(0)
+
+            _accessToken.value = ""
         }
     }
 }

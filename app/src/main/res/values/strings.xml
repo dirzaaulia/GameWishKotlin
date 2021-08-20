@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">GameWish</string>
-    <string name="deals_title">Deals on %s</string>
     <string name="add_new_wishlist">Add New Wishlist</string>
-    <string name="menu">Menu</string>
-    <string name="image_icon_menu_main">Image Icon Menu Main</string>
     <string name="deals">Deals</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="image_view_game_deals">Image View Game Deals</string>
     <string name="retry">Retry</string>
     <string name="please_check_your_internet_connection">Please check your internet connection!</string>
-    <string name="total_game_deals">Showing %d Game Deals</string>
     <string name="store">Store</string>
     <string name="apply_filter">Apply Filter</string>
     <string name="minimum_deals_price">Minimum Deals Price</string>
@@ -18,13 +14,7 @@
     <string name="game_title">Game Title</string>
     <string name="aaa_games">AAA Games</string>
     <string name="steam">Steam</string>
-    <string name="one">1</string>
-    <string name="_50">50</string>
-    <string name="_0">0</string>
     <string name="wishlist">Wishlist</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="deals_on_steam">Deals on Steam</string>
-    <string name="deals_by_cheapshark">Deals by CheapShark</string>
     <string name="search_games">Search Game Name</string>
     <string name="search_myanimelist">Search Anime or Manga Title</string>
     <string name="release_date">Release Date</string>
@@ -35,28 +25,17 @@
     <string name="anime_data_provided_by_myanimelist">Anime data provided by <u>MyAnimeList</u></string>
     <string name="manga_data_provided_by_myanimelist">Manga data provided by <u>MyAnimeList</u></string>
     <string name="platforms_data_provided_by_rawg">Platforms data provided by <u>RAWG</u></string>
-    <string name="screenshots">Screenshots</string>
-    <string name="metacritic_image_logo">Metacritic Image Logo</string>
-    <string name="released_date_format">Released Date %s</string>
-    <string name="background_image_game_details">Background Image Game Details</string>
     <string name="esrb_rating_image">ESRB Rating Image</string>
     <string name="no_internet_connection_image">No Internet Connection Image</string>
-    <string name="game_screenshot_image">Game Screenshot Image</string>
-    <string name="metacritic_score">Metacritic Score</string>
-    <string name="go_to_metacritic_page">Go To Metacritic Page</string>
     <string name="developers">Developers</string>
     <string name="publishers">Publishers</string>
     <string name="stores">Stores</string>
     <string name="website"><u>Game Homepage</u></string>
     <string name="descriptions">Descriptions</string>
-    <string name="video_game_clip">Video Game Clip</string>
-    <string name="clip">Clip</string>
     <string name="rawg">Data by <u>RAWG</u></string>
     <string name="esrb_rating">ESRB Rating</string>
     <string name="links">Links</string>
     <string name="reddit_image_logo">Reddit Image Logo</string>
-    <string name="price_is_based_on_usd_converted_to_your_locale_currency_actual_price_maybe_different">Price is based on USD converted to your locale currency. Actual price maybe different.</string>
-    <string name="your_wishlist">Your Wishlist</string>
     <string name="wishlist_empty">Your wishlist is currently empty! Search games and add it to your wishlist.</string>
     <string name="filter">Filter</string>
     <string name="game_name">Game Name</string>
@@ -94,18 +73,14 @@
     <string name="search_games_wrong">Something went wrong when getting games data. Please try it again!</string>
     <string name="deals_not_found">No Deals found! Please check and change your Deals search filter</string>
     <string name="deals_error">Something went wrong when getting Deals, please try it again!</string>
-    <string name="search_anime_not_found">No Anime or Manga Found! Please check and change your search query to be more
-        specific</string>
     <string name="anime_list_empty">Your Anime list is currently empty! Search for some anime to watch and add
         to your list</string>
     <string name="manga_list_empty">Your Manga list is currently empty! Search for some manga to read and add
         to your list</string>
-    <string name="search_games_label">Search games with games name or select category you want to search</string>
     <string name="genres_empty">Something when wrong when getting genres data. Please try it again!</string>
     <string name="publishers_empty">Something when wrong when getting publishers data. Please try it again!</string>
     <string name="platforms_empty">Something when wrong when getting platforms data. Please try it again!</string>
     <string name="game_details_empty">Something when wrong when getting game data. Please try it again!</string>
-    <string name="seasonal_empty">Something when wrong when getting seasonal anime data. Please try it again!</string>
     <string name="anime_empty">Something when wrong when getting anime data. Please try it again!</string>
     <string name="manga_empty">Something when wrong when getting manga data. Please try it again!</string>
     <string name="sort_myanimelist">Sort list by :</string>
@@ -113,7 +88,6 @@
     <string name="skip_login">Skip Login</string>
     <string name="games">Games</string>
     <string name="anime_manga"><![CDATA[Anime & Manga]]></string>
-    <string name="seasonal">Seasonal Anime</string>
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="score">Score</string>
@@ -122,17 +96,11 @@
     <string name="popularity">Popularity</string>
     <string name="synopsis">Synopsis</string>
     <string name="additional_information">Additional Information</string>
-    <string name="myanimelist_link"><![CDATA[Wishlist for Anime & Manga supported wih MyAnimeList. Link your MyAnimeList acccount to get started.]]></string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="sort">Sort</string>
-    <string name="switch_to_manga">Switch to Manga</string>
-    <string name="switch_to_anime">Switch to Anime</string>
-    <string name="anime_list">Anime List</string>
-    <string name="manga_list">Manga List</string>
     <string name="search_anime">Type anime title in the search bar to start your search</string>
     <string name="search_manga">Type manga title in the search bar to start your search</string>
-    <string name="rewatching">Rewatching</string>
     <string name="status">Status</string>
     <string name="is_rewatching">Is Rewatching</string>
     <string name="episodes_watched">Episodes Watched</string>
@@ -144,5 +112,6 @@
     <string name="season">Season</string>
     <string name="year">Year</string>
     <string name="update_seasonal_anime">Update Seasonal Anime</string>
-    <string name="winter">Winter</string>
+    <string name="unlink_google_account">Unlink Google Account</string>
+    <string name="google_account_is_not_linked">Google Account is not linked</string>
 </resources>

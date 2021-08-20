@@ -2,29 +2,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/home_tab_nav_graph">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.dirzaaulia.gamewish.modules.fragment.home.HomeFragment"
-        tools:layout="@layout/fragment_home">
+    <navigation android:id="@+id/home_tab_nav_graph"
+        app:startDestination="@id/homeFragment">
+
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.home.HomeFragment"
+            tools:layout="@layout/fragment_home">
+
+            <action
+                android:id="@+id/action_animeFragment_to_searchFragment"
+                app:destination="@id/searchFragment"/>
+
+            <action
+                android:id="@+id/action_mangaFragment_to_searchFragment"
+                app:destination="@id/searchFragment"/>
+
+
+            <action
+                android:id="@+id/action_gameFragment_to_searchFragment"
+                app:destination="@id/searchFragment" />
+
+            <action
+                android:id="@+id/action_gameFragment_to_gameDetailsFragment"
+                app:destination="@id/detailsFragment" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/animeFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.home.tab.anime.AnimeFragment"
+            tools:layout="@layout/fragment_anime"/>
+
+        <fragment
+            android:id="@+id/mangaFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.home.tab.anime.MangaFragment"
+            tools:layout="@layout/fragment_manga"/>
+
+        <fragment
+            android:id="@+id/gameFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.home.tab.game.GameFragment"
+            tools:layout="@layout/fragment_game"/>
+
         <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment"/>
-        <action
-            android:id="@+id/action_homeFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment"
-            app:launchSingleTop="false" />
-        <action
-            android:id="@+id/action_homeFragment_to_animeDetailsFragment"
-            app:destination="@id/animeDetailsFragment"
-            app:launchSingleTop="false"/>
-    </fragment>
+            android:id="@+id/action_global_anime_details_nav_graph"
+            app:destination="@id/anime_details_nav_graph" />
+
+    </navigation>
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.dirzaaulia.gamewish.modules.fragment.search.SearchFragment"
         tools:layout="@layout/fragment_search">
+        <argument
+            android:name="menu_id"
+            app:argType="integer"/>
     </fragment>
 
     <fragment
@@ -59,5 +93,29 @@
             android:name="code"
             app:argType="integer" />
     </fragment>
+
+    <navigation
+        android:id="@+id/anime_details_nav_graph"
+        app:startDestination="@id/animeDetailsFragment">
+
+        <fragment
+            android:id="@+id/animeDetailsFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.details.anime.AnimeDetailsFragment"
+            tools:layout="@layout/fragment_anime_details"/>
+
+        <fragment
+            android:id="@+id/recyclerViewFragment"
+            android:name="com.dirzaaulia.gamewish.modules.fragment.details.anime.tab.RecyclerViewFragment"
+            tools:layout="@layout/fragment_recycler_view"/>
+
+        <argument
+            android:name="id"
+            app:argType="integer"/>
+
+        <argument
+            android:name="position"
+            app:argType="integer"/>
+
+    </navigation>
 
 </navigation>

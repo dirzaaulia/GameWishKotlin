@@ -42,7 +42,7 @@
                 tools:context=".modules.fragment.about.AboutFragment">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/about_container_1"
+                    android:id="@+id/about_container_google"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dimen_16dp"
@@ -50,73 +50,70 @@
                     app:strokeColor="@color/color_on_surface_emphasis_high"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/about_google_image"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginTop="@dimen/dimen_8dp"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:scaleType="fitCenter"
+                            android:padding="@dimen/dimen_2dp"
+                            android:visibility="gone"
+                            app:imageUrl="@{viewModel.myAnimeListUser.picture}"
+                            app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                            app:strokeColor="?colorPrimary"
+                            app:strokeWidth="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/about_google_username"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/about_google_button"
+                            tools:src="@drawable/gamewish"/>
 
                         <TextView
-                            android:id="@+id/about_app"
+                            android:id="@+id/about_google_username"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:paddingHorizontal="@dimen/dimen_8dp"
+                            android:textAppearance="@style/TextAppearance.Gamewish.Body2"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toEndOf="@id/about_google_image"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/about_google_button"
+                            tools:text="Google Account Linked : haydenstravinsky"/>
+
+                        <Button
+                            android:id="@+id/about_google_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/dimen_8dp"
-                            android:text="@string/about_app"
-                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:layout_marginEnd="@dimen/dimen_8dp"
+                            android:text="@string/unlink_google_account"
+                            android:textColor="@color/color_on_surface_emphasis_high"
+                            app:strokeColor="@color/color_on_surface_emphasis_high"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-                        <TextView
-                            android:id="@+id/about_app_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dimen_8dp"
-                            android:text="@string/about_app_2"
-                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
-
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/about_container_2"
+                    android:id="@+id/about_container_myanimelist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dimen_16dp"
                     app:strokeColor="@color/color_on_surface_emphasis_high"
                     app:cardCornerRadius="@dimen/dimen_8dp"
-                    app:layout_constraintTop_toBottomOf="@id/about_container_1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/about_deals"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dimen_8dp"
-                            android:text="@string/about_deals"
-                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
-
-                        <TextView
-                            android:id="@+id/about_games"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dimen_8dp"
-                            android:text="@string/about_games"
-                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/about_container_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dimen_16dp"
-                    app:strokeColor="@color/color_on_surface_emphasis_high"
-                    app:cardCornerRadius="@dimen/dimen_8dp"
-                    app:layout_constraintTop_toBottomOf="@id/about_container_2">
+                    app:layout_constraintTop_toBottomOf="@id/about_container_google">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,11 +166,11 @@
                                 android:paddingHorizontal="@dimen/dimen_8dp"
                                 android:textAppearance="@style/TextAppearance.Gamewish.Body2"
                                 android:visibility="gone"
-                                app:layout_constraintTop_toTopOf="@id/about_myanimelist_image"
                                 app:layout_constraintBottom_toBottomOf="@id/about_myanimelist_image"
-                                app:layout_constraintStart_toEndOf="@id/about_myanimelist_image"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                tools:text="MyAnimeList Account Linked : haydenstravinsky"/>
+                                app:layout_constraintStart_toEndOf="@id/about_myanimelist_image"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="MyAnimeList Account Linked : haydenstravinsky" />
 
                             <Button
                                 android:id="@+id/about_button_myanimelist_link"
@@ -195,13 +192,81 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/about_container_4"
+                    android:id="@+id/about_container_drz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_16dp"
+                    app:cardCornerRadius="@dimen/dimen_8dp"
+                    app:strokeColor="@color/color_on_surface_emphasis_high"
+                    app:layout_constraintTop_toBottomOf="@id/about_container_myanimelist">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/about_app"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_8dp"
+                            android:text="@string/about_app"
+                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                        <TextView
+                            android:id="@+id/about_app_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_8dp"
+                            android:text="@string/about_app_2"
+                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/about_container_data_soure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dimen_16dp"
                     app:strokeColor="@color/color_on_surface_emphasis_high"
                     app:cardCornerRadius="@dimen/dimen_8dp"
-                    app:layout_constraintTop_toBottomOf="@id/about_container_3">
+                    app:layout_constraintTop_toBottomOf="@id/about_container_drz">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/about_deals"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_8dp"
+                            android:text="@string/about_deals"
+                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                        <TextView
+                            android:id="@+id/about_games"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_8dp"
+                            android:text="@string/about_games"
+                            android:textAppearance="@style/TextAppearance.Gamewish.Body2" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/about_container_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_16dp"
+                    app:strokeColor="@color/color_on_surface_emphasis_high"
+                    app:cardCornerRadius="@dimen/dimen_8dp"
+                    app:layout_constraintTop_toBottomOf="@id/about_container_data_soure">
 
                     <LinearLayout
                         android:layout_width="match_parent"

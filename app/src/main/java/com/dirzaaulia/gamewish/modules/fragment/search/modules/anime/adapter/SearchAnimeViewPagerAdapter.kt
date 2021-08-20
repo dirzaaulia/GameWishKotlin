@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.tab.SearchAnimeTabFragment
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.tab.SearchMangaTabFragment
+import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.tab.SearchSeasonalFragment
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.game.tab.SearchGameTabFragment
 
 private const val NUM_TABS = 3
@@ -18,10 +20,10 @@ class SearchAnimeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return SearchAnimeTabFragment.newInstance(position)
-            1 -> return SearchAnimeTabFragment.newInstance(position)
-            2 -> return SearchAnimeTabFragment.newInstance(position)
+            0 -> return SearchSeasonalFragment()
+            1 -> return SearchAnimeTabFragment()
+            2 -> return SearchMangaTabFragment()
         }
-        return SearchAnimeTabFragment()
+        return SearchSeasonalFragment()
     }
 }

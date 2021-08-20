@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirzaaulia.gamewish.modules.fragment.home.tab.anime.AnimeFragment
+import com.dirzaaulia.gamewish.modules.fragment.home.tab.anime.MangaFragment
 import com.dirzaaulia.gamewish.modules.fragment.home.tab.game.GameFragment
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.tab.SearchAnimeTabFragment
 
@@ -20,8 +21,8 @@ class HomeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return GameFragment()
-            1 -> return AnimeFragment.newInstance(position)
-            2 -> return AnimeFragment.newInstance(position)
+            1 -> return AnimeFragment()
+            2 -> return MangaFragment()
         }
         return GameFragment()
     }

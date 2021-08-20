@@ -13,7 +13,21 @@
         tools:context=".modules.fragment.search.modules.anime.tab.SearchAnimeTabFragment">
 
         <TextView
-            android:id="@+id/search_anime_label_myanimelist"
+            android:id="@+id/search_seasonal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:textAppearance="@style/TextAppearance.Gamewish.Headline6"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
+            app:drawableTint="?colorOnSurface"
+            tools:text="Fall 2021"/>
+
+        <TextView
+            android:id="@+id/search_seasonal_label_myanimelist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/dimen_4dp"
@@ -21,10 +35,10 @@
             android:text="@string/anime_data_provided_by_myanimelist"
             android:textAppearance="@style/TextAppearance.Gamewish.Caption"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/search_seasonal_text"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_anime_recylerview"
+            android:id="@+id/search_seasonal_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/dimen_8dp"
@@ -33,7 +47,7 @@
             app:spanCount="2"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/item_search_anime"
-            app:layout_constraintTop_toBottomOf="@id/search_anime_label_myanimelist"
+            app:layout_constraintTop_toBottomOf="@id/search_seasonal_label_myanimelist"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ProgressBar
@@ -47,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
-            android:id="@+id/search_anime_image_view_status"
+            android:id="@+id/search_seasonal_image_view_status"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/no_internet_connection_image"
@@ -59,25 +73,25 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/search_anime_text_view_status"
+            android:id="@+id/search_seasonal_text_view_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_24dp"
-            android:text="@string/search_anime"
+            android:text="@string/please_check_your_internet_connection"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Gamewish.Subtitle1"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/search_anime_image_view_status" />
+            app:layout_constraintTop_toBottomOf="@id/search_seasonal_image_view_status" />
 
         <Button
-            android:id="@+id/search_anime_retry_button"
+            android:id="@+id/search_seasonal_retry_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_anime_text_view_status" />
+            app:layout_constraintTop_toBottomOf="@id/search_seasonal_text_view_status" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

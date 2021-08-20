@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class LoginViewModel @Inject constructor (
     }
 
     fun setLocalDataStatus(status : Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             protoRepository.updateLocalDataStatus(status)
         }
     }

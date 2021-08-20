@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.viewpager2.widget.ViewPager2
@@ -42,7 +43,7 @@ class SearchGameTabFragment :
 
     private var job: Job? = null
     private val viewModel: SearchGameTabViewModel by viewModels()
-    private val parentViewModel : SearchGameViewModel by activityViewModels()
+    private val parentViewModel : SearchGameViewModel by hiltNavGraphViewModels(R.id.search_game_nav_graph)
     private val genresAdapter = GenresAdapter(this)
     private val publishersAdapter = PublishersAdapter(this)
     private val platformsAdapter = PlatformsAdapter(this)

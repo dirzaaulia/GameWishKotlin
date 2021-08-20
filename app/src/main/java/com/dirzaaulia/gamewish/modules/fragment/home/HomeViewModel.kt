@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
@@ -41,14 +42,6 @@ class HomeViewModel @Inject internal constructor(
     private var currentAnimeSort : String? = null
     private var currentAnimeResult  : Flow<PagingData<ParentNode>>? = null
     private var currentMangaResult : Flow<PagingData<ParentNode>>? = null
-
-    private val _sortType = MutableLiveData<String>()
-    val sortType : LiveData<String>
-        get() = _sortType
-
-    private val _tabPosition = MutableLiveData<Int>()
-    val tabPosition : LiveData<Int>
-        get() = _tabPosition
 
     private val _userAuthId = MutableLiveData<String>()
     val userAuthId : LiveData<String>
@@ -79,28 +72,21 @@ class HomeViewModel @Inject internal constructor(
         .asLiveData()
 
     init {
+        getUserAuthStatus()
         setSearchQuery("")
-        setSortType("")
+        _accessToken.value?.let { getMyAnimeListAnimeList(it, null) }
+        _accessToken.value?.let { getMyAnimeListMangaList(it, null) }
     }
 
     fun setSearchQuery(searchQuery : String) {
         query.value = searchQuery
     }
 
-    fun setSortType(sort: String) {
-        Timber.i("setSortType : $sort")
-        _sortType.value = sort
-    }
-
-    fun setTabPosition(tabPosition : Int) {
-        _tabPosition.value = tabPosition
-    }
-
     fun getFirebaseAuth(): FirebaseAuth {
         return firebaseRepository.getFirebaseAuth()
     }
 
-    fun getUserAuthStatus() {
+    private fun getUserAuthStatus() {
         viewModelScope.launch {
             userPreferencesFlow.collect {
                 _userAuthId.value = it.userAuthId.toString()

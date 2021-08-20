@@ -191,11 +191,21 @@ class BottomSheetAnimeDialog : BottomSheetDialogFragment() {
             status = status?.lowerCaseWords()
             status = status?.replace(" ", "_")
 
-            if (status.equals("on_hold", true) || status.equals("plan_to_watch", true)
-                    || status.equals("plan_to_read", true)) {
+            if (status.equals("on_hold", true)) {
+                binding.fieldScore.isEnabled = false
                 binding.spinnerScore.isEnabled = false
                 binding.watchedEpisode.isEnabled = false
                 binding.switchRewatching.isEnabled = false
+            } else if (status.equals("plan_to_watch", true)
+                || status.equals("plan_to_read", true)) {
+                binding.fieldScore.isEnabled = false
+                binding.spinnerScore.isEnabled = false
+                binding.watchedEpisode.isEnabled = false
+                binding.switchRewatching.isEnabled = false
+
+                binding.spinnerScore.setText("", false)
+                binding.watchedEpisode.setText("")
+                binding.switchRewatching.isChecked = false
             } else {
                 binding.spinnerScore.isEnabled = true
                 binding.watchedEpisode.isEnabled = true

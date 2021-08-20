@@ -12,7 +12,7 @@ import androidx.navigation.findNavController
 import androidx.paging.LoadState
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.myanimelist.Node
-import com.dirzaaulia.gamewish.databinding.FragmentSearchAnimeTabBinding
+import com.dirzaaulia.gamewish.databinding.FragmentSearchMangaTabBinding
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.SearchAnimeFragmentDirections
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.SearchAnimeViewModel
 import com.dirzaaulia.gamewish.modules.fragment.search.modules.anime.adapter.SearchAnimeAdapter
@@ -27,18 +27,17 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 
 @AndroidEntryPoint
-class SearchAnimeTabFragment :
+class SearchMangaTabFragment :
     Fragment(),
     SearchAnimeAdapter.SearchAnimeAdapterListener {
 
-    private lateinit var binding : FragmentSearchAnimeTabBinding
+    private lateinit var binding : FragmentSearchMangaTabBinding
 
     private var job: Job? = null
     private val viewModel : SearchAnimeViewModel by hiltNavGraphViewModels(R.id.search_anime_nav_graph)
-    private val adapterAnime = SearchAnimeAdapter(this)
+    private val adapterManga = SearchAnimeAdapter(this)
     private var query : String? = null
     private var accessToken : String? = null
 
@@ -46,7 +45,7 @@ class SearchAnimeTabFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchAnimeTabBinding.inflate(inflater, container, false)
+        binding = FragmentSearchMangaTabBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -64,14 +63,14 @@ class SearchAnimeTabFragment :
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
 
-        val directions = SearchAnimeFragmentDirections.actionGlobalAnimeDetailsNavGraph(node.id!!, 1)
+        val directions = SearchAnimeFragmentDirections.actionGlobalAnimeDetailsNavGraph(node.id!!, 2)
         view.findNavController().navigate(directions)
     }
 
     private fun setupOnClickListeners() {
-        binding.searchAnimeRetryButton.setOnClickListener { adapterAnime.retry() }
+        binding.searchMangaRetryButton.setOnClickListener { adapterManga.retry() }
 
-        binding.searchAnimeLabelMyanimelist.setOnClickListener {
+        binding.searchLabelMyanimelist.setOnClickListener {
             openMyAnimeListLink(requireContext())
         }
     }
@@ -87,7 +86,7 @@ class SearchAnimeTabFragment :
     private fun subscribeSearchQuery() {
         viewModel.searchQuery.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
-                accessToken?.let { accessToken -> refreshSearchAnime(accessToken, it) }
+                accessToken?.let { accessToken -> refreshSearchManga(accessToken, it) }
             }
         }
     }
@@ -98,48 +97,48 @@ class SearchAnimeTabFragment :
         }
     }
 
-    private fun refreshSearchAnime(authorization: String, query: String) {
+    private fun refreshSearchManga(authorization: String, query: String) {
         job?.cancel()
         job = lifecycleScope.launch {
-            viewModel.refreshSearchAnime(authorization, query)?.collect {
-                adapterAnime.submitData(viewLifecycleOwner.lifecycle, it)
+            viewModel.refreshSearchManga(authorization, query)?.collect {
+                adapterManga.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
     }
 
     private fun initAdapterAnime() {
-        binding.searchAnimeRecylerview.adapter = adapterAnime.withLoadStateHeaderAndFooter(
-            header = GlobalGridLoadStateAdapter { adapterAnime.retry() },
-            footer = GlobalGridLoadStateAdapter { adapterAnime.retry() }
+        binding.searchMangaRecylerview.adapter = adapterManga.withLoadStateHeaderAndFooter(
+            header = GlobalGridLoadStateAdapter { adapterManga.retry() },
+            footer = GlobalGridLoadStateAdapter { adapterManga.retry() }
         )
 
-        adapterAnime.addLoadStateListener { loadState ->
+        adapterManga.addLoadStateListener { loadState ->
 
             //Refresh Success
-            binding.searchAnimeRecylerview.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.searchMangaRecylerview.isVisible = loadState.source.refresh is LoadState.NotLoading
 
             //Loading
-            binding.searchAnimeProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            binding.searchMangaProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
 
-            binding.searchAnimeLabelMyanimelist.isVisible = adapterAnime.itemCount > 1
+            binding.searchLabelMyanimelist.isVisible = adapterManga.itemCount > 1
 
-            if (loadState.source.refresh is LoadState.NotLoading && adapterAnime.itemCount < 1
+            if (loadState.source.refresh is LoadState.NotLoading && adapterManga.itemCount < 1
                 && query?.isNotEmpty() == true
             ) {
                 //No Search Found
                 showNoItemFound()
-            } else if (loadState.source.refresh is LoadState.NotLoading && adapterAnime.itemCount < 1
+            } else if (loadState.source.refresh is LoadState.NotLoading && adapterManga.itemCount < 1
                 && query.isNullOrEmpty()) {
                 //Initial Load
                 removeErrorView()
-            } else if (loadState.source.refresh is LoadState.NotLoading && adapterAnime.itemCount > 1
+            } else if (loadState.source.refresh is LoadState.NotLoading && adapterManga.itemCount > 1
                 && query?.isNotEmpty() == true) {
                 //Search found
                 removeErrorView()
             } else if (loadState.source.refresh is LoadState.Loading) {
                 reloadView()
             } else if (loadState.source.refresh is LoadState.Error) {
-                binding.searchAnimeLabelMyanimelist.isVisible = false
+                binding.searchLabelMyanimelist.isVisible = false
 
                 val status = (loadState.source.refresh as LoadState.Error).error.message
                 if (status != null) {
@@ -170,42 +169,42 @@ class SearchAnimeTabFragment :
     }
 
     private fun removeErrorView() {
-        binding.searchAnimeRecylerview.isVisible = true
-        binding.searchAnimeRetryButton.isVisible = false
-        binding.searchAnimeImageViewStatus.isVisible = false
-        binding.searchAnimeTextViewStatus.isVisible = false
+        binding.searchMangaRecylerview.isVisible = true
+        binding.searchMangaRetryButton.isVisible = false
+        binding.searchMangaImageViewStatus.isVisible = false
+        binding.searchMangaTextViewStatus.isVisible = false
     }
 
     private fun showNoItemFound() {
-        binding.searchAnimeRecylerview.isVisible = false
-        binding.searchAnimeRetryButton.isVisible = false
-        binding.searchAnimeImageViewStatus.isVisible = false
-        binding.searchAnimeTextViewStatus.isVisible = true
-        binding.searchAnimeTextViewStatus.text =
-                String.format("There is no anime in this season! Try search for another season")
+        binding.searchMangaRecylerview.isVisible = false
+        binding.searchMangaRetryButton.isVisible = false
+        binding.searchMangaImageViewStatus.isVisible = false
+        binding.searchMangaTextViewStatus.isVisible = true
+        binding.searchMangaTextViewStatus.text =
+            String.format("There is no anime in this season! Try search for another season")
     }
 
     private fun showNoInternet() {
-        binding.searchAnimeRecylerview.isVisible = false
-        binding.searchAnimeRetryButton.isVisible = true
-        binding.searchAnimeImageViewStatus.isVisible = true
-        binding.searchAnimeTextViewStatus.isVisible = true
-        binding.searchAnimeTextViewStatus.text = getString(R.string.please_check_your_internet_connection)
+        binding.searchMangaRecylerview.isVisible = false
+        binding.searchMangaRetryButton.isVisible = true
+        binding.searchMangaImageViewStatus.isVisible = true
+        binding.searchMangaTextViewStatus.isVisible = true
+        binding.searchMangaTextViewStatus.text = getString(R.string.please_check_your_internet_connection)
     }
 
     private fun showResponseError() {
-        binding.searchAnimeRecylerview.isVisible = false
-        binding.searchAnimeRetryButton.isVisible = true
-        binding.searchAnimeImageViewStatus.isVisible = false
-        binding.searchAnimeTextViewStatus.isVisible = true
-        binding.searchAnimeTextViewStatus.text =
-                String.format("There is no anime in this season! Try search for another season")
+        binding.searchMangaRecylerview.isVisible = false
+        binding.searchMangaRetryButton.isVisible = true
+        binding.searchMangaImageViewStatus.isVisible = false
+        binding.searchMangaTextViewStatus.isVisible = true
+        binding.searchMangaTextViewStatus.text =
+            String.format("There is no anime in this season! Try search for another season")
     }
 
     private fun reloadView() {
-        binding.searchAnimeRecylerview.isVisible = false
-        binding.searchAnimeRetryButton.isVisible = false
-        binding.searchAnimeImageViewStatus.isVisible = false
-        binding.searchAnimeTextViewStatus.isVisible = false
+        binding.searchMangaRecylerview.isVisible = false
+        binding.searchMangaRetryButton.isVisible = false
+        binding.searchMangaImageViewStatus.isVisible = false
+        binding.searchMangaTextViewStatus.isVisible = false
     }
 }

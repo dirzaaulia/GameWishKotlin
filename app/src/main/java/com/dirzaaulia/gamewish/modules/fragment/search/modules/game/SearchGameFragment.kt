@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -40,7 +41,7 @@ class SearchGameFragment :
 
     private lateinit var binding: FragmentSearchGameBinding
     private var job: Job? = null
-    private val viewModel: SearchGameViewModel by activityViewModels()
+    private val viewModel: SearchGameViewModel by hiltNavGraphViewModels(R.id.search_game_nav_graph)
     private var adapterSearchGames = SearchGamesAdapter(this)
 
     override fun onCreateView(
@@ -154,7 +155,7 @@ class SearchGameFragment :
             } else if (loadState.source.refresh is LoadState.NotLoading && adapterSearchGames.itemCount >= 1) {
                 removeErrorView()
             } else if (loadState.source.refresh is LoadState.Loading) {
-                removeErrorView()
+                reloadView()
             } else if (loadState.source.refresh is LoadState.Error) {
                 if (isOnline(requireContext())) {
                     showResponseError()
@@ -237,6 +238,14 @@ class SearchGameFragment :
                 refreshSearchGames(null, null, null, it)
             }
         }
+    }
+
+    private fun reloadView() {
+        binding.bottomSheet.searchRecyclerView.isVisible = false
+        binding.bottomSheet.searchGamesRetryButton.isVisible = false
+        binding.bottomSheet.searchGamesImageViewStatus.isVisible = false
+        binding.bottomSheet.searchGamesTextViewStatus.isVisible = false
+        binding.bottomSheet.searchGamesProgressBar.isVisible = true
     }
 
     private fun removeErrorView() {

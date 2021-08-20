@@ -15,12 +15,7 @@
         <item name="cornerSize">@dimen/dimen_12dp</item>
     </style>
 
-    <style name="ImageRoundedAllCorners">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/dimen_8dp</item>
-    </style>
-
-<!--    <style name="ShapeAppearanceOverlay.BottomSheet" parent="">-->
+    <!--    <style name="ShapeAppearanceOverlay.BottomSheet" parent="">-->
 <!--        <item name="cornerSize">0dp</item>-->
 <!--        <item name="cornerFamilyTopLeft">cut</item>-->
 <!--        <item name="cornerSizeTopLeft">16dp</item>-->

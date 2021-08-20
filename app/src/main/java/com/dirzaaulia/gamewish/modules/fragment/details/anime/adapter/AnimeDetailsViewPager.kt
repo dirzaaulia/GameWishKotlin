@@ -25,8 +25,8 @@ class AnimeDetailsViewPager(
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return DescriptionTabFragment.newInstance(details)
-            1 -> return RecyclerViewFragment.newInstance(position, 1, details)
-            2 -> return RecyclerViewFragment.newInstance(position, 2, details)
+            1 -> return RecyclerViewFragment.newInstance(position, details)
+            2 -> return RecyclerViewFragment.newInstance(position, details)
         }
         return DescriptionTabFragment()
     }

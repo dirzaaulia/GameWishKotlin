@@ -8,12 +8,15 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.databinding.DialogSeasonPickerBinding
+import com.dirzaaulia.gamewish.util.SEASON_PICKER_DIALOG_KEY
+import com.dirzaaulia.gamewish.util.capitalizeWords
 import java.util.*
 
 class SeasonPickerDialog : DialogFragment() {
 
     private lateinit var binding : DialogSeasonPickerBinding
     private lateinit var listener : SeasonPickerDialogListener
+    private lateinit var season : String
 
     interface SeasonPickerDialogListener {
         fun updateSeasonalAnime(season: String, year: String)
@@ -25,8 +28,13 @@ class SeasonPickerDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        setStyle(STYLE_NO_FRAME, R.style.ThemeOverlay_GameWish_MaterialAlertDialog)
+        setStyle(STYLE_NO_FRAME, R.style.ThemeOverlay_GameWish_Dialog)
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        season = arguments?.getString(SEASON_PICKER_DIALOG_KEY) ?: ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -39,30 +47,29 @@ class SeasonPickerDialog : DialogFragment() {
     }
 
     private fun setupView() {
-        val season = arrayOf("Winter", "Summer", "Spring", "Fall")
+        val arraySeason = arrayOf("Winter", "Summer", "Spring", "Fall")
 
         binding.spinnerSeason.setAdapter(
             ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
-                season.map { it }
+                arraySeason.map { it }
             )
         )
 
-        binding.spinnerSeason.setText(getString(R.string.winter), false)
+        val seasonSplit = season.split(" ")
 
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        binding.year.setText(currentYear.toString())
+        binding.spinnerSeason.setText(seasonSplit[0].capitalizeWords(), false)
 
+        binding.year.setText(seasonSplit[1])
     }
 
     private fun setupOnClickListeners() {
         binding.ok.setOnClickListener {
             val season = binding.spinnerSeason.text.toString()
-            val year = binding.year.text.toString()
+            val year = binding.year.text
 
-            listener.updateSeasonalAnime(season, year)
+            listener.updateSeasonalAnime(season, year.toString())
             dismiss()
         }
     }

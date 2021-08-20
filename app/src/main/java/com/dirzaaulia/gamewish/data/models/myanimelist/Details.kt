@@ -37,7 +37,7 @@ data class Details (
     val background : String?,
     @Json(name = "related_anime")
     val relatedAnime : List<ParentNode>?,
-    @Json(name = "related_mange")
+    @Json(name = "related_manga")
     val relatedManga : List<ParentNode>?,
     val recommendations : List<ParentNode>?
 ) : Parcelable

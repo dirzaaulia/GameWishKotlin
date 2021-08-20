@@ -6,15 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dirzaaulia.gamewish.data.models.myanimelist.Details
 import com.dirzaaulia.gamewish.data.models.myanimelist.ListStatus
-import com.dirzaaulia.gamewish.data.response.myanimelist.MyAnimeListUpdateListResponse
 import com.dirzaaulia.gamewish.repository.MyAnimeListRepository
 import com.dirzaaulia.gamewish.repository.ProtoRepository
 import com.dirzaaulia.gamewish.util.MYANIMELIST_CLIENT_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
