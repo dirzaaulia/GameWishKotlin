@@ -81,7 +81,7 @@ class AnimeFragment :
         return when (item.itemId) {
             R.id.menu_search -> {
                 navigateToWithZSharedAxisAnimation(
-                    HomeFragmentDirections.actionAnimeFragmentToSearchFragment(R.id.searchAnimeFragment)
+                    HomeFragmentDirections.actionAnimeFragmentToSearchFragment(R.id.search_anime_nav_graph)
                 )
                 true
             }

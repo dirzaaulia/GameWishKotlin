@@ -145,7 +145,7 @@ class BottomSheetAnimeDialog : BottomSheetDialogFragment() {
             if (scoreValue == 0 || scoreValue == null) {
                 binding.spinnerScore.setText(getString(com.dirzaaulia.gamewish.R.string.select_score), false)
             } else {
-                binding.spinnerScore.setText(score[parentNode.listStatus?.score!!], false)
+                binding.spinnerScore.setText(score[parentNode.listStatus?.score!! - 1], false)
             }
 
             val episodes = parentNode.listStatus?.episodes

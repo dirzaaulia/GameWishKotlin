@@ -1,6 +1,7 @@
 package com.dirzaaulia.gamewish.modules.fragment.deals
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -10,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
 import com.dirzaaulia.gamewish.data.request.DealsRequest
@@ -39,9 +43,8 @@ class DealsFragment :
     private var job: Job? = null
     private val viewModel: DealsViewModel by viewModels()
     private var adapter = DealsAdapter(this)
-    private var dealsRequest = DealsRequest("1", 0, 100, "", false)
-    private var storeID = "1"
-    private var storeName = "Steam"
+    private var storeId = 0
+    private var storeName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,17 +71,11 @@ class DealsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
         initOnClickListener()
-        getStoreList()
-        checkSavedInstanceState(savedInstanceState)
         setupView()
-        refreshDeals(dealsRequest)
+        refreshDeals(viewModel.currentDealsRequest)
+        subscribeStoreName()
         initSearchDeals()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(DEALS_FRAGMENT_DEALS_REQUEST, dealsRequest)
-        outState.putString(DEALS_FRAGMENT_STORE_NAME, storeName)
+        getStoreList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -96,24 +93,7 @@ class DealsFragment :
     }
 
     override fun onItemClicked(view: View, deals: Deals) {
-        openDealsId(deals.dealID)
-    }
-
-    private fun checkSavedInstanceState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            dealsRequest = savedInstanceState.getParcelable(DEALS_FRAGMENT_DEALS_REQUEST)!!
-            storeName = savedInstanceState.getString(DEALS_FRAGMENT_STORE_NAME)!!
-        }
-    }
-
-    private fun toggleFilterView() {
-        if (binding.dealsFilterLayout.visibility == View.GONE) {
-            binding.dealsFilterLayout.visibility = View.VISIBLE
-            binding.dealsLayout.dealsContainer.visibility = View.GONE
-        } else {
-            binding.dealsFilterLayout.visibility = View.GONE
-            binding.dealsLayout.dealsContainer.visibility = View.VISIBLE
-        }
+        openDealsId(requireContext(), deals.dealID)
     }
 
     private fun initOnClickListener() {
@@ -124,7 +104,7 @@ class DealsFragment :
         }
 
         binding.layoutFilter.spinnerStore.setOnItemClickListener { parent, _, position, _ ->
-            storeID = (position + 1).toString()
+            storeId = position + 1
             storeName = parent.getItemAtPosition(position).toString()
         }
     }
@@ -175,9 +155,10 @@ class DealsFragment :
 
     private fun initSearchDeals() {
         binding.layoutFilter.buttonFilter.setOnClickListener {
-            var lowerPrice = dealsRequest.lowerPrice
-            var upperPrice = dealsRequest.upperPrice
-            val title: String = binding.layoutFilter.gameTitle.text.toString()
+            val request = viewModel.currentDealsRequest
+            var lowerPrice = request?.lowerPrice
+            var upperPrice = request?.upperPrice
+            var title: String? = binding.layoutFilter.gameTitle.text.toString()
             val aaaGames: Boolean = binding.layoutFilter.switchAAAGames.isChecked
 
             if (binding.layoutFilter.lowerPrice.text!!.isNotEmpty()) {
@@ -194,30 +175,24 @@ class DealsFragment :
                 upperPrice = currencyConverterLocaletoUSD(upperPrice)
             }
 
-            dealsRequest = DealsRequest(storeID, lowerPrice, upperPrice, title, aaaGames)
+            if (title.isNullOrEmpty()) {
+                title = ""
+            }
 
-            refreshDeals(dealsRequest)
+            Timber.i("$storeId, $lowerPrice, $upperPrice, $title, $aaaGames")
 
+
+            refreshDeals(DealsRequest(storeId.toString(), lowerPrice, upperPrice, title, aaaGames))
+            viewModel.updateStoreName(storeName)
             toggleFilterView()
-            viewModel.updateStoreList(storeName)
-        }
-
-        // Scroll to top when the list is refreshed from network.
-        lifecycleScope.launch {
-            adapter.loadStateFlow
-                // Only emit when REFRESH LoadState for RemoteMediator changes.
-                .distinctUntilChangedBy { it.refresh }
-                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.dealsLayout.dealsRecyclerView.scrollToPosition(0) }
         }
     }
 
     private fun refreshDeals(request: DealsRequest) {
         job?.cancel()
         job = lifecycleScope.launch {
-            viewModel.refreshDeals(request).collect {
-                adapter.submitData(it)
+            viewModel.refreshDeals(request)?.collect {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
     }
@@ -235,30 +210,31 @@ class DealsFragment :
                         }
                     )
                 )
+                binding.layoutFilter.spinnerStore.setText(getString(R.string.steam), false)
+            } else {
+                binding.layoutFilter.spinnerStore.setText(getString(R.string.store), false)
             }
         }
-        binding.layoutFilter.spinnerStore.setText(getString(R.string.steam), false)
+
+    }
+
+    private fun subscribeStoreName() {
+        viewModel.storeName.observe(viewLifecycleOwner) {
+            binding.dealsLayout.labelStoreName.text = it
+            binding.layoutFilter.spinnerStore.setText(it, false)
+        }
     }
 
     private fun setupView() {
-        viewModel.storeName.observe(viewLifecycleOwner) {
-            binding.dealsLayout.labelStoreName.text = storeName
-        }
+        val request = viewModel.currentDealsRequest
 
         binding.layoutFilter.textFieldLowerPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
 
         binding.layoutFilter.textFieldUpperPrice.prefixText = Currency.getInstance(Locale.getDefault()).symbol
 
-        binding.layoutFilter.gameTitle.setText(dealsRequest.title)
+        binding.layoutFilter.gameTitle.setText(request?.title)
 
-        binding.layoutFilter.switchAAAGames.isChecked = dealsRequest.AAA!!
-    }
-
-    private fun openDealsId(dealsId: String?) {
-        val url = String.format("https://www.cheapshark.com/redirect?dealID=%s", dealsId)
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+        binding.layoutFilter.switchAAAGames.isChecked = request?.AAA == true
     }
 
     private fun removeErrorView() {
@@ -300,4 +276,13 @@ class DealsFragment :
         binding.dealsLayout.dealsProgressBar.isVisible = true
     }
 
+    private fun toggleFilterView() {
+        if (binding.dealsFilterLayout.visibility == View.GONE) {
+            binding.dealsFilterLayout.visibility = View.VISIBLE
+            binding.dealsLayout.dealsContainer.visibility = View.GONE
+        } else {
+            binding.dealsFilterLayout.visibility = View.GONE
+            binding.dealsLayout.dealsContainer.visibility = View.VISIBLE
+        }
+    }
 }

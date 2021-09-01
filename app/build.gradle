@@ -10,6 +10,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('D:\\Android Studio\\keystore.jks')
+            storePassword 'stravinsky9'
+            keyAlias 'keydirza'
+            keyPassword 'stravinsky9'
+        }
+        release {
+            storeFile file('D:\\Android Studio\\keystore.jks')
+            storePassword 'stravinsky9'
+            keyAlias 'keydirza'
+            keyPassword 'stravinsky9'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -17,8 +31,8 @@ android {
         applicationId "com.dirzaaulia.gamewish"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 1
-        versionName "2.0"
+        versionCode 22
+        versionName '3.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -26,6 +40,7 @@ android {
                 arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
             }
         }
+        signingConfig signingConfigs.release
     }
 
     buildFeatures {

@@ -13,6 +13,7 @@ import com.dirzaaulia.gamewish.repository.CheapSharkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +22,11 @@ class DealsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _currentDealsResult: Flow<PagingData<Deals>>? = null
+    var currentDealsRequest : DealsRequest = DealsRequest("1", 0, 1000, "", false)
+
+//    private val _currentDealsRequest = MutableLiveData<DealsRequest>()
+//    val currentDealsRequest : LiveData<DealsRequest>
+//        get() = _currentDealsRequest
 
     private var _storeList = MutableLiveData<List<Stores>>()
     val storeList: LiveData<List<Stores>>
@@ -30,7 +36,40 @@ class DealsViewModel @Inject constructor(
     val storeName : LiveData<String>
         get() = _storeName
 
-    fun refreshDeals(request: DealsRequest): Flow<PagingData<Deals>> {
+    init {
+        updateStoreName("Steam")
+    }
+
+    fun refreshDeals(request: DealsRequest): Flow<PagingData<Deals>>? {
+        val lastResult = _currentDealsResult
+        val lastRequest = currentDealsRequest
+        val storeId = request.storeID
+        val lowerPrice = request.lowerPrice
+        val upperPrice = request.upperPrice
+        val title = request.title
+        val aaa = request.AAA
+
+        Timber.i("$storeId || ${lastRequest?.storeID} || $lowerPrice || ${lastRequest?.lowerPrice} " +
+                "|| $upperPrice || ${lastRequest?.upperPrice} || $title || ${lastRequest?.title} " +
+                "|| $aaa || ${lastRequest?.AAA}")
+
+        Timber.i("${storeId == lastRequest?.storeID} || ${lowerPrice == lastRequest?.lowerPrice}" +
+                "|| ${upperPrice == lastRequest?.upperPrice} || ${title == lastRequest?.title} || " +
+                "${aaa == lastRequest?.AAA}")
+
+//        if (storeId == lastRequest?.storeID && lowerPrice == lastRequest?.lowerPrice
+//            && upperPrice == lastRequest?.upperPrice && title == lastRequest?.title
+//            && aaa == lastRequest?.AAA && _currentDealsResult != null) {
+//                Timber.i("Return Last Result")
+//            return lastResult
+//        }
+
+        if (request == currentDealsRequest && _currentDealsResult != null) {
+            return lastResult
+        }
+
+        currentDealsRequest = request
+
         val newResult: Flow<PagingData<Deals>> =
             repository.refreshDeals(request).cachedIn(viewModelScope)
 
@@ -49,7 +88,7 @@ class DealsViewModel @Inject constructor(
         }
     }
 
-    fun updateStoreList(storeName : String){
+    fun updateStoreName(storeName : String){
         _storeName.value = storeName
     }
 }

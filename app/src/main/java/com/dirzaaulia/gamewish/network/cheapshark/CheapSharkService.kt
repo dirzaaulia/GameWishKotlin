@@ -1,5 +1,8 @@
 package com.dirzaaulia.gamewish.network.cheapshark
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
 import com.dirzaaulia.gamewish.data.models.rawg.Stores
 import com.dirzaaulia.gamewish.util.CHEAPSHARK_BASE_URL
@@ -31,11 +34,18 @@ interface CheapSharkService {
     suspend fun getStoresList() : List<Stores>
 
     companion object {
-        fun create(): CheapSharkService {
+        fun create(context: Context): CheapSharkService {
             val logger = HttpLoggingInterceptor().apply { level = Level.BODY }
+            val chuckerLogger = ChuckerInterceptor.Builder(context)
+                .collector(ChuckerCollector(context))
+                .maxContentLength(250000L)
+                .redactHeaders(emptySet())
+                .alwaysReadResponseBody(false)
+                .build()
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
+                .addInterceptor(chuckerLogger)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)

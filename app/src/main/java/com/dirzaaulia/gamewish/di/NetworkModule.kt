@@ -20,8 +20,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCheapSharkService(): CheapSharkService {
-        return CheapSharkService.create()
+    fun provideCheapSharkService(@ApplicationContext context: Context): CheapSharkService {
+        return CheapSharkService.create(context)
     }
 
     @Singleton

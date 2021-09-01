@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dirzaaulia.gamewish.data.models.cheapshark.Deals
 import com.dirzaaulia.gamewish.data.request.DealsRequest
+import timber.log.Timber
 
 private const val CHEAPSHARK_STARTING_PAGE_INDEX = 0
 
@@ -14,7 +15,8 @@ class CheapSharkPagingSource (
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Deals> {
         val page = params.key ?: CHEAPSHARK_STARTING_PAGE_INDEX
-
+        Timber.i("${request.storeID}, $page, 10,${request.lowerPrice}, ${request.upperPrice}, ${request.title}, " +
+                "${request.AAA}")
         return try {
             val response = service.getGameDeals(
                 request.storeID,

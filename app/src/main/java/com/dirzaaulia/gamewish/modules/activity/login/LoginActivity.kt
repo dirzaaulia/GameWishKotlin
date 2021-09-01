@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.dirzaaulia.gamewish.R
 import com.dirzaaulia.gamewish.data.response.myanimelist.MyAnimeListTokenResponse
 import com.dirzaaulia.gamewish.databinding.ActivityLoginBinding
@@ -96,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupView(googleSignIn: GoogleSignInClient) {
         binding.loginButton.setOnClickListener {
+            binding.loginProgressBar.isVisible = true
             login(googleSignIn)
         }
 
@@ -126,7 +128,9 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.setLocalDataStatus(false)
                 goToMainActivity()
             } else {
+                binding.loginProgressBar.isVisible = false
                 Timber.w("Google Login Failure | Error : %s", it.exception.toString())
+                showSnackbarShort(binding.root, it.exception.toString())
             }
         }
     }
